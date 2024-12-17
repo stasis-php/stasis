@@ -1,0 +1,27 @@
+{
+    "name": "vstelmakh/stasis",
+    "description": "Static site generator",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/vstelmakh/stasis",
+    "authors": [
+        {
+            "name": "Volodymyr Stelmakh",
+            "homepage": "https://github.com/vstelmakh"
+        }
+    ],
+    "require": {
+        "php": "^8.4"
+    },
+    "require-dev" : {},
+    "autoload": {
+        "psr-4": {
+            "Vstelmakh\\Stasis\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VStelmakh\\Stasis\\Tests\\": "tests/"
+        }
+    }
+}
