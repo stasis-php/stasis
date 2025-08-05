@@ -23,5 +23,8 @@
         "psr-4": {
             "VStelmakh\\Stasis\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
