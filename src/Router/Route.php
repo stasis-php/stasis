@@ -7,7 +7,8 @@ namespace Vstelmakh\Stasis\Router;
 use Vstelmakh\Stasis\Controller\ControllerInterface;
 
 /**
- * Route is an endpoint which will be served to the end user via provided path.
+ * Route is an endpoint that will be served to the end user via the provided path.
+ * Parameters defined for the route are passed to the controller render call.
  */
 readonly class Route implements RouteInterface
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Router;
 
 /**
- * Group of routes sharing the same root path. Also, can generate dynamic routes with RouteProviderInterface.
+ * Group of routes sharing the same root path. Also accepts RouteProviderInterface to generate dynamic routes.
  */
 readonly class Group implements RouteInterface
 {

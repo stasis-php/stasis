@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Controller;
 
 /**
- * Controller does the rendering of provided page.
+ * Controller does the rendering of the provided page.
  */
 interface ControllerInterface
 {

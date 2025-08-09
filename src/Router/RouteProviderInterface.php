@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Router;
 
 /**
- * Route provider is generating dynamic routes, for example pagination.
+ * Route provider is generating dynamic routes, for example, pagination.
  */
 interface RouteProviderInterface
 {
