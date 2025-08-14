@@ -26,7 +26,7 @@ class SiteGenerator
         foreach ($routes as $route) {
             $controllerClass = $route->controller;
             $controller = $this->getController($controllerClass);
-            $content = $this->render($controller, $route);
+            $content = $this->render($controller, $route->parameters);
 
             $this->writeDist($route->distPath, $content);
         }
