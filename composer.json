@@ -26,6 +26,9 @@
             "VStelmakh\\Stasis\\Tests\\": "tests/"
         }
     },
+    "bin": [
+        "bin/stasis"
+    ],
     "config": {
         "sort-packages": true
     }
