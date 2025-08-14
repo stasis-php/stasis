@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Generator\DistManager;
+namespace Vstelmakh\Stasis\Generator\Distribution;
 
 /**
  * Adapter to manage storage for generated site distributable.
  */
-interface DistManagerInterface
+interface DistributionInterface
 {
     public function clear(): void;
 

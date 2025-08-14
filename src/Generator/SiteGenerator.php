@@ -8,14 +8,14 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Vstelmakh\Stasis\Controller\ControllerInterface;
 use Vstelmakh\Stasis\Exception\RuntimeException;
-use Vstelmakh\Stasis\Generator\DistManager\DistManagerInterface;
+use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
 use Vstelmakh\Stasis\Router\Router;
 
 class SiteGenerator
 {
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly DistManagerInterface $distManager,
+        private readonly DistributionInterface $distManager,
     ) {}
 
     public function generate(Router $router): void

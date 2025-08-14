@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Generator\DistManager;
+namespace Vstelmakh\Stasis\Generator\Distribution;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Exception\LogicException;
 
-class FilesystemDistManager implements DistManagerInterface
+class FilesystemDistribution implements DistributionInterface
 {
     private readonly string $basePath;
     private Filesystem $filesystem;
