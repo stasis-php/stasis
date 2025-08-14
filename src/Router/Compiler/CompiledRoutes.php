@@ -20,7 +20,7 @@ class CompiledRoutes
     /**
      * @return array<CompiledRoute>
      */
-    public function getAll(): array
+    public function all(): array
     {
         return array_values($this->routeByPath);
     }

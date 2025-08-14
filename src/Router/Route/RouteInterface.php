@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router;
+namespace Vstelmakh\Stasis\Router\Route;
 
 /**
  * Definition of the endpoint which can be compiled by the router.

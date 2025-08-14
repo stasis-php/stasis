@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router;
+namespace Vstelmakh\Stasis\Router\Route;
 
 /**
  * Group of routes sharing the same root path.

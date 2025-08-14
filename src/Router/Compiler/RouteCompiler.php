@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Router\Compiler;
 
 use Psr\Container\ContainerInterface;
-use Vstelmakh\Stasis\Router\Group;
-use Vstelmakh\Stasis\Router\Route;
-use Vstelmakh\Stasis\Router\RouteInterface;
-use Vstelmakh\Stasis\Router\RouteProviderInterface;
-use Vstelmakh\Stasis\Router\RouteVisitorInterface;
+use Vstelmakh\Stasis\Router\Route\Group;
+use Vstelmakh\Stasis\Router\Route\Route;
+use Vstelmakh\Stasis\Router\Route\RouteInterface;
+use Vstelmakh\Stasis\Router\Route\RouteProviderInterface;
+use Vstelmakh\Stasis\Router\Route\RouteVisitorInterface;
 
 /**
  * Transforming various route types to CompiledRoute. Resolving absolute paths and dynamic routes.
@@ -99,7 +99,7 @@ class RouteCompiler implements RouteVisitorInterface
         $compiler = new self($path, $this->container);
         $collection = $compiler->compile($routes);
 
-        foreach ($collection->getAll() as $compiledRoute) {
+        foreach ($collection->all() as $compiledRoute) {
             $this->compiledRoutes->add($compiledRoute);
         }
     }
