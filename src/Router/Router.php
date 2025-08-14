@@ -6,21 +6,12 @@ namespace Vstelmakh\Stasis\Router;
 
 use Vstelmakh\Stasis\Router\Compiler\CompiledRoute;
 use Vstelmakh\Stasis\Router\Compiler\CompiledRoutes;
-use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
-use Vstelmakh\Stasis\Router\Route\RouteInterface;
 
 class Router
 {
-    private CompiledRoutes $compiledRoutes;
-
-    /**
-     * @param iterable<RouteInterface> $routes
-     */
-    public function __construct(iterable $routes, RouteCompiler $compiler)
-    {
-        $this->compiledRoutes = new CompiledRoutes();
-        $compiler->compile($routes);
-    }
+    public function __construct(
+        private readonly CompiledRoutes $compiledRoutes,
+    ) {}
 
     public function get(string $name): CompiledRoute
     {

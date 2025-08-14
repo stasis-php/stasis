@@ -15,7 +15,7 @@ class SiteGenerator
 {
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly DistributionInterface $distManager,
+        private readonly DistributionInterface $distribution,
     ) {}
 
     public function generate(Router $router): void
@@ -35,7 +35,7 @@ class SiteGenerator
     private function clearDist(): void
     {
         try {
-            $this->distManager->clear();
+            $this->distribution->clear();
         } catch (\Throwable $exception) {
             throw new RuntimeException('Unable to clear dist.', $exception->getCode(), $exception);
         }
@@ -85,7 +85,7 @@ class SiteGenerator
     private function writeDist(string $path, $content): void
     {
         try {
-            $this->distManager->write($path, $content);
+            $this->distribution->write($path, $content);
         } catch (\Throwable $exception) {
             throw new RuntimeException(
                 sprintf('Unable to write "%s" to dist.', $path),

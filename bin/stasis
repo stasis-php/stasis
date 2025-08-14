@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Filesystem\Path;
+use Vstelmakh\Stasis\Generator\ConfigInterface;
+use Vstelmakh\Stasis\Generator\SiteGenerator;
+use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
+use Vstelmakh\Stasis\Router\Router;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$configPath = Path::canonicalize(__DIR__ . '/../config.php');
+if (!is_file($configPath)) {
+    echo sprintf('Missing site config file "%s".' . PHP_EOL, $configPath);
+    exit(1);
+}
+
+$config = require $configPath;
+if (!$config instanceof ConfigInterface) {
+    echo sprintf('Config "%s" does not implement "%s" interface.' . PHP_EOL, $configPath, ConfigInterface::class);
+    exit(1);
+}
+
+$container = $config->container();
+
+$routes = $config->routes();
+$compiler = new RouteCompiler('/', $container);
+$compiledRoutes = $compiler->compile($routes);
+$router = new Router($compiledRoutes);
+
+$distribution = $config->distribution();
+$siteGenerator = new SiteGenerator($container, $distribution);
+$siteGenerator->generate($router);
+
+echo 'Complete' . PHP_EOL;
+exit(0);
