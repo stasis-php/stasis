@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace Vstelmakh\Stasis\Router\Compiler;
 
-use Psr\Container\ContainerInterface;
-use Vstelmakh\Stasis\Exception\LogicException;
 use Vstelmakh\Stasis\Router\Compiler\RouteType\ControllerType;
 use Vstelmakh\Stasis\Router\Route\Group;
 use Vstelmakh\Stasis\Router\Route\Route;
 use Vstelmakh\Stasis\Router\Route\RouteProviderInterface;
 use Vstelmakh\Stasis\Router\Route\RouteVisitorInterface;
+use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompilerVisitor implements RouteVisitorInterface
 {
     public function __construct(
         private readonly string $basePath,
-        private readonly ContainerInterface $container,
+        private readonly ServiceLocator $serviceLocator,
         public readonly CompiledRouteCollection $routes = new CompiledRouteCollection(),
     ) {}
 
@@ -35,33 +34,13 @@ class RouteCompilerVisitor implements RouteVisitorInterface
         $path = $this->getCanonicalPath($group->path);
 
         if (is_string($group->routes)) {
-            $providerId = $group->routes;
-
-            try {
-                $provider = $this->container->get($providerId);
-            } catch (\Throwable $exception) {
-                throw new LogicException(sprintf(
-                    'Error compiling route group with path "%s". Unable to resolve route provider "%s" from container.',
-                    $path,
-                    $providerId,
-                ));
-            }
-
-            if (!$provider instanceof RouteProviderInterface) {
-                throw new LogicException(sprintf(
-                    'Error compiling route group with path "%s". Specified provider "%s" does not implement "%s".',
-                    $path,
-                    $providerId,
-                    RouteProviderInterface::class,
-                ));
-            }
-
+            $provider = $this->serviceLocator->get($group->routes, RouteProviderInterface::class);
             $routes = $provider->routes();
         } else {
             $routes = $group->routes;
         }
 
-        $visitor = new self($path, $this->container, $this->routes);
+        $visitor = new self($path, $this->serviceLocator, $this->routes);
         foreach ($routes as $route) {
             $visitor->visitRoute($route);
         }

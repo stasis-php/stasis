@@ -7,6 +7,7 @@ use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Generator\ConfigInterface;
 use Vstelmakh\Stasis\Generator\SiteGenerator;
 use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
+use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
     $autoloadPath = $GLOBALS['_composer_autoload_path'];
@@ -37,13 +38,14 @@ if (!$config instanceof ConfigInterface) {
 }
 
 $container = $config->container();
+$serviceLocator = new ServiceLocator($container);
 
 $routes = $config->routes();
-$compiler = new RouteCompiler('/', $container);
+$compiler = new RouteCompiler('/', $serviceLocator);
 $compiledRoutes = $compiler->compile($routes);
 
 $distribution = $config->distribution();
-$siteGenerator = new SiteGenerator($container, $distribution);
+$siteGenerator = new SiteGenerator($serviceLocator, $distribution);
 $siteGenerator->generate($compiledRoutes);
 
 echo 'Complete' . PHP_EOL;

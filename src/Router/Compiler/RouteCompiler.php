@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Vstelmakh\Stasis\Router\Compiler;
 
-use Psr\Container\ContainerInterface;
 use Vstelmakh\Stasis\Router\Route\RouteInterface;
+use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompiler
 {
     public function __construct(
         private readonly string $basePath,
-        private readonly ContainerInterface $container,
+        private readonly ServiceLocator $serviceLocator,
     ) {}
 
     /**
@@ -19,7 +19,7 @@ class RouteCompiler
      */
     public function compile(iterable $routes): CompiledRouteCollection
     {
-        $visitor = new RouteCompilerVisitor($this->basePath, $this->container);
+        $visitor = new RouteCompilerVisitor($this->basePath, $this->serviceLocator);
 
         foreach ($routes as $route) {
             $route->accept($visitor);
