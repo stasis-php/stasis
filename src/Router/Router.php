@@ -17,12 +17,4 @@ class Router
     {
         return $this->compiledRoutes->getByName($name);
     }
-
-    /**
-     * @return array<CompiledRoute>
-     */
-    public function all(): array
-    {
-        return  $this->compiledRoutes->all();
-    }
 }
