@@ -15,4 +15,6 @@ interface DistributionInterface
      * @param string|resource $content
      */
     public function write(string $path, $content): void;
+
+    public function copy(string $sourcePath, string $destinationPath): void;
 }

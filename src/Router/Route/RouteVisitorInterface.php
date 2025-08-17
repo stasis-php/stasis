@@ -9,4 +9,6 @@ interface RouteVisitorInterface
     public function visitRoute(Route $route): void;
 
     public function visitGroup(Group $group): void;
+
+    public function visitAsset(Asset $asset): void;
 }

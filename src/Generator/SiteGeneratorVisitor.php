@@ -8,6 +8,7 @@ use Vstelmakh\Stasis\Controller\ControllerInterface;
 use Vstelmakh\Stasis\Exception\RuntimeException;
 use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
 use Vstelmakh\Stasis\Router\Compiler\RouteType\ControllerType;
+use Vstelmakh\Stasis\Router\Compiler\RouteType\FileType;
 use Vstelmakh\Stasis\Router\Compiler\RouteType\TypeVisitorInterface;
 use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 
@@ -25,6 +26,11 @@ class SiteGeneratorVisitor implements TypeVisitorInterface
         $content = $this->render($service, $controller->parameters);
         $path = $this->path . '/index.html';
         $this->distribution->write($path, $content);
+    }
+
+    public function visitFile(FileType $file): void
+    {
+        $this->distribution->copy($file->source, $this->path);
     }
 
     /**

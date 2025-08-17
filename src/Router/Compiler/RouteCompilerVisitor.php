@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Router\Compiler;
 
 use Vstelmakh\Stasis\Router\Compiler\RouteType\ControllerType;
+use Vstelmakh\Stasis\Router\Compiler\RouteType\FileType;
+use Vstelmakh\Stasis\Router\Route\Asset;
 use Vstelmakh\Stasis\Router\Route\Group;
 use Vstelmakh\Stasis\Router\Route\Route;
 use Vstelmakh\Stasis\Router\Route\RouteProviderInterface;
@@ -44,6 +46,16 @@ class RouteCompilerVisitor implements RouteVisitorInterface
         foreach ($routes as $route) {
             $visitor->visitRoute($route);
         }
+    }
+
+    public function visitAsset(Asset $asset): void
+    {
+        $path = $this->getCanonicalPath($asset->path);
+        $type = new FileType($asset->sourcePath, $path);
+        $name = $asset->name;
+
+        $compiledRoute = new CompiledRoute($path, $type, $name);
+        $this->routes->add($compiledRoute);
     }
 
     private function getCanonicalPath(string $path): string
