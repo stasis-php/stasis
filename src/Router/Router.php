@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Router;
 
 use Vstelmakh\Stasis\Router\Compiler\CompiledRoute;
-use Vstelmakh\Stasis\Router\Compiler\CompiledRoutes;
+use Vstelmakh\Stasis\Router\Compiler\CompiledRouteCollection;
 
 class Router
 {
     public function __construct(
-        private readonly CompiledRoutes $compiledRoutes,
+        private readonly CompiledRouteCollection $compiledRoutes,
     ) {}
 
     public function get(string $name): CompiledRoute

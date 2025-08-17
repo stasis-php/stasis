@@ -7,7 +7,6 @@ use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Generator\ConfigInterface;
 use Vstelmakh\Stasis\Generator\SiteGenerator;
 use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
-use Vstelmakh\Stasis\Router\Router;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
     $autoloadPath = $GLOBALS['_composer_autoload_path'];
@@ -42,11 +41,10 @@ $container = $config->container();
 $routes = $config->routes();
 $compiler = new RouteCompiler('/', $container);
 $compiledRoutes = $compiler->compile($routes);
-$router = new Router($compiledRoutes);
 
 $distribution = $config->distribution();
 $siteGenerator = new SiteGenerator($container, $distribution);
-$siteGenerator->generate($router);
+$siteGenerator->generate($compiledRoutes);
 
 echo 'Complete' . PHP_EOL;
 exit(0);

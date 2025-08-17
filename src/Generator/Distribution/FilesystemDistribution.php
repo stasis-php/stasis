@@ -7,6 +7,7 @@ namespace Vstelmakh\Stasis\Generator\Distribution;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Exception\LogicException;
+use Vstelmakh\Stasis\Exception\RuntimeException;
 
 class FilesystemDistribution implements DistributionInterface
 {
@@ -24,17 +25,33 @@ class FilesystemDistribution implements DistributionInterface
 
     public function clear(): void
     {
-        $this->filesystem->remove($this->basePath);
+        try {
+            $this->filesystem->remove($this->basePath);
+        } catch (\Throwable $exception) {
+            throw new RuntimeException(
+                message: sprintf('Error clearing distribution "%s".', $this->basePath),
+                previous: $exception
+            );
+        }
     }
 
     public function write(string $path, $content): void
     {
         $fullPath = $this->getFullPath($path);
         $this->filesystem->dumpFile($fullPath, $content);
+
+        try {
+            $this->filesystem->dumpFile($fullPath, $content);
+        } catch (\Throwable $exception) {
+            throw new RuntimeException(
+                message: sprintf('Error writing to distribution path "%s".', $fullPath),
+                previous: $exception
+            );
+        }
     }
 
     private function getFullPath(string $path): string
     {
-        return sprintf('%s/%s', $this->basePath, $path);
+        return sprintf('%s/%s', $this->basePath, ltrim($path, '/'));
     }
 }

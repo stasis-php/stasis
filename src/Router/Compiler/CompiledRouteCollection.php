@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Vstelmakh\Stasis\Router\Compiler;
 
-class CompiledRoutes
+use Traversable;
+
+class CompiledRouteCollection implements \IteratorAggregate
 {
     /** @var array<string, CompiledRoute> */
     private array $routeByPath = [];
@@ -25,9 +27,6 @@ class CompiledRoutes
         return array_values($this->routeByPath);
     }
 
-    /**
-     * @throws CompilationFailedException
-     */
     public function add(CompiledRoute $route): self
     {
         $this->addToPathMap($route);
@@ -35,23 +34,22 @@ class CompiledRoutes
         return $this;
     }
 
-    /**
-     * @throws CompilationFailedException
-     */
+    public function getIterator(): Traversable
+    {
+        return new \ArrayIterator($this->all());
+    }
+
     private function addToPathMap(CompiledRoute $route): void
     {
         $path = $route->path;
 
         if (isset($this->routeByPath[$path])) {
-            $this->throwCompilationFailedException($route, sprintf('Duplicated route path "%s".', $path));
+            throw new \LogicException(sprintf('Duplicated route path "%s".', $path));
         }
 
         $this->routeByPath[$path] = $route;
     }
 
-    /**
-     * @throws CompilationFailedException
-     */
     private function addToNameMap(CompiledRoute $route): void
     {
         $name = $route->name;
@@ -61,21 +59,9 @@ class CompiledRoutes
         }
 
         if (isset($this->routeByName[$name])) {
-            $this->throwCompilationFailedException($route, sprintf('Duplicated route named "%s".', $name));
+            throw new \LogicException(sprintf('Duplicated route name "%s".', $name));
         }
 
         $this->routeByName[$name] = $route;
-    }
-
-    /**
-     * @throws CompilationFailedException
-     */
-    private function throwCompilationFailedException(CompiledRoute $route, string $message): never
-    {
-        throw new CompilationFailedException($message, [
-            'path' => $route->path,
-            'name' => $route->name,
-            'controller' => $route->controller,
-        ]);
     }
 }
