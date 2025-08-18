@@ -26,7 +26,14 @@ class FilesystemDistribution implements DistributionInterface
     public function clear(): void
     {
         try {
-            $this->filesystem->remove($this->basePath);
+            if (!$this->filesystem->exists($this->basePath) || !is_dir($this->basePath)) {
+                return;
+            }
+
+            $iterator = new \FilesystemIterator($this->basePath, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
+            foreach ($iterator as $path) {
+                $this->filesystem->remove($path);
+            }
         } catch (\Throwable $exception) {
             throw new RuntimeException(
                 message: sprintf('Error clearing distribution "%s".', $this->basePath),

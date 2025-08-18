@@ -7,8 +7,6 @@ use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Generator\ConfigInterface;
 use Vstelmakh\Stasis\Generator\SiteGenerator;
 use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
-use Vstelmakh\Stasis\Router\RouteContainer;
-use Vstelmakh\Stasis\Router\Router;
 use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
