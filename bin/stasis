@@ -40,8 +40,9 @@ if (!$config instanceof ConfigInterface) {
 $container = $config->container();
 $serviceLocator = new ServiceLocator($container);
 
+$prefix = $config->prefix();
+$compiler = new RouteCompiler('/', $prefix, $serviceLocator);
 $routes = $config->routes();
-$compiler = new RouteCompiler('/', $serviceLocator);
 $compiledRoutes = $compiler->compile($routes);
 
 $distribution = $config->distribution();

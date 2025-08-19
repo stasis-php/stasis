@@ -33,7 +33,7 @@ class SiteGenerator
     private function processRoute(Router $router, RouteContainer $currentRouteContainer, CompiledRoute $route): void
     {
         $currentRouteContainer->route = $route;
-        $visitor = new SiteGeneratorVisitor($route->path, $this->serviceLocator, $this->distribution, $router);
+        $visitor = new SiteGeneratorVisitor($route->distPath, $this->serviceLocator, $this->distribution, $router);
         $route->resource->accept($visitor);
     }
 }

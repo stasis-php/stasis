@@ -26,7 +26,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
     {
         $service = $this->serviceLocator->get($controller->class, ControllerInterface::class);
         $content = $this->render($service, $controller->parameters);
-        $path = $this->path . '/index.html';
+        $path = $this->path;
         $this->distribution->write($path, $content);
     }
 

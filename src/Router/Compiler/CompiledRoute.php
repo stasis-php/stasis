@@ -10,6 +10,7 @@ readonly class CompiledRoute
 {
     public function __construct(
         public string $path,
+        public string $distPath,
         public ResourceInterface $resource,
         public ?string $name = null,
     ) {}
