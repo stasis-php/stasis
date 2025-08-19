@@ -34,6 +34,6 @@ class SiteGenerator
     {
         $routeContainer->route = $route;
         $visitor = new SiteGeneratorVisitor($route->path, $this->serviceLocator, $this->distribution, $router);
-        $route->type->accept($visitor);
+        $route->resource->accept($visitor);
     }
 }

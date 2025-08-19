@@ -7,13 +7,13 @@ namespace Vstelmakh\Stasis\Generator;
 use Vstelmakh\Stasis\Controller\ControllerInterface;
 use Vstelmakh\Stasis\Exception\RuntimeException;
 use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
-use Vstelmakh\Stasis\Router\Compiler\RouteType\ControllerType;
-use Vstelmakh\Stasis\Router\Compiler\RouteType\FileType;
-use Vstelmakh\Stasis\Router\Compiler\RouteType\TypeVisitorInterface;
+use Vstelmakh\Stasis\Router\Compiler\Resource\ControllerResource;
+use Vstelmakh\Stasis\Router\Compiler\Resource\FileResource;
+use Vstelmakh\Stasis\Router\Compiler\Resource\ResourceVisitorInterface;
 use Vstelmakh\Stasis\Router\Router;
 use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 
-class SiteGeneratorVisitor implements TypeVisitorInterface
+class SiteGeneratorVisitor implements ResourceVisitorInterface
 {
     public function __construct(
         private readonly string $path,
@@ -22,7 +22,7 @@ class SiteGeneratorVisitor implements TypeVisitorInterface
         private readonly Router $router,
     ) {}
 
-    public function visitController(ControllerType $controller): void
+    public function visitController(ControllerResource $controller): void
     {
         $service = $this->serviceLocator->get($controller->class, ControllerInterface::class);
         $content = $this->render($service, $controller->parameters);
@@ -30,7 +30,7 @@ class SiteGeneratorVisitor implements TypeVisitorInterface
         $this->distribution->write($path, $content);
     }
 
-    public function visitFile(FileType $file): void
+    public function visitFile(FileResource $file): void
     {
         $this->distribution->copy($file->source, $this->path);
     }

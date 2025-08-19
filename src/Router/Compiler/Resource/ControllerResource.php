@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Compiler\RouteType;
+namespace Vstelmakh\Stasis\Router\Compiler\Resource;
 
 use Vstelmakh\Stasis\Controller\ControllerInterface;
 
-readonly class ControllerType implements TypeInterface
+readonly class ControllerResource implements ResourceInterface
 {
     public function __construct(
         /** @var class-string<ControllerInterface> */
@@ -14,7 +14,7 @@ readonly class ControllerType implements TypeInterface
         public array $parameters = [],
     ) {}
 
-    public function accept(TypeVisitorInterface $visitor): void
+    public function accept(ResourceVisitorInterface $visitor): void
     {
         $visitor->visitController($this);
     }

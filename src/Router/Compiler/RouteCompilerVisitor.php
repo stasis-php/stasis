@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Vstelmakh\Stasis\Router\Compiler;
 
-use Vstelmakh\Stasis\Router\Compiler\RouteType\ControllerType;
-use Vstelmakh\Stasis\Router\Compiler\RouteType\FileType;
+use Vstelmakh\Stasis\Router\Compiler\Resource\ControllerResource;
+use Vstelmakh\Stasis\Router\Compiler\Resource\FileResource;
 use Vstelmakh\Stasis\Router\Route\Asset;
 use Vstelmakh\Stasis\Router\Route\Group;
 use Vstelmakh\Stasis\Router\Route\Route;
@@ -24,7 +24,7 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function visitRoute(Route $route): void
     {
         $path = $this->getCanonicalPath($route->path);
-        $type = new ControllerType($route->controller, $route->parameters);
+        $type = new ControllerResource($route->controller, $route->parameters);
         $name = $route->name;
 
         $compiledRoute = new CompiledRoute($path, $type, $name);
@@ -51,10 +51,10 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function visitAsset(Asset $asset): void
     {
         $path = $this->getCanonicalPath($asset->path);
-        $type = new FileType($asset->sourcePath, $path);
+        $resource = new FileResource($asset->sourcePath, $path);
         $name = $asset->name;
 
-        $compiledRoute = new CompiledRoute($path, $type, $name);
+        $compiledRoute = new CompiledRoute($path, $resource, $name);
         $this->routes->add($compiledRoute);
     }
 
