@@ -10,7 +10,7 @@ class Router
 {
     public function __construct(
         private readonly CompiledRouteCollection $compiledRoutes,
-        private readonly RouteContainer $routeContainer,
+        private readonly RouteContainer $currentRoute,
     ) {}
 
     public function get(string $name): RouteData
@@ -26,7 +26,7 @@ class Router
 
     public function current(): RouteData
     {
-        $route = $this->routeContainer->route ?? null;
+        $route = $this->currentRoute->route ?? null;
 
         if ($route === null) {
             throw new \LogicException('Current route is not set.');

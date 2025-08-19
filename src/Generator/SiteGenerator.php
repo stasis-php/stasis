@@ -20,19 +20,19 @@ class SiteGenerator
 
     public function generate(CompiledRouteCollection $routes): void
     {
-        $routeContainer = new RouteContainer();
-        $router = new Router($routes, $routeContainer);
+        $currentRouteContainer = new RouteContainer();
+        $router = new Router($routes, $currentRouteContainer);
 
         $this->distribution->clear();
 
         foreach ($routes as $route) {
-            $this->processRoute($router, $routeContainer, $route);
+            $this->processRoute($router, $currentRouteContainer, $route);
         }
     }
 
-    private function processRoute(Router $router, RouteContainer $routeContainer, CompiledRoute $route): void
+    private function processRoute(Router $router, RouteContainer $currentRouteContainer, CompiledRoute $route): void
     {
-        $routeContainer->route = $route;
+        $currentRouteContainer->route = $route;
         $visitor = new SiteGeneratorVisitor($route->path, $this->serviceLocator, $this->distribution, $router);
         $route->resource->accept($visitor);
     }
