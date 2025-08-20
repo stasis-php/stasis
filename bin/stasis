@@ -3,11 +3,10 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Path;
-use Vstelmakh\Stasis\Generator\ConfigInterface;
-use Vstelmakh\Stasis\Generator\SiteGenerator;
-use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
-use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
+use Vstelmakh\Stasis\Command\GenerateCommand;
+use Vstelmakh\Stasis\Config\ConfigLoader;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
     $autoloadPath = $GLOBALS['_composer_autoload_path'];
@@ -25,29 +24,11 @@ require_once $autoloadPath;
 $autoloadPath = Path::canonicalize($autoloadPath);
 $projectRoot = dirname($autoloadPath, 2);
 
-$configPath = Path::canonicalize($projectRoot . '/stasis.php');
-if (!is_file($configPath)) {
-    echo sprintf('Missing site config file "%s".' . PHP_EOL, $configPath);
-    exit(1);
-}
+$configLoader = new ConfigLoader($projectRoot);
+$config = $configLoader->load();
 
-$config = require $configPath;
-if (!$config instanceof ConfigInterface) {
-    echo sprintf('Config "%s" does not implement "%s" interface.' . PHP_EOL, $configPath, ConfigInterface::class);
-    exit(1);
-}
-
-$container = $config->container();
-$serviceLocator = new ServiceLocator($container);
-
-$prefix = $config->prefix();
-$compiler = new RouteCompiler('/', $prefix, $serviceLocator);
-$routes = $config->routes();
-$compiledRoutes = $compiler->compile($routes);
-
-$distribution = $config->distribution();
-$siteGenerator = new SiteGenerator($serviceLocator, $distribution);
-$siteGenerator->generate($compiledRoutes);
-
-echo 'Complete' . PHP_EOL;
-exit(0);
+$application = new Application('Stasis');
+$application->addCommands([
+    new GenerateCommand($config),
+]);
+$application->run();

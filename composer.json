@@ -13,9 +13,9 @@
     "require": {
         "php": "^8.4",
         "psr/container": "^2.0",
+        "symfony/console": "^7.3",
         "symfony/filesystem": "^6|^7"
     },
-    "require-dev" : {},
     "autoload": {
         "psr-4": {
             "Vstelmakh\\Stasis\\": "src/"

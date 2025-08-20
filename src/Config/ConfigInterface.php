@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Generator;
+namespace Vstelmakh\Stasis\Config;
 
 use Psr\Container\ContainerInterface;
 use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
