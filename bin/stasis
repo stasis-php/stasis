@@ -6,6 +6,7 @@ declare(strict_types=1);
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Command\GenerateCommand;
+use Vstelmakh\Stasis\Command\ServerCommand;
 use Vstelmakh\Stasis\Config\ConfigLoader;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
@@ -30,5 +31,6 @@ $config = $configLoader->load();
 $application = new Application('Stasis');
 $application->addCommands([
     new GenerateCommand($config),
+    new ServerCommand($config),
 ]);
 $application->run();

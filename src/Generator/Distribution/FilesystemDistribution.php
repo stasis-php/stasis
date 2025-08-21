@@ -23,6 +23,11 @@ class FilesystemDistribution implements DistributionInterface
         $this->filesystem = $filesystem;
     }
 
+    public function path(): string
+    {
+        return $this->basePath;
+    }
+
     public function clear(): void
     {
         try {
