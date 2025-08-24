@@ -17,7 +17,6 @@ class RouteCompilerVisitor implements RouteVisitorInterface
 {
     public function __construct(
         private readonly string $basePath,
-        private readonly string $pathPrefix,
         private readonly ServiceLocator $serviceLocator,
         public readonly CompiledRouteCollection $routes = new CompiledRouteCollection(),
     ) {}
@@ -25,12 +24,11 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function visitRoute(Route $route): void
     {
         $canonicalPath = $this->getCanonicalPath($route->path);
-        $routePath = $this->getRoutePath($canonicalPath);
         $distPath = $canonicalPath . '/index.html';
         $type = new ControllerResource($route->controller, $route->parameters);
         $name = $route->name;
 
-        $compiledRoute = new CompiledRoute($routePath, $distPath, $type, $name);
+        $compiledRoute = new CompiledRoute($canonicalPath, $distPath, $type, $name);
         $this->routes->add($compiledRoute);
     }
 
@@ -45,7 +43,7 @@ class RouteCompilerVisitor implements RouteVisitorInterface
             $routes = $group->routes;
         }
 
-        $visitor = new self($path, $this->pathPrefix, $this->serviceLocator, $this->routes);
+        $visitor = new self($path, $this->serviceLocator, $this->routes);
         foreach ($routes as $route) {
             $route->accept($visitor);
         }
@@ -54,22 +52,15 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function visitAsset(Asset $asset): void
     {
         $canonicalPath = $this->getCanonicalPath($asset->path);
-        $routePath = $this->getRoutePath($canonicalPath);
-        $distPath = $canonicalPath;
         $resource = new FileResource($asset->sourcePath);
         $name = $asset->name;
 
-        $compiledRoute = new CompiledRoute($routePath, $distPath, $resource, $name);
+        $compiledRoute = new CompiledRoute($canonicalPath, $canonicalPath, $resource, $name);
         $this->routes->add($compiledRoute);
     }
 
     private function getCanonicalPath(string $path): string
     {
         return PathNormalizer::normalize($this->basePath . '/' . $path);
-    }
-
-    private function getRoutePath(string $path): string
-    {
-        return PathNormalizer::normalize($this->pathPrefix . '/' . $path);
     }
 }

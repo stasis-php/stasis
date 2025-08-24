@@ -11,7 +11,6 @@ class RouteCompiler
 {
     public function __construct(
         private readonly string $basePath,
-        private readonly string $pathPrefix,
         private readonly ServiceLocator $serviceLocator,
     ) {}
 
@@ -20,7 +19,7 @@ class RouteCompiler
      */
     public function compile(iterable $routes): CompiledRouteCollection
     {
-        $visitor = new RouteCompilerVisitor($this->basePath, $this->pathPrefix, $this->serviceLocator);
+        $visitor = new RouteCompilerVisitor($this->basePath, $this->serviceLocator);
 
         foreach ($routes as $route) {
             $route->accept($visitor);

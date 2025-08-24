@@ -39,8 +39,7 @@ class GenerateCommand extends Command
 
     private function compileRoutes(ServiceLocator $serviceLocator): CompiledRouteCollection
     {
-        $prefix = $this->config->prefix();
-        $compiler = new RouteCompiler('/', $prefix, $serviceLocator);
+        $compiler = new RouteCompiler('/', $serviceLocator);
         $routes = $this->config->routes();
         return $compiler->compile($routes);
     }

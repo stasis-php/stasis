@@ -25,13 +25,4 @@ interface ConfigInterface
      * Defines the distribution where the generated files will be placed.
      */
     public function distribution(): DistributionInterface;
-
-    /**
-     * Routing prefix to properly resolve the routes if the website is served from a subdirectory.
-     * Prefix should be a full path to the distribution from the root of the website.
-     * Example values, distribution located in:
-     * - root, like http://example.com: "/"
-     * - subdirectory, like http://example.com/path/to/subdirectory: "/path/to/subdirectory"
-     */
-    public function prefix(): string;
 }
