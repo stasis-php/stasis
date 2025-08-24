@@ -26,7 +26,9 @@ class Server
     public function start(): void
     {
         $address = $this->host . ':' . $this->port;
-        $command = [PHP_BINARY, '-S', $address, '-t', $this->path];
+        $router = __DIR__ . '/router.php';
+        $command = [PHP_BINARY, '-S', $address, '-t', $this->path, $router];
+
         $descriptorSpec = [
             0 => ['pipe', 'r'], // stdin
             1 => ['pipe', 'w'], // stdout
@@ -34,7 +36,7 @@ class Server
         ];
 
         $pipes = [];
-        $this->process = proc_open($command, $descriptorSpec, $pipes);
+        $this->process = proc_open($command, $descriptorSpec, $pipes, $this->path);
         if (!is_resource($this->process)) {
             $commandString = implode(' ', $command);
             throw new RuntimeException(sprintf('Failed to start the server process "%s".', $commandString));
