@@ -47,7 +47,7 @@ class RouteCompilerVisitor implements RouteVisitorInterface
 
         $visitor = new self($path, $this->pathPrefix, $this->serviceLocator, $this->routes);
         foreach ($routes as $route) {
-            $visitor->visitRoute($route);
+            $route->accept($visitor);
         }
     }
 
