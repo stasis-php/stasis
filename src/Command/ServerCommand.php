@@ -24,7 +24,7 @@ class ServerCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Starts the development server')
+            ->setDescription('Start the development server')
             ->addOption('host', null, InputOption::VALUE_REQUIRED, 'Host to run the server on', 'localhost')
             ->addOption('port', null, InputOption::VALUE_REQUIRED, 'Port to run the server on', 8000)
             ->setHelp('Stasis development server is utilizing PHP built-in web server. Does NOT meant to be used in production environment.')

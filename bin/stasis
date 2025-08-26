@@ -29,8 +29,14 @@ $configLoader = new ConfigLoader($projectRoot);
 $config = $configLoader->load();
 
 $application = new Application('Stasis');
+
+$application->get('help')->setHidden(true);
+$application->get('list')->setHidden(true);
+$application->get('completion')->setHidden(true);
+
 $application->addCommands([
     new GenerateCommand($config),
     new ServerCommand($config),
 ]);
+
 $application->run();
