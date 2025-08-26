@@ -29,4 +29,9 @@ interface DistributionInterface
      * Copy the file or directory from source to destination in the distributable directory.
      */
     public function copy(string $sourcePath, string $destinationPath): void;
+
+    /**
+     * Link the file or directory from source to destination in the distributable directory.
+     */
+    public function link(string $sourcePath, string $destinationPath): void;
 }

@@ -16,10 +16,11 @@ use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
 class SiteGeneratorVisitor implements ResourceVisitorInterface
 {
     public function __construct(
-        private readonly string $path,
         private readonly ServiceLocator $serviceLocator,
         private readonly DistributionInterface $distribution,
         private readonly Router $router,
+        private readonly string $path,
+        private readonly bool $symlinkFiles,
     ) {}
 
     public function visitController(ControllerResource $controller): void
@@ -32,7 +33,11 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
 
     public function visitFile(FileResource $file): void
     {
-        $this->distribution->copy($file->source, $this->path);
+        if ($this->symlinkFiles) {
+            $this->distribution->link($file->source, $this->path);
+        } else {
+            $this->distribution->copy($file->source, $this->path);
+        }
     }
 
     /**

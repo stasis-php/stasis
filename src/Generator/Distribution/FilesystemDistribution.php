@@ -84,6 +84,24 @@ class FilesystemDistribution implements DistributionInterface
         }
     }
 
+    public function link(string $sourcePath, string $destinationPath): void
+    {
+        if (!file_exists($sourcePath)) {
+            throw new LogicException(sprintf('Source path "%s" does not exist', $sourcePath));
+        }
+
+        $fullPath = $this->getFullPath($destinationPath);
+
+        try {
+            $this->filesystem->symlink($sourcePath, $fullPath, false);
+        } catch (\Throwable $exception) {
+            throw new RuntimeException(
+                message: sprintf('Error creating symlink "%s" to distribution "%s".', $sourcePath, $fullPath),
+                previous: $exception
+            );
+        }
+    }
+
     private function getFullPath(string $path): string
     {
         return sprintf('%s/%s', $this->basePath, ltrim($path, '/'));

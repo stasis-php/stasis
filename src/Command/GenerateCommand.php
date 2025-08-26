@@ -6,6 +6,7 @@ namespace Vstelmakh\Stasis\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Vstelmakh\Stasis\Config\ConfigInterface;
 use Vstelmakh\Stasis\Generator\SiteGenerator;
@@ -21,11 +22,22 @@ class GenerateCommand extends Command
         parent::__construct('generate');
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->setDescription('Generates static site from specified routes')
+            ->addOption('symlink', null, InputOption::VALUE_NONE, 'Symlink static files. Helpful during development to avoid copying assets every time they change.')
+            ->setHelp('Generates a static site from the given routes. By default, it builds a complete, ready-to-host website. You can also customize the generation process using the available options.')
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $symlink = $input->getOption('symlink');
+
         $serviceLocator = $this->createServiceLocator();
         $compiledRoutes = $this->compileRoutes($serviceLocator);
-        $this->generateDist($serviceLocator, $compiledRoutes);
+        $this->generateDist($serviceLocator, $compiledRoutes, $symlink);
 
         $output->writeln('Generation successful');
         return self::SUCCESS;
@@ -44,10 +56,13 @@ class GenerateCommand extends Command
         return $compiler->compile($routes);
     }
 
-    private function generateDist(ServiceLocator $serviceLocator, CompiledRouteCollection $compiledRoutes): void
-    {
+    private function generateDist(
+        ServiceLocator $serviceLocator,
+        CompiledRouteCollection $compiledRoutes,
+        bool $symlink,
+    ): void {
         $distribution = $this->config->distribution();
         $siteGenerator = new SiteGenerator($serviceLocator, $distribution);
-        $siteGenerator->generate($compiledRoutes);
+        $siteGenerator->generate($compiledRoutes, $symlink);
     }
 }

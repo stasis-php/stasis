@@ -18,7 +18,7 @@ class SiteGenerator
         private readonly DistributionInterface $distribution,
     ) {}
 
-    public function generate(CompiledRouteCollection $routes): void
+    public function generate(CompiledRouteCollection $routes, bool $symlinkFiles): void
     {
         $currentRouteContainer = new RouteContainer();
         $router = new Router($routes, $currentRouteContainer);
@@ -26,14 +26,26 @@ class SiteGenerator
         $this->distribution->clear();
 
         foreach ($routes as $route) {
-            $this->processRoute($router, $currentRouteContainer, $route);
+            $this->processRoute($router, $currentRouteContainer, $route, $symlinkFiles);
         }
     }
 
-    private function processRoute(Router $router, RouteContainer $currentRouteContainer, CompiledRoute $route): void
-    {
+    private function processRoute(
+        Router $router,
+        RouteContainer $currentRouteContainer,
+        CompiledRoute $route,
+        bool $symlinkFiles,
+    ): void {
         $currentRouteContainer->route = $route;
-        $visitor = new SiteGeneratorVisitor($route->distPath, $this->serviceLocator, $this->distribution, $router);
+
+        $visitor = new SiteGeneratorVisitor(
+            $this->serviceLocator,
+            $this->distribution,
+            $router,
+            $route->distPath,
+            $symlinkFiles,
+        );
+
         $route->resource->accept($visitor);
     }
 }
