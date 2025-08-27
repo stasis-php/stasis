@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Exception\LogicException;
 use Vstelmakh\Stasis\Exception\RuntimeException;
 
-class FilesystemDistribution implements DistributionInterface
+class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistributionInterface
 {
     private readonly string $basePath;
     private Filesystem $filesystem;

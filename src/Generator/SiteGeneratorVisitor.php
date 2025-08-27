@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Vstelmakh\Stasis\Generator;
 
 use Vstelmakh\Stasis\Controller\ControllerInterface;
+use Vstelmakh\Stasis\Exception\LogicException;
 use Vstelmakh\Stasis\Exception\RuntimeException;
 use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
+use Vstelmakh\Stasis\Generator\Distribution\LocalDistributionInterface;
 use Vstelmakh\Stasis\Router\Compiler\Resource\ControllerResource;
 use Vstelmakh\Stasis\Router\Compiler\Resource\FileResource;
 use Vstelmakh\Stasis\Router\Compiler\Resource\ResourceVisitorInterface;
@@ -21,7 +23,11 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         private readonly Router $router,
         private readonly string $path,
         private readonly bool $symlinkFiles,
-    ) {}
+    ) {
+        if ($this->symlinkFiles && !$this->distribution instanceof LocalDistributionInterface) {
+            throw new LogicException('Provided distribution does not support symlinks.');
+        }
+    }
 
     public function visitController(ControllerResource $controller): void
     {

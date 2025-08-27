@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Vstelmakh\Stasis\Config\ConfigInterface;
+use Vstelmakh\Stasis\Generator\Distribution\LocalDistributionInterface;
 use Vstelmakh\Stasis\Server\Server;
 
 class ServerCommand extends Command
@@ -33,7 +34,13 @@ class ServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $path = $this->config->distribution()->path();
+        $distribution = $this->config->distribution();
+        if (!$distribution instanceof LocalDistributionInterface) {
+            $output->writeln('Configured distribution does not support local server.');
+            return Command::FAILURE;
+        }
+
+        $path = $distribution->path();
         $host = $input->getOption('host');
         $port = $input->getOption('port');
 

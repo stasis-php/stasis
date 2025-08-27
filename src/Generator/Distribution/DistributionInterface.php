@@ -10,11 +10,6 @@ namespace Vstelmakh\Stasis\Generator\Distribution;
 interface DistributionInterface
 {
     /**
-     * Absolute (local) path to the directory where the distributable located.
-     */
-    public function path(): string;
-
-    /**
      * Clear the distributable directory.
      */
     public function clear(): void;
@@ -29,9 +24,4 @@ interface DistributionInterface
      * Copy the file or directory from source to destination in the distributable directory.
      */
     public function copy(string $sourcePath, string $destinationPath): void;
-
-    /**
-     * Link the file or directory from source to destination in the distributable directory.
-     */
-    public function link(string $sourcePath, string $destinationPath): void;
 }
