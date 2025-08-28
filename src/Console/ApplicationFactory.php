@@ -7,10 +7,10 @@ namespace Vstelmakh\Stasis\Console;
 use Composer\InstalledVersions;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
-use Vstelmakh\Stasis\Command\GenerateCommand;
-use Vstelmakh\Stasis\Command\ServerCommand;
 use Vstelmakh\Stasis\Config\ConfigInterface;
 use Vstelmakh\Stasis\Config\ConfigLoader;
+use Vstelmakh\Stasis\Console\Command\GenerateCommand;
+use Vstelmakh\Stasis\Console\Command\ServerCommand;
 
 class ApplicationFactory
 {
