@@ -3,13 +3,10 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Path;
-use Vstelmakh\Stasis\Command\GenerateCommand;
-use Vstelmakh\Stasis\Command\ServerCommand;
 use Vstelmakh\Stasis\Config\ConfigLoader;
+use Vstelmakh\Stasis\Console\ApplicationFactory;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
     $autoloadPath = $GLOBALS['_composer_autoload_path'];
@@ -27,29 +24,10 @@ require_once $autoloadPath;
 $autoloadPath = Path::canonicalize($autoloadPath);
 $projectRoot = dirname($autoloadPath, 2);
 
-$application = new Application('Stasis');
-
-$application->getDefinition()->addOption(new InputOption(
-    '--config',
-    null,
-    InputOption::VALUE_REQUIRED,
-    'Path to config file',
-    ConfigLoader::DEFAULT_CONFIG,
-));
-
 $input = new ArgvInput();
-$configPath = $input->getParameterOption('--config', null);
-
+$configPath = $input->getParameterOption(ApplicationFactory::CONFIG_OPTION, null);
 $configLoader = new ConfigLoader($projectRoot);
 $config = $configLoader->load($configPath);
 
-$application->get('help')->setHidden(true);
-$application->get('list')->setHidden(true);
-$application->get('completion')->setHidden(true);
-
-$application->addCommands([
-    new GenerateCommand($config),
-    new ServerCommand($config),
-]);
-
+$application = ApplicationFactory::create($config);
 $application->run();
