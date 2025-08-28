@@ -9,12 +9,15 @@ use Vstelmakh\Stasis\Exception\RuntimeException;
 
 class ConfigLoader
 {
+    public const string DEFAULT_CONFIG = 'stasis.php';
+
     public function __construct(
         private readonly string $projectRoot,
     ) {}
 
-    public function load(string $path = 'stasis.php'): ConfigInterface
+    public function load(?string $path = null): ConfigInterface
     {
+        $path = $path ?? self::DEFAULT_CONFIG;
         $configPath = Path::isAbsolute($path) ? $path : Path::canonicalize($this->projectRoot . '/' . $path);
 
         if (!is_file($configPath)) {
