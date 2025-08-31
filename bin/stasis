@@ -6,6 +6,7 @@ declare(strict_types=1);
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Filesystem\Path;
 use Vstelmakh\Stasis\Config\ConfigLoader;
+use Vstelmakh\Stasis\Config\ConfigProxy;
 use Vstelmakh\Stasis\Console\ApplicationFactory;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
@@ -26,8 +27,7 @@ $projectRoot = dirname($autoloadPath, 2);
 
 $input = new ArgvInput();
 $configPath = $input->getParameterOption(ApplicationFactory::CONFIG_OPTION, null);
-$configLoader = new ConfigLoader($projectRoot);
-$config = $configLoader->load($configPath);
+$config = new ConfigProxy(new ConfigLoader($projectRoot, $configPath));
 
 $application = ApplicationFactory::create($config);
 $application->run();

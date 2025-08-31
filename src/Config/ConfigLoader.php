@@ -13,11 +13,12 @@ class ConfigLoader
 
     public function __construct(
         private readonly string $projectRoot,
+        private readonly ?string $configPath = null,
     ) {}
 
-    public function load(?string $path = null): ConfigInterface
+    public function load(): ConfigInterface
     {
-        $path = $path ?? self::DEFAULT_CONFIG;
+        $path = $this->configPath ?? self::DEFAULT_CONFIG;
         $configPath = Path::isAbsolute($path) ? $path : Path::canonicalize($this->projectRoot . '/' . $path);
 
         if (!is_file($configPath)) {
