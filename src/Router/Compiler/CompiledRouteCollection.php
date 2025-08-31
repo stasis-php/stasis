@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Compiler;
+namespace Stasis\Router\Compiler;
 
 use Traversable;
 

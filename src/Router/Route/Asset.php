@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Route;
+namespace Stasis\Router\Route;
 
 /**
  * Route that represents the file or directory of files that will be served as is.

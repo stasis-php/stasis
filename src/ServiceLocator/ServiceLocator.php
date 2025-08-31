@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\ServiceLocator;
+namespace Stasis\ServiceLocator;
 
 use Psr\Container\ContainerInterface;
-use Vstelmakh\Stasis\Exception\LogicException;
+use Stasis\Exception\LogicException;
 
 class ServiceLocator
 {

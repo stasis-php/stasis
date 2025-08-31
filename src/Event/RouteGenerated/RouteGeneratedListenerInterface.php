@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Event\RouteGenerated;
+namespace Stasis\Event\RouteGenerated;
 
-use Vstelmakh\Stasis\Event\ListenerInterface;
-use Vstelmakh\Stasis\Router\Compiler\CompiledRoute;
+use Stasis\Event\ListenerInterface;
+use Stasis\Router\Compiler\CompiledRoute;
 
 interface RouteGeneratedListenerInterface extends ListenerInterface
 {

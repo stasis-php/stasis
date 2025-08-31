@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Compiler;
+namespace Stasis\Router\Compiler;
 
-use Vstelmakh\Stasis\Router\Route\RouteInterface;
-use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Router\Route\RouteInterface;
+use Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompiler
 {

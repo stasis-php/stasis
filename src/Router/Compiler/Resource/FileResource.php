@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Compiler\Resource;
+namespace Stasis\Router\Compiler\Resource;
 
 readonly class FileResource implements ResourceInterface
 {

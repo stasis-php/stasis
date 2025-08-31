@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Event;
+namespace Stasis\Event;
 
 class EventDispatcher
 {

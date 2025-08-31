@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Route;
+namespace Stasis\Router\Route;
 
 interface RouteVisitorInterface
 {

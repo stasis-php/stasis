@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Generator;
+namespace Stasis\Generator;
 
-use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
-use Vstelmakh\Stasis\Router\Compiler\CompiledRoute;
-use Vstelmakh\Stasis\Router\Compiler\CompiledRouteCollection;
-use Vstelmakh\Stasis\Router\RouteContainer;
-use Vstelmakh\Stasis\Router\Router;
-use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Router\Compiler\CompiledRoute;
+use Stasis\Router\Compiler\CompiledRouteCollection;
+use Stasis\Router\RouteContainer;
+use Stasis\Router\Router;
+use Stasis\ServiceLocator\ServiceLocator;
 
 class SiteGenerator
 {

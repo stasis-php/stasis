@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Config;
+namespace Stasis\Config;
 
 use Psr\Container\ContainerInterface;
-use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Generator\Distribution\DistributionInterface;
 
 /**
  * This proxy delays loading of config until it is used, as well as caching config values to avoid recalculations.

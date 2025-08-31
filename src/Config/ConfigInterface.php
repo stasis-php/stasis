@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Config;
+namespace Stasis\Config;
 
 use Psr\Container\ContainerInterface;
-use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
-use Vstelmakh\Stasis\Router\Route\RouteInterface;
+use Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Router\Route\RouteInterface;
 
 interface ConfigInterface
 {

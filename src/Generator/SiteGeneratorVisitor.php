@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Generator;
+namespace Stasis\Generator;
 
-use Vstelmakh\Stasis\Controller\ControllerInterface;
-use Vstelmakh\Stasis\Exception\LogicException;
-use Vstelmakh\Stasis\Exception\RuntimeException;
-use Vstelmakh\Stasis\Generator\Distribution\DistributionInterface;
-use Vstelmakh\Stasis\Generator\Distribution\LocalDistributionInterface;
-use Vstelmakh\Stasis\Router\Compiler\Resource\ControllerResource;
-use Vstelmakh\Stasis\Router\Compiler\Resource\FileResource;
-use Vstelmakh\Stasis\Router\Compiler\Resource\ResourceVisitorInterface;
-use Vstelmakh\Stasis\Router\Router;
-use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Controller\ControllerInterface;
+use Stasis\Exception\LogicException;
+use Stasis\Exception\RuntimeException;
+use Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Generator\Distribution\LocalDistributionInterface;
+use Stasis\Router\Compiler\Resource\ControllerResource;
+use Stasis\Router\Compiler\Resource\FileResource;
+use Stasis\Router\Compiler\Resource\ResourceVisitorInterface;
+use Stasis\Router\Router;
+use Stasis\ServiceLocator\ServiceLocator;
 
 class SiteGeneratorVisitor implements ResourceVisitorInterface
 {

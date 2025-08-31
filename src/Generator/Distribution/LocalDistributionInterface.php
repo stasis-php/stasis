@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Generator\Distribution;
+namespace Stasis\Generator\Distribution;
 
 /**
  * Adapter to manage local storage for generated site distributable.

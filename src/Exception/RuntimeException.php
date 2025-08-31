@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Exception;
+namespace Stasis\Exception;
 
 class RuntimeException extends \RuntimeException implements StasisExceptionInterface
 {

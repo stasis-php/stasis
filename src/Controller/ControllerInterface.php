@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Controller;
+namespace Stasis\Controller;
 
-use Vstelmakh\Stasis\Router\Router;
+use Stasis\Router\Router;
 
 /**
  * Controller does the rendering of the provided page.

@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Filesystem\Path;
-use Vstelmakh\Stasis\Config\ConfigLoader;
-use Vstelmakh\Stasis\Config\ConfigProxy;
-use Vstelmakh\Stasis\Console\ApplicationFactory;
+use Stasis\Config\ConfigLoader;
+use Stasis\Config\ConfigProxy;
+use Stasis\Console\ApplicationFactory;
 
 if (isset($GLOBALS['_composer_autoload_path'])) {
     $autoloadPath = $GLOBALS['_composer_autoload_path'];

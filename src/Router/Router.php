@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router;
+namespace Stasis\Router;
 
-use Vstelmakh\Stasis\Router\Compiler\CompiledRouteCollection;
+use Stasis\Router\Compiler\CompiledRouteCollection;
 
 class Router
 {

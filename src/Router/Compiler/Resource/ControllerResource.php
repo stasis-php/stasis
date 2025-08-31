@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Compiler\Resource;
+namespace Stasis\Router\Compiler\Resource;
 
-use Vstelmakh\Stasis\Controller\ControllerInterface;
+use Stasis\Controller\ControllerInterface;
 
 readonly class ControllerResource implements ResourceInterface
 {

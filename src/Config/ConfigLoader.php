@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Config;
+namespace Stasis\Config;
 
 use Symfony\Component\Filesystem\Path;
-use Vstelmakh\Stasis\Exception\RuntimeException;
+use Stasis\Exception\RuntimeException;
 
 class ConfigLoader
 {

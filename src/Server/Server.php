@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Server;
+namespace Stasis\Server;
 
-use Vstelmakh\Stasis\Exception\RuntimeException;
+use Stasis\Exception\RuntimeException;
 
 class Server
 {

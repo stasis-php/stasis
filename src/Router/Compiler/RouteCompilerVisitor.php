@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Compiler;
+namespace Stasis\Router\Compiler;
 
-use Vstelmakh\Stasis\Router\Compiler\Resource\ControllerResource;
-use Vstelmakh\Stasis\Router\Compiler\Resource\FileResource;
-use Vstelmakh\Stasis\Router\Route\Asset;
-use Vstelmakh\Stasis\Router\Route\Group;
-use Vstelmakh\Stasis\Router\Route\Route;
-use Vstelmakh\Stasis\Router\Route\RouteProviderInterface;
-use Vstelmakh\Stasis\Router\Route\RouteVisitorInterface;
-use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Router\Compiler\Resource\ControllerResource;
+use Stasis\Router\Compiler\Resource\FileResource;
+use Stasis\Router\Route\Asset;
+use Stasis\Router\Route\Group;
+use Stasis\Router\Route\Route;
+use Stasis\Router\Route\RouteProviderInterface;
+use Stasis\Router\Route\RouteVisitorInterface;
+use Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompilerVisitor implements RouteVisitorInterface
 {

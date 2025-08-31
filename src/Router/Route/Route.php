@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Router\Route;
+namespace Stasis\Router\Route;
 
-use Vstelmakh\Stasis\Controller\ControllerInterface;
+use Stasis\Controller\ControllerInterface;
 
 /**
  * Route is an endpoint that will be served to the end user via the provided path.

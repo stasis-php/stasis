@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Console\Command;
+namespace Stasis\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Vstelmakh\Stasis\Config\ConfigInterface;
-use Vstelmakh\Stasis\Generator\SiteGenerator;
-use Vstelmakh\Stasis\Router\Compiler\CompiledRouteCollection;
-use Vstelmakh\Stasis\Router\Compiler\RouteCompiler;
-use Vstelmakh\Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Config\ConfigInterface;
+use Stasis\Generator\SiteGenerator;
+use Stasis\Router\Compiler\CompiledRouteCollection;
+use Stasis\Router\Compiler\RouteCompiler;
+use Stasis\ServiceLocator\ServiceLocator;
 
 class GenerateCommand extends Command
 {

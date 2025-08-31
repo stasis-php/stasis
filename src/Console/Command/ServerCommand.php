@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Console\Command;
+namespace Stasis\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressIndicator;
@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Vstelmakh\Stasis\Config\ConfigInterface;
-use Vstelmakh\Stasis\Generator\Distribution\LocalDistributionInterface;
-use Vstelmakh\Stasis\Server\Server;
+use Stasis\Config\ConfigInterface;
+use Stasis\Generator\Distribution\LocalDistributionInterface;
+use Stasis\Server\Server;
 
 class ServerCommand extends Command
 {

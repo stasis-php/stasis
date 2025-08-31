@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Vstelmakh\Stasis\Console;
+namespace Stasis\Console;
 
 use Composer\InstalledVersions;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
-use Vstelmakh\Stasis\Config\ConfigInterface;
-use Vstelmakh\Stasis\Config\ConfigLoader;
-use Vstelmakh\Stasis\Console\Command\GenerateCommand;
-use Vstelmakh\Stasis\Console\Command\ServerCommand;
+use Stasis\Config\ConfigInterface;
+use Stasis\Config\ConfigLoader;
+use Stasis\Console\Command\GenerateCommand;
+use Stasis\Console\Command\ServerCommand;
 
 class ApplicationFactory
 {
     private const string NAME = 'Stasis';
-    private const string PACKAGE_NAME = 'vstelmakh/stasis';
+    private const string PACKAGE_NAME = 'stasis/stasis';
     public const string CONFIG_OPTION = '--config';
 
     public static function create(ConfigInterface $config): Application
