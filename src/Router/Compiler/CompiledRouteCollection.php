@@ -6,6 +6,9 @@ namespace Vstelmakh\Stasis\Router\Compiler;
 
 use Traversable;
 
+/**
+ * @implements \IteratorAggregate<int, CompiledRoute>
+ */
 class CompiledRouteCollection implements \IteratorAggregate
 {
     /** @var array<string, CompiledRoute> */
