@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Config;
+namespace Stasis;
 
 use Psr\Container\ContainerInterface;
+use Stasis\Config\ConfigInterface;
+use Stasis\Config\ConfigLoader;
 use Stasis\Generator\Distribution\DistributionInterface;
 
-/**
- * This proxy delays loading of config until it is used, as well as caching config values to avoid recalculations.
- */
-class ConfigProxy implements ConfigInterface
+class Kernel
 {
     private iterable $routes;
     private ConfigInterface $config;

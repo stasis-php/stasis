@@ -4,28 +4,49 @@ declare(strict_types=1);
 
 namespace Stasis\Console\Command;
 
+use Stasis\Console\CommandFactoryInterface;
+use Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Generator\Distribution\LocalDistributionInterface;
+use Stasis\Kernel;
+use Stasis\Server\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Stasis\Config\ConfigInterface;
-use Stasis\Generator\Distribution\LocalDistributionInterface;
-use Stasis\Server\Server;
 
-class ServerCommand extends Command
+class ServerCommand extends Command implements CommandFactoryInterface
 {
+    private const string NAME = 'server';
+    private const string DESCRIPTION = 'Start the development server';
+
+    public static function name(): string
+    {
+        return self::NAME;
+    }
+
+    public static function description(): string
+    {
+        return self::DESCRIPTION;
+    }
+
+    public static function create(Kernel $kernel): self
+    {
+        $distribution = $kernel->distribution();
+        return new self($distribution);
+    }
+
     public function __construct(
-        private readonly ConfigInterface $config,
+        private readonly DistributionInterface $distribution,
     ) {
-        parent::__construct('server');
+        parent::__construct(self::NAME);
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Start the development server')
+            ->setDescription(self::DESCRIPTION)
             ->addOption('host', null, InputOption::VALUE_REQUIRED, 'Host to run the server on', 'localhost')
             ->addOption('port', null, InputOption::VALUE_REQUIRED, 'Port to run the server on', 8000)
             ->setHelp('Stasis development server is utilizing PHP built-in web server. Does NOT meant to be used in production environment.')
@@ -34,13 +55,12 @@ class ServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $distribution = $this->config->distribution();
-        if (!$distribution instanceof LocalDistributionInterface) {
+        if (!$this->distribution instanceof LocalDistributionInterface) {
             $output->writeln('Configured distribution does not support local server.');
             return Command::FAILURE;
         }
 
-        $path = $distribution->path();
+        $path = $this->distribution->path();
         $host = $input->getOption('host');
         $port = $input->getOption('port');
 
