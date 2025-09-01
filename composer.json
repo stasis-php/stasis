@@ -3,7 +3,7 @@
     "description": "Static site generator",
     "type": "library",
     "license": "MIT",
-    "homepage": "https://github.com/stasis/stasis",
+    "homepage": "https://github.com/stasis-php/stasis",
     "authors": [
         {
             "name": "Volodymyr Stelmakh",
