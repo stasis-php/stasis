@@ -14,7 +14,7 @@ readonly class Route implements RouteInterface
      *
      * @param string $path Route path, starting with slash.
      * @param ControllerInterface|string|\Closure $controller Controller instance, service reference implementing ControllerInterface, or closure.
-     * @param ?string $name Route name. Name must be unique within all defined routes.
+     * @param ?string $name Route name. Must be unique within all defined routes.
      * @param array<string, mixed> $parameters Route parameters. Passed to the controller render call.
      */
     public function __construct(
