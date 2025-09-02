@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GenerateCommand extends Command implements CommandFactoryInterface
 {
     private const string NAME = 'generate';
-    private const string DESCRIPTION = 'Generates static site from specified routes';
+    private const string DESCRIPTION = 'Generate static site from specified routes';
 
     public static function name(): string
     {
