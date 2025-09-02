@@ -28,7 +28,7 @@ class ServiceLocator
         }
 
         if (!$service instanceof $class) {
-            $type = is_object($service) ? $service::class : gettype($service);
+            $type = get_debug_type($service);
 
             throw new LogicException(sprintf(
                 'Unexpected service "%s" type received from container. "%s" does not implement "%s".',
