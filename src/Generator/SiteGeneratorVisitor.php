@@ -67,8 +67,9 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         }
 
         throw new LogicException(sprintf(
-            'Unexpected reference type "%s". Expected string, ControllerInterface or Closure".',
+            'Unexpected reference type "%s". Expected container reference, instance of %s or Closure".',
             get_debug_type($reference),
+            ControllerInterface::class,
         ));
     }
 

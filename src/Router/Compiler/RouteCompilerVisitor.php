@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Router\Compiler;
 
+use Stasis\Exception\LogicException;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
 use Stasis\Router\Route\Asset;
@@ -35,15 +36,9 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function visitGroup(Group $group): void
     {
         $path = $this->getCanonicalPath($group->path);
-
-        if (is_string($group->routes)) {
-            $provider = $this->serviceLocator->get($group->routes, RouteProviderInterface::class);
-            $routes = $provider->routes();
-        } else {
-            $routes = $group->routes;
-        }
-
+        $routes = $this->getRoutes($group->routes);
         $visitor = new self($path, $this->serviceLocator, $this->routes);
+
         foreach ($routes as $route) {
             $route->accept($visitor);
         }
@@ -57,6 +52,31 @@ class RouteCompilerVisitor implements RouteVisitorInterface
 
         $compiledRoute = new CompiledRoute($canonicalPath, $canonicalPath, $resource, $name);
         $this->routes->add($compiledRoute);
+    }
+
+    /**
+     * @return iterable<Route>
+     */
+    private function getRoutes(iterable|RouteProviderInterface|string $provider): iterable
+    {
+        if (is_iterable($provider)) {
+            return $provider;
+        }
+
+        if ($provider instanceof RouteProviderInterface) {
+            return $provider->routes();
+        }
+
+        if (is_string($provider)) {
+            $instance = $this->serviceLocator->get($provider, RouteProviderInterface::class);
+            return $instance->routes();
+        }
+
+        throw new LogicException(sprintf(
+            'Unexpected provider type "%s". Expected container reference, instance of %s or Closure".',
+            get_debug_type($provider),
+            RouteProviderInterface::class,
+        ));
     }
 
     private function getCanonicalPath(string $path): string
