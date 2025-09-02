@@ -14,9 +14,11 @@ class CommandLoader implements CommandLoaderInterface
     /** @var array<string, class-string<CommandFactoryInterface> */
     private array $map = [];
 
+    /**
+     * @param array<class-string<CommandFactoryInterface>> $factories
+     */
     public function __construct(
         private readonly Kernel $kernel,
-        /** @var array<class-string<CommandFactoryInterface>> */
         array $factories,
     ) {
         foreach ($factories as $factory) {
