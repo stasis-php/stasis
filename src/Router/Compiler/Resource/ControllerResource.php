@@ -9,8 +9,7 @@ use Stasis\Controller\ControllerInterface;
 readonly class ControllerResource implements ResourceInterface
 {
     public function __construct(
-        /** @var class-string<ControllerInterface> */
-        public string $class,
+        public ControllerInterface|string|\Closure $reference,
         public array $parameters = [],
     ) {}
 

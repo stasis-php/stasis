@@ -6,7 +6,7 @@ namespace Stasis\Router\Compiler\Resource;
 
 interface ResourceVisitorInterface
 {
-    public function visitController(ControllerResource $controller): void;
+    public function visitController(ControllerResource $resource): void;
 
-    public function visitFile(FileResource $file): void;
+    public function visitFile(FileResource $resource): void;
 }

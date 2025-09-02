@@ -29,21 +29,47 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         }
     }
 
-    public function visitController(ControllerResource $controller): void
+    public function visitController(ControllerResource $resource): void
     {
-        $service = $this->serviceLocator->get($controller->class, ControllerInterface::class);
-        $content = $this->render($service, $controller->parameters);
+        $controller = $this->getController($resource->reference);
+        $content = $this->render($controller, $resource->parameters);
         $path = $this->path;
         $this->distribution->write($path, $content);
     }
 
-    public function visitFile(FileResource $file): void
+    public function visitFile(FileResource $resource): void
     {
         if ($this->symlinkFiles) {
-            $this->distribution->link($file->source, $this->path);
+            $this->distribution->link($resource->source, $this->path);
         } else {
-            $this->distribution->copy($file->source, $this->path);
+            $this->distribution->copy($resource->source, $this->path);
         }
+    }
+
+    private function getController(ControllerInterface|string|\Closure $reference): ControllerInterface
+    {
+        if ($reference instanceof ControllerInterface) {
+            return $reference;
+        }
+
+        if (is_string($reference)) {
+            return $this->serviceLocator->get($reference, ControllerInterface::class);
+        }
+
+        if ($reference instanceof \Closure) {
+            return new class($reference) implements ControllerInterface {
+                public function __construct(private \Closure $closure) {}
+
+                public function render(Router $router, array $parameters) {
+                    return ($this->closure)($router, $parameters);
+                }
+            };
+        }
+
+        throw new LogicException(sprintf(
+            'Unexpected reference type "%s". Expected string, ControllerInterface or Closure".',
+            get_debug_type($reference),
+        ));
     }
 
     /**
