@@ -9,9 +9,9 @@ use Psr\Container\NotFoundExceptionInterface;
 use Stasis\Config\ConfigInterface;
 use Stasis\Exception\LogicException;
 
-class NullContainer implements ContainerInterface
+class NoContainer implements ContainerInterface
 {
-    public function get(string $id)
+    public function get(string $id): never
     {
         throw new class($id) extends LogicException implements NotFoundExceptionInterface {
             public function __construct(string $id) {
