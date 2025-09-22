@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Router;
 
+use Stasis\Exception\LogicException;
 use Stasis\Router\Compiler\CompiledRouteCollection;
 
 class Router
@@ -18,7 +19,7 @@ class Router
         $route = $this->compiledRoutes->getByName($name);
 
         if ($route === null) {
-            throw new \LogicException(sprintf('Route with name "%s" not found.', $name));
+            throw new LogicException(sprintf('Route with name "%s" not found.', $name));
         }
 
         return RouteData::fromCompiled($route);
@@ -29,7 +30,7 @@ class Router
         $route = $this->currentRoute->route ?? null;
 
         if ($route === null) {
-            throw new \LogicException('Current route is not set.');
+            throw new LogicException('Current route is not set.');
         }
 
         return RouteData::fromCompiled($route);

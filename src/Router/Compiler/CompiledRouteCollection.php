@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Router\Compiler;
 
+use Stasis\Exception\LogicException;
 use Traversable;
 
 /**
@@ -47,7 +48,7 @@ class CompiledRouteCollection implements \IteratorAggregate
         $path = $route->path;
 
         if (isset($this->routeByPath[$path])) {
-            throw new \LogicException(sprintf('Duplicated route path "%s".', $path));
+            throw new LogicException(sprintf('Duplicated route path "%s".', $path));
         }
 
         $this->routeByPath[$path] = $route;
@@ -62,7 +63,7 @@ class CompiledRouteCollection implements \IteratorAggregate
         }
 
         if (isset($this->routeByName[$name])) {
-            throw new \LogicException(sprintf('Duplicated route name "%s".', $name));
+            throw new LogicException(sprintf('Duplicated route name "%s".', $name));
         }
 
         $this->routeByName[$name] = $route;
