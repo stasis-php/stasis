@@ -7,6 +7,7 @@ namespace Stasis;
 use Psr\Container\ContainerInterface;
 use Stasis\Config\ConfigInterface;
 use Stasis\Config\ConfigLoader;
+use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Generator\Distribution\DistributionInterface;
 
 class Kernel
@@ -18,6 +19,7 @@ class Kernel
 
     public function __construct(
         private readonly ConfigLoader $loader,
+        private readonly EventDispatcher $eventDispatcher,
     ) {}
 
     public function routes(): iterable
@@ -36,6 +38,11 @@ class Kernel
     {
         $this->distribution = $this->distribution ?? $this->getConfig()->distribution();
         return $this->distribution;
+    }
+
+    public function event(): EventDispatcher
+    {
+        return $this->eventDispatcher;
     }
 
     private function getConfig(): ConfigInterface

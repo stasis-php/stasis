@@ -3,6 +3,7 @@
 
 declare(strict_types=1);
 
+use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Kernel;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Filesystem\Path;
@@ -27,7 +28,7 @@ $projectRoot = dirname($autoloadPath, 2);
 
 $input = new ArgvInput();
 $configPath = $input->getParameterOption(ApplicationFactory::CONFIG_OPTION, null);
-$kernel = new Kernel(new ConfigLoader($projectRoot, $configPath));
+$kernel = new Kernel(new ConfigLoader($projectRoot, $configPath), new EventDispatcher());
 
 $application = ApplicationFactory::create($kernel);
 $application->run();
