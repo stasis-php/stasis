@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Stasis\EventDispatcher\Event\RouteGenerated;
+namespace Stasis\EventDispatcher\Event\RouteCompiled;
 
 use Stasis\Router\Compiler\CompiledRoute;
 
-readonly class RouteGeneratedData
+class RouteCompiledData
 {
     public function __construct(
         public CompiledRoute $route,

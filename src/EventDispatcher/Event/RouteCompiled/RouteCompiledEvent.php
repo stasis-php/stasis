@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Stasis\EventDispatcher\Event\RouteGenerated;
+namespace Stasis\EventDispatcher\Event\RouteCompiled;
 
 use Stasis\EventDispatcher\EventInterface;
-use Stasis\EventDispatcher\Listener\RouteGeneratedInterface;
+use Stasis\EventDispatcher\Listener\RouteCompiledInterface;
 use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Compiler\CompiledRoute;
 
-readonly class RouteGeneratedEvent implements EventInterface
+class RouteCompiledEvent implements EventInterface
 {
     public function __construct(
         public CompiledRoute $route,
@@ -17,12 +17,12 @@ readonly class RouteGeneratedEvent implements EventInterface
 
     public function accept(ListenerInterface $listener): bool
     {
-        if (!$listener instanceof RouteGeneratedInterface) {
+        if (!$listener instanceof RouteCompiledInterface) {
             return false;
         }
 
-        $data = new RouteGeneratedData($this->route);
-        $listener->onRouteGenerated($data);
+        $data = new RouteCompiledData($this->route);
+        $listener->onRouteCompiled($data);
         return true;
     }
 }
