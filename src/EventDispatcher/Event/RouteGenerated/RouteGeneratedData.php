@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Dispatcher\Event\RouteGenerated;
+namespace Stasis\EventDispatcher\Event\RouteGenerated;
 
 use Stasis\Router\Compiler\CompiledRoute;
 

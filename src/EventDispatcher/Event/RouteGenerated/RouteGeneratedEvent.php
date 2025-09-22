@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Dispatcher\Event\RouteGenerated;
+namespace Stasis\EventDispatcher\Event\RouteGenerated;
 
-use Stasis\Dispatcher\EventInterface;
-use Stasis\Dispatcher\Listener\RouteGeneratedInterface;
-use Stasis\Dispatcher\ListenerInterface;
+use Stasis\EventDispatcher\EventInterface;
+use Stasis\EventDispatcher\Listener\RouteGeneratedInterface;
+use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Compiler\CompiledRoute;
 
 readonly class RouteGeneratedEvent implements EventInterface

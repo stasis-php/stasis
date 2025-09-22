@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Dispatcher;
+namespace Stasis\EventDispatcher;
 
 interface ListenerInterface {}

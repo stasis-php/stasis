@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Dispatcher\Listener;
+namespace Stasis\EventDispatcher\Listener;
 
-use Stasis\Dispatcher\Event\RouteGenerated\RouteGeneratedData;
-use Stasis\Dispatcher\ListenerInterface;
+use Stasis\EventDispatcher\Event\RouteGenerated\RouteGeneratedData;
+use Stasis\EventDispatcher\ListenerInterface;
 
 interface RouteGeneratedInterface extends ListenerInterface
 {
