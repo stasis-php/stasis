@@ -11,13 +11,13 @@ use Stasis\Exception\RuntimeException;
  */
 class Server
 {
-    /** @var resource */
+    /** @var resource|null|false */
     private $process = null;
 
-    /** @var resource */
+    /** @var resource|null */
     private $stdout = null;
 
-    /** @var resource */
+    /** @var resource|null */
     private $stderr = null;
 
     public function __construct(
@@ -101,6 +101,7 @@ class Server
 
     /**
      * Ensure the server stops when the script terminates
+     * @param resource $process
      */
     private function registerShutdownFunction($process): void
     {
@@ -110,6 +111,9 @@ class Server
         });
     }
 
+    /**
+     * @param resource|mixed $resource
+     */
     private function getContents($resource): string
     {
         if (!is_resource($resource)) {

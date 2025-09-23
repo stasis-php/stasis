@@ -24,7 +24,7 @@ class ApplicationFactory
     public static function create(Kernel $kernel): Application
     {
         $version = InstalledVersions::getPrettyVersion(self::PACKAGE_NAME);
-        $application = new Application(self::NAME, $version);
+        $application = new Application(self::NAME, $version ?? 'unknown');
         self::hideDefaultCommands($application);
         self::defineConfigOption($application);
         self::defineCommands($application, $kernel);

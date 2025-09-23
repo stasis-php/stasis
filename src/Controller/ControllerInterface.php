@@ -12,7 +12,7 @@ use Stasis\Router\Router;
 interface ControllerInterface
 {
     /**
-     * @param array $parameters Defined on route and provided here as input.
+     * @param array<string, mixed> $parameters Defined on route and provided here as input.
      * @return string|resource Content of the rendered page.
      */
     public function render(Router $router, array $parameters);

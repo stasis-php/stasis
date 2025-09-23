@@ -8,6 +8,7 @@ use Stasis\Console\CommandFactoryInterface;
 use Stasis\Generator\SiteGenerator;
 use Stasis\Kernel;
 use Stasis\Router\Compiler\RouteCompiler;
+use Stasis\Router\Route\RouteInterface;
 use Stasis\ServiceLocator\ServiceLocator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,6 +49,9 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         return new self($siteGenerator, $compiler, $routes);
     }
 
+    /**
+     * @param iterable<RouteInterface> $routes
+     */
     public function __construct(
         private readonly SiteGenerator $siteGenerator,
         private readonly RouteCompiler $routeCompiler,

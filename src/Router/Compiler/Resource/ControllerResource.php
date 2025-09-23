@@ -10,6 +10,7 @@ readonly class ControllerResource implements ResourceInterface
 {
     public function __construct(
         public ControllerInterface|string|\Closure $reference,
+        /** @var array<string, mixed> */
         public array $parameters = [],
     ) {}
 

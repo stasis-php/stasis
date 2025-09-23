@@ -14,7 +14,7 @@ use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
  */
 class CommandLoader implements CommandLoaderInterface
 {
-    /** @var array<string, class-string<CommandFactoryInterface> */
+    /** @var array<string, class-string<CommandFactoryInterface>> */
     private array $map = [];
 
     /**

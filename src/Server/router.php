@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$dist = getcwd();
+$dist = (string) getcwd();
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $file = rtrim($dist, '/') . $path;
 

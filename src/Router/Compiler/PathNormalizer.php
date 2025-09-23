@@ -18,7 +18,7 @@ class PathNormalizer
 
     private static function mergeRedundantSlashes(string $path): string
     {
-        return preg_replace('/\/{2,}/', '/', $path);
+        return (string) preg_replace('/\/{2,}/', '/', $path);
     }
 
     private static function trimSlashes(string $path): string

@@ -12,6 +12,7 @@ use Stasis\Router\Compiler\Resource\FileResource;
 use Stasis\Router\Route\Asset;
 use Stasis\Router\Route\Group;
 use Stasis\Router\Route\Route;
+use Stasis\Router\Route\RouteInterface;
 use Stasis\Router\Route\RouteProviderInterface;
 use Stasis\Router\Route\RouteVisitorInterface;
 use Stasis\ServiceLocator\ServiceLocator;
@@ -63,7 +64,8 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     }
 
     /**
-     * @return iterable<Route>
+     * @param iterable<RouteInterface>|RouteProviderInterface|string $provider
+     * @return iterable<RouteInterface>
      */
     private function getRoutes(iterable|RouteProviderInterface|string $provider): iterable
     {
@@ -80,6 +82,8 @@ class RouteCompilerVisitor implements RouteVisitorInterface
             return $instance->routes();
         }
 
+        // This is a fallback to have a proper error message if this code is ever reached.
+        // @phpstan-ignore-next-line
         throw new LogicException(sprintf(
             'Unexpected provider type "%s". Expected container reference, instance of %s or Closure".',
             get_debug_type($provider),

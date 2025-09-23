@@ -9,6 +9,7 @@ use Stasis\Router\Route\RouteInterface;
 
 /**
  * @internal
+ * @implements \IteratorAggregate<int, RouteInterface>
  */
 class RouteSourceCollection implements \IteratorAggregate
 {
@@ -26,7 +27,7 @@ class RouteSourceCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Generator<string, RouteInterface>
+     * @return \Generator<int, RouteInterface>
      */
     public function getIterator(): \Generator
     {

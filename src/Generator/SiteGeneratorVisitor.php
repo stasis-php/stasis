@@ -8,7 +8,7 @@ use Stasis\Controller\ControllerInterface;
 use Stasis\Exception\LogicException;
 use Stasis\Exception\RuntimeException;
 use Stasis\Generator\Distribution\DistributionInterface;
-use Stasis\Generator\Distribution\LocalDistributionInterface;
+use Stasis\Generator\Distribution\SymlinkDistributionInterface;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
 use Stasis\Router\Compiler\Resource\ResourceVisitorInterface;
@@ -27,7 +27,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         private readonly string $path,
         private readonly bool $symlinkFiles,
     ) {
-        if ($this->symlinkFiles && !$this->distribution instanceof LocalDistributionInterface) {
+        if ($this->symlinkFiles && !$this->distribution instanceof SymlinkDistributionInterface) {
             throw new LogicException('Provided distribution does not support symlinks.');
         }
     }
@@ -43,6 +43,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
     public function visitFile(FileResource $resource): void
     {
         if ($this->symlinkFiles) {
+            // @phpstan-ignore-next-line Validated in constructor.
             $this->distribution->link($resource->source, $this->path);
         } else {
             $this->distribution->copy($resource->source, $this->path);
@@ -70,6 +71,8 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
             };
         }
 
+        // This is a fallback to have a proper error message if this code is ever reached.
+        // @phpstan-ignore-next-line
         throw new LogicException(sprintf(
             'Unexpected reference type "%s". Expected container reference, instance of %s or Closure".',
             get_debug_type($reference),
@@ -78,9 +81,10 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
     }
 
     /**
+     * @param array<string, mixed> $parameters
      * @return string|resource
      */
-    private function render(ControllerInterface $controller, $parameters = [])
+    private function render(ControllerInterface $controller, array $parameters = [])
     {
         $content = $controller->render($this->router, $parameters);
 

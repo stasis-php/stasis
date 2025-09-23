@@ -11,6 +11,7 @@ use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureEvent;
 use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Extension\ExtensionLoader;
 use Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Router\Route\RouteInterface;
 use Stasis\Router\Source\RouteSource;
 use Stasis\Router\Source\RouteSourceCollection;
 
@@ -19,6 +20,7 @@ use Stasis\Router\Source\RouteSourceCollection;
  */
 class Kernel
 {
+    /** @var iterable<RouteInterface> */
     private iterable $routes;
     private ConfigInterface $config;
     private ContainerInterface $container;
@@ -39,6 +41,9 @@ class Kernel
         private readonly ExtensionLoader $extensionLoader,
     ) {}
 
+    /**
+     * @return iterable<RouteInterface>
+     */
     public function routes(): iterable
     {
         if (!isset($this->routes)) {

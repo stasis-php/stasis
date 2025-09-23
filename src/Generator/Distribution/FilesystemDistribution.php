@@ -35,6 +35,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
                 return;
             }
 
+            /** @var \FilesystemIterator<string> $iterator */
             $iterator = new \FilesystemIterator($this->basePath, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
             foreach ($iterator as $path) {
                 $this->filesystem->remove($path);
