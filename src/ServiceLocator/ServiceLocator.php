@@ -7,6 +7,9 @@ namespace Stasis\ServiceLocator;
 use Psr\Container\ContainerInterface;
 use Stasis\Exception\LogicException;
 
+/**
+ * @internal
+ */
 class ServiceLocator
 {
     public function __construct(

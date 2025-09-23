@@ -6,6 +6,7 @@ namespace Stasis\Router\Route;
 
 /**
  * Definition of the endpoint which can be compiled by the router.
+ * @internal
  */
 interface RouteInterface
 {

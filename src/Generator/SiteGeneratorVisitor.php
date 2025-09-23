@@ -15,6 +15,9 @@ use Stasis\Router\Compiler\Resource\ResourceVisitorInterface;
 use Stasis\Router\Router;
 use Stasis\ServiceLocator\ServiceLocator;
 
+/**
+ * @internal
+ */
 class SiteGeneratorVisitor implements ResourceVisitorInterface
 {
     public function __construct(

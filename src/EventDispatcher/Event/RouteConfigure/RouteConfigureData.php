@@ -10,6 +10,9 @@ use Stasis\Router\Source\RouteSourceCollection;
 
 class RouteConfigureData
 {
+    /**
+     * @internal
+     */
     public function __construct(
         private readonly RouteSourceCollection $sources,
     ) {}

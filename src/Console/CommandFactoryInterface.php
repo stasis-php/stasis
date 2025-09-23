@@ -7,6 +7,9 @@ namespace Stasis\Console;
 use Stasis\Kernel;
 use Symfony\Component\Console\Command\Command;
 
+/**
+ * @internal
+ */
 interface CommandFactoryInterface
 {
     /**

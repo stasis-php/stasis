@@ -6,6 +6,9 @@ namespace Stasis\Router\Source;
 
 use Stasis\Router\Route\RouteInterface;
 
+/**
+ * @internal
+ */
 readonly class RouteSource
 {
     /**

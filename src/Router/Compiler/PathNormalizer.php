@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Stasis\Router\Compiler;
 
+/**
+ * @internal
+ */
 class PathNormalizer
 {
     public static function normalize(string $path): string

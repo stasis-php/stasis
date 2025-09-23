@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Stasis\EventDispatcher;
 
+/**
+ * @internal
+ */
 class EventDispatcher
 {
     /** @var \SplObjectStorage<ListenerInterface, null> */

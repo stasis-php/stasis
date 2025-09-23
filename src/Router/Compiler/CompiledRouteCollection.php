@@ -8,6 +8,7 @@ use Stasis\Exception\LogicException;
 use Traversable;
 
 /**
+ * @internal
  * @implements \IteratorAggregate<int, CompiledRoute>
  */
 class CompiledRouteCollection implements \IteratorAggregate

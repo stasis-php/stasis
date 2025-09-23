@@ -16,6 +16,9 @@ use Stasis\Router\Route\RouteProviderInterface;
 use Stasis\Router\Route\RouteVisitorInterface;
 use Stasis\ServiceLocator\ServiceLocator;
 
+/**
+ * @internal
+ */
 class RouteCompilerVisitor implements RouteVisitorInterface
 {
     public function __construct(

@@ -9,6 +9,9 @@ use Stasis\EventDispatcher\Listener\RouteCompiledInterface;
 use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Compiler\CompiledRoute;
 
+/**
+ * @internal
+ */
 class RouteCompiledEvent implements EventInterface
 {
     public function __construct(

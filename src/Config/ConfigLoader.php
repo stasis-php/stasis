@@ -7,6 +7,9 @@ namespace Stasis\Config;
 use Symfony\Component\Filesystem\Path;
 use Stasis\Exception\RuntimeException;
 
+/**
+ * @internal
+ */
 class ConfigLoader
 {
     public const string DEFAULT_CONFIG = 'stasis.php';

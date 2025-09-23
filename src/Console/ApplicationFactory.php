@@ -12,6 +12,9 @@ use Stasis\Kernel;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * @internal
+ */
 class ApplicationFactory
 {
     private const string NAME = 'Stasis';

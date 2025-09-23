@@ -14,6 +14,9 @@ use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Router\Source\RouteSource;
 use Stasis\Router\Source\RouteSourceCollection;
 
+/**
+ * @internal
+ */
 class Kernel
 {
     private iterable $routes;

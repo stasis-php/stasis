@@ -7,6 +7,9 @@ namespace Stasis\Router\Source;
 use Stasis\Exception\LogicException;
 use Stasis\Router\Route\RouteInterface;
 
+/**
+ * @internal
+ */
 class RouteSourceCollection implements \IteratorAggregate
 {
     /** @var array<RouteSource> */

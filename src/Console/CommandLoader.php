@@ -9,6 +9,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LazyCommand;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 
+/**
+ * @internal
+ */
 class CommandLoader implements CommandLoaderInterface
 {
     /** @var array<string, class-string<CommandFactoryInterface> */

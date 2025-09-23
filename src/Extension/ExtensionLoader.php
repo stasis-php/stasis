@@ -8,6 +8,9 @@ use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Exception\LogicException;
 
+/**
+ * @internal
+ */
 class ExtensionLoader
 {
     public function __construct(

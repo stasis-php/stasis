@@ -16,6 +16,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @internal
+ */
 class ServerCommand extends Command implements CommandFactoryInterface
 {
     private const string NAME = 'server';

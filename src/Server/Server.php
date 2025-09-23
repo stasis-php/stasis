@@ -6,6 +6,9 @@ namespace Stasis\Server;
 
 use Stasis\Exception\RuntimeException;
 
+/**
+ * @internal
+ */
 class Server
 {
     /** @var resource */

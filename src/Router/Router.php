@@ -9,6 +9,9 @@ use Stasis\Router\Compiler\CompiledRouteCollection;
 
 class Router
 {
+    /**
+     * @internal
+     */
     public function __construct(
         private readonly CompiledRouteCollection $compiledRoutes,
         private readonly RouteContainer $currentRoute,

@@ -8,6 +8,9 @@ use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\ServiceLocator\ServiceLocator;
 
+/**
+ * @internal
+ */
 class RouteCompiler
 {
     public function __construct(

@@ -6,6 +6,9 @@ namespace Stasis\Router\Compiler\Resource;
 
 readonly class FileResource implements ResourceInterface
 {
+    /**
+     * @internal
+     */
     public function __construct(
         public string $source,
     ) {}

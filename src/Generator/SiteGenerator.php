@@ -11,6 +11,9 @@ use Stasis\Router\RouteContainer;
 use Stasis\Router\Router;
 use Stasis\ServiceLocator\ServiceLocator;
 
+/**
+ * @internal
+ */
 class SiteGenerator
 {
     public function __construct(
