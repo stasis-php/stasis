@@ -18,6 +18,10 @@ if (isset($GLOBALS['_composer_autoload_path'])) {
             break;
         }
     }
+    if (empty($autoloadPath)) {
+        echo 'ERROR: Unable to find autoload file.' . PHP_EOL;
+        exit(1);
+    }
 }
 require_once $autoloadPath;
 
