@@ -7,9 +7,12 @@ namespace Stasis;
 use Psr\Container\ContainerInterface;
 use Stasis\Config\ConfigInterface;
 use Stasis\Config\ConfigLoader;
+use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureEvent;
 use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Extension\ExtensionLoader;
 use Stasis\Generator\Distribution\DistributionInterface;
+use Stasis\Router\Source\RouteSource;
+use Stasis\Router\Source\RouteSourceCollection;
 
 class Kernel
 {
@@ -35,7 +38,16 @@ class Kernel
 
     public function routes(): iterable
     {
-        $this->routes = $this->routes ?? $this->getConfig()->routes();
+        if (!isset($this->routes)) {
+            $this->routes = new RouteSourceCollection();
+
+            $configRoutes = $this->getConfig()->routes();
+            $this->routes->add(new RouteSource('config', $configRoutes));
+
+            $event = new RouteConfigureEvent($this->routes);
+            $this->event()->dispatch($event);
+        }
+
         return $this->routes;
     }
 
