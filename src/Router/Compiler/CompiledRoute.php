@@ -8,9 +8,6 @@ use Stasis\Router\Compiler\Resource\ResourceInterface;
 
 readonly class CompiledRoute
 {
-    /**
-     * @internal
-     */
     public function __construct(
         public string $path,
         public string $distPath,

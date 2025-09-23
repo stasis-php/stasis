@@ -8,9 +8,6 @@ use Stasis\Router\Compiler\CompiledRoute;
 
 class RouteCompiledData
 {
-    /**
-     * @internal
-     */
     public function __construct(
         public CompiledRoute $route,
     ) {}
