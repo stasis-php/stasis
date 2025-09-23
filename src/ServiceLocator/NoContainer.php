@@ -13,14 +13,15 @@ class NoContainer implements ContainerInterface
 {
     public function get(string $id): never
     {
-        throw new class($id) extends LogicException implements NotFoundExceptionInterface {
-            public function __construct(string $id) {
+        throw new class ($id) extends LogicException implements NotFoundExceptionInterface {
+            public function __construct(string $id)
+            {
                 parent::__construct(sprintf(
                     'Unable to get "%s" from the container.'
                     . ' No container configured in the config.'
                     . 'Consider configuring the container with %s::container() or use instances directly.',
                     $id,
-                    ConfigInterface::class
+                    ConfigInterface::class,
                 ));
             }
         };

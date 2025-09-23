@@ -7,6 +7,4 @@ namespace Stasis\Exception;
 /**
  * @internal
  */
-interface StasisExceptionInterface extends \Throwable
-{
-}
+interface StasisExceptionInterface extends \Throwable {}

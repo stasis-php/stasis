@@ -7,6 +7,4 @@ namespace Stasis\Exception;
 /**
  * @internal
  */
-class LogicException extends \LogicException implements StasisExceptionInterface
-{
-}
+class LogicException extends \LogicException implements StasisExceptionInterface {}

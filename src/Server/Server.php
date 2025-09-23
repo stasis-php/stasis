@@ -104,7 +104,7 @@ class Server
      */
     private function registerShutdownFunction($process): void
     {
-        register_shutdown_function(function() use ($process) {
+        register_shutdown_function(function () use ($process) {
             proc_terminate($process); // send SIGTERM
             $this->stop();
         });

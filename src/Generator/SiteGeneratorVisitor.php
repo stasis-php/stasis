@@ -60,10 +60,11 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         }
 
         if ($reference instanceof \Closure) {
-            return new class($reference) implements ControllerInterface {
+            return new class ($reference) implements ControllerInterface {
                 public function __construct(private \Closure $closure) {}
 
-                public function render(Router $router, array $parameters) {
+                public function render(Router $router, array $parameters)
+                {
                     return ($this->closure)($router, $parameters);
                 }
             };
@@ -87,7 +88,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
             throw new RuntimeException(sprintf(
                 'Unexpected return type "%s" of %s::render(). Expected string or resource.',
                 gettype($content),
-                $controller::class
+                $controller::class,
             ));
         }
 

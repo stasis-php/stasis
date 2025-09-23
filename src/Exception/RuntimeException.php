@@ -7,6 +7,4 @@ namespace Stasis\Exception;
 /**
  * @internal
  */
-class RuntimeException extends \RuntimeException implements StasisExceptionInterface
-{
-}
+class RuntimeException extends \RuntimeException implements StasisExceptionInterface {}

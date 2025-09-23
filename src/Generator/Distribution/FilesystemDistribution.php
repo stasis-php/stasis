@@ -42,7 +42,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         } catch (\Throwable $exception) {
             throw new RuntimeException(
                 message: sprintf('Error clearing distribution "%s".', $this->basePath),
-                previous: $exception
+                previous: $exception,
             );
         }
     }
@@ -55,7 +55,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         } catch (\Throwable $exception) {
             throw new RuntimeException(
                 message: sprintf('Error writing to distribution path "%s".', $fullPath),
-                previous: $exception
+                previous: $exception,
             );
         }
     }
@@ -79,7 +79,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
             $type = $isDir ? 'directory' : 'file';
             throw new RuntimeException(
                 message: sprintf('Error copying %s "%s" to distribution "%s".', $type, $sourcePath, $fullPath),
-                previous: $exception
+                previous: $exception,
             );
         }
     }
@@ -97,7 +97,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         } catch (\Throwable $exception) {
             throw new RuntimeException(
                 message: sprintf('Error creating symlink "%s" to distribution "%s".', $sourcePath, $fullPath),
-                previous: $exception
+                previous: $exception,
             );
         }
     }

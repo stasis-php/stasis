@@ -120,9 +120,9 @@ class ServerCommand extends Command implements CommandFactoryInterface
                 '<fg=green>⣰</>',
                 '<fg=green>⣤</>',
                 '<fg=green>⣆</>',
-                '<fg=green>⡇</>'
+                '<fg=green>⡇</>',
             ],
-            '<fg=red>⠿</>'
+            '<fg=red>⠿</>',
         );
     }
 }
