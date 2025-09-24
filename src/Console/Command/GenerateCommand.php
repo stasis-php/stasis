@@ -10,6 +10,8 @@ use Stasis\Kernel;
 use Stasis\Router\Compiler\RouteCompiler;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Stopwatch\BytesFormatter;
+use Stasis\Stopwatch\Stopwatch;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,7 +48,9 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         $compiler = new RouteCompiler('/', $serviceLocator, $eventDispatcher);
         $routes = $kernel->routes();
 
-        return new self($siteGenerator, $compiler, $routes);
+        $stopwatch = $kernel->stopwatch();
+
+        return new self($siteGenerator, $compiler, $routes, $stopwatch);
     }
 
     /**
@@ -56,6 +60,7 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         private readonly SiteGenerator $siteGenerator,
         private readonly RouteCompiler $routeCompiler,
         private readonly iterable $routes,
+        private readonly Stopwatch $stopwatch,
     ) {
         parent::__construct(self::NAME);
     }
@@ -76,7 +81,17 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         $compiledRoutes = $this->routeCompiler->compile($this->routes);
         $this->siteGenerator->generate($compiledRoutes, $symlink);
 
-        $output->writeln('Generation successful');
+        $this->printSuccessMessage($output);
         return self::SUCCESS;
+    }
+
+    private function printSuccessMessage(OutputInterface $output): void
+    {
+        $output->writeln('<fg=green>Generated successfully</>');
+        $output->writeln(sprintf(
+            'in %.3f seconds, %s memory used',
+            $this->stopwatch->duration(),
+            BytesFormatter::toHuman($this->stopwatch->memory()),
+        ));
     }
 }
