@@ -14,6 +14,7 @@ use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\Router\Source\RouteSource;
 use Stasis\Router\Source\RouteSourceCollection;
+use Stasis\Stopwatch\Stopwatch;
 
 /**
  * @internal
@@ -32,13 +33,15 @@ class Kernel
         $configLoader = new ConfigLoader($projectRoot, $configPath);
         $eventDispatcher = new EventDispatcher();
         $extensionLoader = new ExtensionLoader($eventDispatcher);
-        return new self($configLoader, $eventDispatcher, $extensionLoader);
+        $stopwatch = new Stopwatch();
+        return new self($configLoader, $eventDispatcher, $extensionLoader, $stopwatch);
     }
 
     public function __construct(
         private readonly ConfigLoader $configLoader,
         private readonly EventDispatcher $eventDispatcher,
         private readonly ExtensionLoader $extensionLoader,
+        private readonly Stopwatch $stopwatch,
     ) {}
 
     /**
@@ -80,6 +83,11 @@ class Kernel
         }
 
         return $this->eventDispatcher;
+    }
+
+    public function stopwatch(): Stopwatch
+    {
+        return $this->stopwatch;
     }
 
     private function getConfig(): ConfigInterface
