@@ -32,7 +32,8 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function visitRoute(Route $route): void
     {
         $canonicalPath = $this->getCanonicalPath($route->path);
-        $distPath = $canonicalPath . '/index.html';
+        $isFile = preg_match('/\.\w+$/', $canonicalPath);
+        $distPath = rtrim($canonicalPath) . ($isFile ? '' : '/index.html');
         $type = new ControllerResource($route->controller, $route->parameters);
         $name = $route->name;
 
