@@ -10,7 +10,7 @@ use Stasis\Kernel;
 use Stasis\Router\Compiler\RouteCompiler;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\ServiceLocator\ServiceLocator;
-use Stasis\Stopwatch\BytesFormatter;
+use Stasis\Stopwatch\Formatter;
 use Stasis\Stopwatch\Stopwatch;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -89,9 +89,9 @@ class GenerateCommand extends Command implements CommandFactoryInterface
     {
         $output->writeln('<fg=green>Generated successfully</>');
         $output->writeln(sprintf(
-            'in %.3f seconds, %s memory used',
-            $this->stopwatch->duration(),
-            BytesFormatter::toHuman($this->stopwatch->memory()),
+            'in %s, %s memory used',
+            Formatter::secondsToHuman($this->stopwatch->duration()),
+            Formatter::bytesToHuman($this->stopwatch->memory()),
         ));
     }
 }
