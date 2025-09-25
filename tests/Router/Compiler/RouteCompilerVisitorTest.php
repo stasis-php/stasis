@@ -244,4 +244,3 @@ class RouteCompilerVisitorTest extends TestCase
         self::assertEquals([$expected1, $expected2], $actual, 'Unexpected route compilation result');
     }
 }
-
