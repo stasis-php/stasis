@@ -10,24 +10,24 @@ use Stasis\Controller\ControllerInterface;
 use Stasis\Exception\LogicException;
 use Stasis\Exception\RuntimeException;
 use Stasis\Generator\Distribution\DistributionInterface;
-use Stasis\Generator\Distribution\SymlinkDistributionInterface;
 use Stasis\Generator\SiteGeneratorVisitor;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
 use Stasis\Router\Router;
 use Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Tests\Generator\Distribution\TestDistribution;
 
 class SiteGeneratorVisitorTest extends TestCase
 {
     private MockObject&ServiceLocator $locator;
-    private MockObject&DistributionInterface $distribution;
+    private TestDistribution $distribution;
     private MockObject&Router $router;
     private SiteGeneratorVisitor $visitor;
 
     public function setUp(): void
     {
         $this->locator = $this->createMock(ServiceLocator::class);
-        $this->distribution = $this->createMock(DistributionInterface::class);
+        $this->distribution = new TestDistribution();
         $this->router = $this->createMock(Router::class);
 
         $this->visitor = new SiteGeneratorVisitor(
@@ -58,15 +58,11 @@ class SiteGeneratorVisitorTest extends TestCase
             }
         });
 
-        $this->distribution
-            ->expects($this->once())
-            ->method('write')
-            ->with(
-                self::identicalTo('/page.html'),
-                self::identicalTo('test content'),
-            );
-
         $this->visitor->visitController($resource);
+
+        self::assertCount(1, $this->distribution->writes, 'Unexpected write operations count.');
+        self::assertSame('/page.html', $this->distribution->writes[0]['path'], 'Unexpected file path.');
+        self::assertSame('test content', $this->distribution->writes[0]['content'], 'Unexpected file content.');
     }
 
     public function testVisitControllerReference(): void
@@ -87,15 +83,11 @@ class SiteGeneratorVisitorTest extends TestCase
             ->with(self::identicalTo($reference))
             ->willReturn($controller);
 
-        $this->distribution
-            ->expects($this->once())
-            ->method('write')
-            ->with(
-                self::identicalTo('/page.html'),
-                self::identicalTo('test content'),
-            );
-
         $this->visitor->visitController($resource);
+
+        self::assertCount(1, $this->distribution->writes, 'Unexpected write operations count.');
+        self::assertSame('/page.html', $this->distribution->writes[0]['path'], 'Unexpected file path.');
+        self::assertSame('test content', $this->distribution->writes[0]['content'], 'Unexpected file content.');
     }
 
     public function testVisitControllerClosure(): void
@@ -104,15 +96,11 @@ class SiteGeneratorVisitorTest extends TestCase
             return 'test content';
         };
 
-        $this->distribution
-            ->expects($this->once())
-            ->method('write')
-            ->with(
-                self::identicalTo('/page.html'),
-                self::identicalTo('test content'),
-            );
-
         $this->visitor->visitController(new ControllerResource($closure));
+
+        self::assertCount(1, $this->distribution->writes, 'Unexpected write operations count.');
+        self::assertSame('/page.html', $this->distribution->writes[0]['path'], 'Unexpected file path.');
+        self::assertSame('test content', $this->distribution->writes[0]['content'], 'Unexpected file content.');
     }
 
     public function testVisitControllerStream(): void
@@ -123,25 +111,17 @@ class SiteGeneratorVisitorTest extends TestCase
             {
                 /** @var resource $stream */
                 $stream = fopen('php://memory', 'rb+');
-                fwrite($stream, 'tets content');
+                fwrite($stream, 'test content');
                 rewind($stream);
                 return $stream;
             }
         });
 
-        $this->distribution
-            ->expects($this->once())
-            ->method('write')
-            ->with(
-                self::equalTo('/page.html'),
-                self::callback(static function ($content): bool {
-                    self::assertIsResource($content, 'Stream resource expected');
-                    self::assertSame('tets content', stream_get_contents($content), 'Unexpected stream content');
-                    return true;
-                }),
-            );
-
         $this->visitor->visitController($resource);
+
+        self::assertCount(1, $this->distribution->writes, 'Unexpected write operations count.');
+        self::assertSame('/page.html', $this->distribution->writes[0]['path'], 'Unexpected file path.');
+        self::assertSame('test content', $this->distribution->writes[0]['content'], 'Unexpected file content.');
     }
 
     public function testVisitControllerInvalidType(): void
@@ -153,52 +133,41 @@ class SiteGeneratorVisitorTest extends TestCase
             }
         });
 
-        $this->distribution
-            ->expects($this->never())
-            ->method('write');
-
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unexpected return type');
 
         $this->visitor->visitController($resource);
+
+        self::assertCount(0, $this->distribution->writes, 'Unexpected write operations count.');
     }
 
     public function testVisitFileCopy(): void
     {
         $resource = new FileResource('/path/to/source.css');
 
-        $this->distribution
-            ->expects($this->once())
-            ->method('copy')
-            ->with(
-                self::equalTo('/path/to/source.css'),
-                self::equalTo('/page.html'),
-            );
-
         $this->visitor->visitFile($resource);
+
+        self::assertCount(1, $this->distribution->copies, 'Unexpected copy operations count.');
+        self::assertSame('/path/to/source.css', $this->distribution->copies[0]['source'], 'Unexpected source path.');
+        self::assertSame('/page.html', $this->distribution->copies[0]['dest'], 'Unexpected dest path.');
     }
 
     public function testVisitFileSymlink(): void
     {
         $resource = new FileResource('/path/to/source.css');
-        $distribution = $this->createMock(SymlinkDistributionInterface::class);
-
-        $distribution->expects($this->never())->method('copy');
-        $distribution
-            ->expects($this->once())
-            ->method('link')
-            ->with(
-                self::equalTo('/path/to/source.css'),
-                self::equalTo('/page.html'),
-            );
-
         $visitor = new SiteGeneratorVisitor(
             $this->locator,
-            $distribution,
+            $this->distribution,
             $this->router,
             '/page.html',
             true,
         );
         $visitor->visitFile($resource);
+
+        self::assertCount(0, $this->distribution->copies, 'Unexpected copy operations count.');
+
+        self::assertCount(1, $this->distribution->links, 'Unexpected link operations count.');
+        self::assertSame('/path/to/source.css', $this->distribution->links[0]['source'], 'Unexpected source path.');
+        self::assertSame('/page.html', $this->distribution->links[0]['dest'], 'Unexpected dest path.');
     }
 }

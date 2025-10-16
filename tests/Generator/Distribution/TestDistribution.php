@@ -28,6 +28,8 @@ class TestDistribution implements DistributionInterface, LocalDistributionInterf
 
     public function write(string $path, $content): void
     {
+        $content = is_resource($content) ? stream_get_contents($content) : $content;
+        /** @var string $content */
         $this->writes[] = ['path' => $path, 'content' => $content];
     }
 
