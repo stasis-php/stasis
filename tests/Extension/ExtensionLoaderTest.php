@@ -56,7 +56,7 @@ class ExtensionLoaderTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Unexpected extension of type');
 
-        $this->loader->load([new \stdClass()]);
+        $this->loader->load([new \stdClass()]); // @phpstan-ignore-line
     }
 
     public function testLoadTInvalidListenerType(): void
