@@ -24,6 +24,7 @@ class GenerateCommand extends Command implements CommandFactoryInterface
 {
     private const string NAME = 'generate';
     private const string DESCRIPTION = 'Generate static site from specified routes';
+    private const string OPTION_SYMLINK = 'symlink';
 
     public static function name(): string
     {
@@ -69,14 +70,14 @@ class GenerateCommand extends Command implements CommandFactoryInterface
     {
         $this
             ->setDescription(self::DESCRIPTION)
-            ->addOption('symlink', null, InputOption::VALUE_NONE, 'Symlink static files. Helpful during development to avoid copying assets every time they change.')
+            ->addOption(self::OPTION_SYMLINK, null, InputOption::VALUE_NONE, 'Symlink static files. Helpful during development to avoid copying assets every time they change.')
             ->setHelp('Generates a static site from the given routes. By default, it builds a complete, ready-to-host website. You can also customize the generation process using the available options.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $symlink = $input->getOption('symlink');
+        $symlink = $input->getOption(self::OPTION_SYMLINK);
 
         $compiledRoutes = $this->routeCompiler->compile($this->routes);
         $this->siteGenerator->generate($compiledRoutes, $symlink);
