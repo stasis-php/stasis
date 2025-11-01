@@ -8,7 +8,7 @@ use Stasis\Console\CommandFactoryInterface;
 use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Generator\Distribution\LocalDistributionInterface;
 use Stasis\Kernel;
-use Stasis\Server\Server;
+use Stasis\Server\ServerFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,6 +23,8 @@ class ServerCommand extends Command implements CommandFactoryInterface
 {
     private const string NAME = 'server';
     private const string DESCRIPTION = 'Start the development server';
+    private const string OPTION_HOST = 'host';
+    private const string OPTION_PORT = 'port';
 
     public static function name(): string
     {
@@ -37,11 +39,13 @@ class ServerCommand extends Command implements CommandFactoryInterface
     public static function create(Kernel $kernel): self
     {
         $distribution = $kernel->distribution();
-        return new self($distribution);
+        $serverFactory = new ServerFactory();
+        return new self($distribution, $serverFactory);
     }
 
     public function __construct(
         private readonly DistributionInterface $distribution,
+        private readonly ServerFactory $serverFactory,
     ) {
         parent::__construct(self::NAME);
     }
@@ -50,8 +54,8 @@ class ServerCommand extends Command implements CommandFactoryInterface
     {
         $this
             ->setDescription(self::DESCRIPTION)
-            ->addOption('host', null, InputOption::VALUE_REQUIRED, 'Host to run the server on', 'localhost')
-            ->addOption('port', null, InputOption::VALUE_REQUIRED, 'Port to run the server on', 8000)
+            ->addOption(self::OPTION_HOST, null, InputOption::VALUE_REQUIRED, 'Host to run the server on', 'localhost')
+            ->addOption(self::OPTION_PORT, null, InputOption::VALUE_REQUIRED, 'Port to run the server on', 8000)
             ->setHelp('Stasis development server is utilizing PHP built-in web server. Does NOT meant to be used in production environment.')
         ;
     }
@@ -64,12 +68,12 @@ class ServerCommand extends Command implements CommandFactoryInterface
         }
 
         $path = $this->distribution->path();
-        $host = $input->getOption('host');
-        $port = $input->getOption('port');
+        $host = $input->getOption(self::OPTION_HOST);
+        $port = (int) $input->getOption(self::OPTION_PORT);
 
         $this->printStartMessage($output, $path, $host, $port);
 
-        $server = new Server($path, $host, $port);
+        $server = $this->serverFactory->create($path, $host, $port);
         $server->start();
 
         $indicator = $this->createIndicator($output);
