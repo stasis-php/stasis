@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Server;
 
+use Stasis\Exception\LogicException;
 use Stasis\Exception\RuntimeException;
 
 /**
@@ -24,7 +25,11 @@ class Server
         private readonly string $path,
         private readonly string $host,
         private readonly int $port,
-    ) {}
+    ) {
+        $this->validatePath($path);
+        $this->validateHost($host);
+        $this->validatePort($port);
+    }
 
     public function start(): void
     {
@@ -121,5 +126,43 @@ class Server
         }
 
         return stream_get_contents($resource);
+    }
+
+    private function validatePath(string $path): void
+    {
+        if (is_dir($path)) {
+            return;
+        }
+
+        throw new LogicException(sprintf(
+            'Invalid path value "%s" provided. Directory with the specified path does not exist.',
+            $path,
+        ));
+    }
+
+    private function validateHost(string $host): void
+    {
+        if (filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+            return;
+        }
+
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return;
+        }
+
+        throw new LogicException(sprintf(
+            'Invalid host value "%s" provided. Expected a valid IP address or host name.',
+            $host,
+        ));
+    }
+
+    private function validatePort(int $port): void
+    {
+        if ($port < 1 || $port > 65535) {
+            throw new LogicException(sprintf(
+                'Invalid port value "%d" provided. Port must be between 1 and 65535.',
+                $port,
+            ));
+        }
     }
 }
