@@ -96,5 +96,26 @@ class ServerTest extends TestCase
         $contents = (string) file_get_contents('http://localhost:8080');
         $contents = trim($contents);
         self::assertSame('It works!', $contents, 'Unexpected response content.');
+
+        $stderr = $server->getStdErrContents();
+        self::assertStringContainsString('[200]: GET /', $stderr, 'Missing page served message.');
+
+        $server->stop();
+    }
+
+    public function testStop(): void
+    {
+        $server = new Server(__DIR__ . '/fake_dist', 'localhost', 8080);
+
+        $server->start();
+        $isRunning = $server->isRunning();
+        self::assertTrue($isRunning, 'Server status is not running.');
+
+        $server->stop();
+        $isRunning = $server->isRunning();
+        self::assertFalse($isRunning, 'Server status is running.');
+
+        $contents = @file_get_contents('http://localhost:8080');
+        self::assertFalse($contents, 'Server responded after stopping.');
     }
 }

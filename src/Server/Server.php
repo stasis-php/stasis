@@ -50,7 +50,7 @@ class Server
             throw new RuntimeException(sprintf('Failed to start the server process "%s".', $commandString));
         }
 
-        $this->registerShutdownFunction($this->process);
+        $this->registerShutdownFunction();
 
         $stdin = &$pipes[0];
         fclose($stdin); // close STDIN since it's not used
@@ -64,6 +64,14 @@ class Server
 
     public function stop(): int
     {
+        $exitCode = 0;
+
+        if (is_resource($this->process)) {
+            proc_terminate($this->process); // send SIGTERM
+            $exitCode = proc_close($this->process);
+        }
+        $this->process = null;
+
         if (is_resource($this->stdout)) {
             fclose($this->stdout);
         }
@@ -73,13 +81,6 @@ class Server
             fclose($this->stderr);
         }
         $this->stderr = null;
-
-        $exitCode = 0;
-
-        if (is_resource($this->process)) {
-            $exitCode = proc_close($this->process);
-        }
-        $this->process = null;
 
         return $exitCode;
     }
@@ -106,14 +107,10 @@ class Server
 
     /**
      * Ensure the server stops when the script terminates
-     * @param resource $process
      */
-    private function registerShutdownFunction($process): void
+    private function registerShutdownFunction(): void
     {
-        register_shutdown_function(function () use ($process) {
-            proc_terminate($process); // send SIGTERM
-            $this->stop();
-        });
+        register_shutdown_function($this->stop(...));
     }
 
     /**
