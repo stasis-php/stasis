@@ -93,6 +93,9 @@ class ServerTest extends TestCase
 
         usleep(100_000); // wait for the server to start
 
+        $isRunning = $server->isRunning();
+        self::assertTrue($isRunning, 'Server status is not running.');
+
         $contents = (string) file_get_contents('http://localhost:8080');
         $contents = trim($contents);
         self::assertSame('It works!', $contents, 'Unexpected response content.');
