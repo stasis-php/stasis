@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Tests\Console\Test;
+namespace Stasis\Tests\Doubles\Console;
 
 use Stasis\Console\CommandFactoryInterface;
 use Stasis\Kernel;
 use Symfony\Component\Console\Command\Command;
 
-class TestACommand extends Command implements CommandFactoryInterface
+class StubBCommand extends Command implements CommandFactoryInterface
 {
-    private const string NAME = 'test:a';
+    private const string NAME = 'test:b';
 
     public static function name(): string
     {
@@ -19,7 +19,7 @@ class TestACommand extends Command implements CommandFactoryInterface
 
     public static function description(): string
     {
-        return 'Test command A';
+        return 'Test command B';
     }
 
     public static function create(Kernel $kernel): Command

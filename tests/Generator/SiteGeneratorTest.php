@@ -13,14 +13,14 @@ use Stasis\Router\Compiler\CompiledRouteCollection;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
 use Stasis\ServiceLocator\ServiceLocator;
-use Stasis\Tests\Generator\Distribution\TestDistribution;
+use Stasis\Tests\Doubles\Generator\MockDistribution;
 
 class SiteGeneratorTest extends TestCase
 {
     public function testGenerate(): void
     {
         $serviceLocator = $this->createMock(ServiceLocator::class);
-        $distribution = new TestDistribution();
+        $distribution = new MockDistribution();
 
         $routes = new CompiledRouteCollection();
         $routes->add(new CompiledRoute(
@@ -73,7 +73,7 @@ class SiteGeneratorTest extends TestCase
     public function testGenerateSymlink(): void
     {
         $serviceLocator = $this->createMock(ServiceLocator::class);
-        $distribution = new TestDistribution();
+        $distribution = new MockDistribution();
 
         $routes = new CompiledRouteCollection();
         $routes->add(new CompiledRoute(

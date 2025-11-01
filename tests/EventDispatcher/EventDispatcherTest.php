@@ -6,9 +6,9 @@ namespace Stasis\Tests\EventDispatcher;
 
 use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\EventDispatcher;
-use Stasis\Tests\EventDispatcher\Test\TestEventA;
-use Stasis\Tests\EventDispatcher\Test\TestListenerA;
-use Stasis\Tests\EventDispatcher\Test\TestListenerB;
+use Stasis\Tests\Doubles\EventDispatcher\MockEventA;
+use Stasis\Tests\Doubles\EventDispatcher\MockListenerA;
+use Stasis\Tests\Doubles\EventDispatcher\MockListenerB;
 
 class EventDispatcherTest extends TestCase
 {
@@ -21,22 +21,22 @@ class EventDispatcherTest extends TestCase
 
     public function testDispatchCachesAndSkipsNonMatchingOnSecondRun(): void
     {
-        $listenerA1 = new TestListenerA();
-        $listenerA2 = new TestListenerA();
-        $listenerB1 = new TestListenerB();
+        $listenerA1 = new MockListenerA();
+        $listenerA2 = new MockListenerA();
+        $listenerB1 = new MockListenerB();
 
         $this->dispatcher->add($listenerA1);
         $this->dispatcher->add($listenerB1);
         $this->dispatcher->add($listenerA2);
 
-        $eventA1 = new TestEventA();
+        $eventA1 = new MockEventA();
         $this->dispatcher->dispatch($eventA1);
 
         self::assertSame(
             [
-                TestListenerA::class,
-                TestListenerB::class,
-                TestListenerA::class,
+                MockListenerA::class,
+                MockListenerB::class,
+                MockListenerA::class,
             ],
             $eventA1->acceptedWith,
             'Unexpected accepted listeners of event1.',
@@ -44,14 +44,14 @@ class EventDispatcherTest extends TestCase
         self::assertSame(1, $listenerA1->handleCount, 'Unexpected handle count of listener A1.');
         self::assertSame(1, $listenerA2->handleCount, 'Unexpected handle count of listener A2.');
 
-        $eventA2 = new TestEventA();
+        $eventA2 = new MockEventA();
         $this->dispatcher->dispatch($eventA2);
 
         // event of the same type trigger take only matching (cached) listeners
         self::assertSame(
             [
-                TestListenerA::class,
-                TestListenerA::class,
+                MockListenerA::class,
+                MockListenerA::class,
             ],
             $eventA2->acceptedWith,
             'Unexpected accepted listeners of event2.',
@@ -64,26 +64,26 @@ class EventDispatcherTest extends TestCase
 
     public function testAddClearsCache(): void
     {
-        $listenerA1 = new TestListenerA();
-        $listenerB1 = new TestListenerB();
+        $listenerA1 = new MockListenerA();
+        $listenerB1 = new MockListenerB();
 
         $this->dispatcher->add($listenerA1);
         $this->dispatcher->add($listenerB1);
 
-        $eventA1 = new TestEventA();
+        $eventA1 = new MockEventA();
         $this->dispatcher->dispatch($eventA1);
 
-        $listenerA2 = new TestListenerA();
+        $listenerA2 = new MockListenerA();
         $this->dispatcher->add($listenerA2);
 
-        $eventA2 = new TestEventA();
+        $eventA2 = new MockEventA();
         $this->dispatcher->dispatch($eventA2);
 
         self::assertSame(
             [
-                TestListenerA::class,
-                TestListenerB::class,
-                TestListenerA::class,
+                MockListenerA::class,
+                MockListenerB::class,
+                MockListenerA::class,
             ],
             $eventA2->acceptedWith,
             'Unexpected accepted listeners of event2.',
@@ -95,26 +95,26 @@ class EventDispatcherTest extends TestCase
 
     public function testRemoveClearsCache(): void
     {
-        $listenerA1 = new TestListenerA();
-        $listenerA2 = new TestListenerA();
-        $listenerB1 = new TestListenerB();
+        $listenerA1 = new MockListenerA();
+        $listenerA2 = new MockListenerA();
+        $listenerB1 = new MockListenerB();
 
         $this->dispatcher->add($listenerA1);
         $this->dispatcher->add($listenerB1);
         $this->dispatcher->add($listenerA2);
 
-        $eventA1 = new TestEventA();
+        $eventA1 = new MockEventA();
         $this->dispatcher->dispatch($eventA1);
 
         $this->dispatcher->remove($listenerA2);
 
-        $eventA2 = new TestEventA();
+        $eventA2 = new MockEventA();
         $this->dispatcher->dispatch($eventA2);
 
         self::assertSame(
             [
-                TestListenerA::class,
-                TestListenerB::class,
+                MockListenerA::class,
+                MockListenerB::class,
             ],
             $eventA2->acceptedWith,
             'Unexpected accepted listeners of event2.',

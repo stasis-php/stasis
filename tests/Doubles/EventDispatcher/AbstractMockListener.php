@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Tests\EventDispatcher\Test;
+namespace Stasis\Tests\Doubles\EventDispatcher;
 
 use Stasis\EventDispatcher\ListenerInterface;
 
-abstract class AbstractTestListener implements ListenerInterface
+abstract class AbstractMockListener implements ListenerInterface
 {
     public private(set) int $handleCount = 0;
 

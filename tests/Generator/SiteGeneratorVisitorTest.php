@@ -15,19 +15,19 @@ use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
 use Stasis\Router\Router;
 use Stasis\ServiceLocator\ServiceLocator;
-use Stasis\Tests\Generator\Distribution\TestDistribution;
+use Stasis\Tests\Doubles\Generator\MockDistribution;
 
 class SiteGeneratorVisitorTest extends TestCase
 {
     private MockObject&ServiceLocator $locator;
-    private TestDistribution $distribution;
+    private MockDistribution $distribution;
     private MockObject&Router $router;
     private SiteGeneratorVisitor $visitor;
 
     public function setUp(): void
     {
         $this->locator = $this->createMock(ServiceLocator::class);
-        $this->distribution = new TestDistribution();
+        $this->distribution = new MockDistribution();
         $this->router = $this->createMock(Router::class);
 
         $this->visitor = new SiteGeneratorVisitor(

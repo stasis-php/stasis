@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 use Stasis\Console\CommandFactoryInterface;
 use Stasis\Console\CommandLoader;
 use Stasis\Kernel;
-use Stasis\Tests\Console\Test\TestACommand;
-use Stasis\Tests\Console\Test\TestBCommand;
+use Stasis\Tests\Doubles\Console\StubACommand;
+use Stasis\Tests\Doubles\Console\StubBCommand;
 use Symfony\Component\Console\Command\LazyCommand;
 
 class CommandLoaderTest extends TestCase
@@ -23,8 +23,8 @@ class CommandLoaderTest extends TestCase
     {
         $this->kernel = $this->createMock(Kernel::class);
         $this->loader = new CommandLoader($this->kernel, [
-            TestACommand::class,
-            TestBCommand::class,
+            StubACommand::class,
+            StubBCommand::class,
         ]);
     }
 
@@ -51,7 +51,7 @@ class CommandLoaderTest extends TestCase
         self::assertSame('Test command A', $description, 'Unexpected command description.');
 
         $command = $lazy->getCommand();
-        self::assertInstanceOf(TestACommand::class, $command, 'Unexpected command type created by lazy command.');
+        self::assertInstanceOf(StubACommand::class, $command, 'Unexpected command type created by lazy command.');
     }
 
     public function testGetUnknownName(): void

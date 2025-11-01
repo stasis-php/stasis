@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Tests\Generator\Distribution;
+namespace Stasis\Tests\Doubles\Generator;
 
 use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Generator\Distribution\LocalDistributionInterface;
 use Stasis\Generator\Distribution\SymlinkDistributionInterface;
 
-class TestDistribution implements DistributionInterface, LocalDistributionInterface, SymlinkDistributionInterface
+class MockDistribution implements DistributionInterface, LocalDistributionInterface, SymlinkDistributionInterface
 {
     public private(set) int $cleared = 0;
 
