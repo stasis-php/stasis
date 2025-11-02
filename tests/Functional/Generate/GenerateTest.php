@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace Stasis\Tests\Functional\Generate;
 
 use PHPUnit\Framework\TestCase;
-use Stasis\Tests\Functional\StasisRunner;
+use Stasis\Tests\Functional\StasisProcessFactory;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
 
 class GenerateTest extends TestCase
 {
     private Filesystem $filesystem;
-    private StasisRunner $runner;
+    private Process $generate;
 
     public function setUp(): void
     {
         $this->filesystem = new Filesystem();
-        $this->runner = new StasisRunner();
+        $this->generate = StasisProcessFactory::create([
+            '--config', __DIR__ . '/source/config.php',
+            'generate',
+        ]);
     }
 
     public function testGenerate(): void
@@ -45,12 +49,14 @@ class GenerateTest extends TestCase
 
     private function runGenerateCommand(): void
     {
-        $result = $this->runner->run(sprintf('--config %s generate', __DIR__ . '/source/config.php'));
+        $this->generate->run();
+        $exitCode = $this->generate->getExitCode();
+        $output = $this->generate->getOutput();
 
-        self::assertSame(0, $result->exitCode, 'Command returned non-zero exit code.');
+        self::assertSame(0, $exitCode, 'Command returned non-zero exit code.');
         self::assertStringContainsString(
             'Generated successfully',
-            $result->output,
+            $output,
             'Missing success message in output.',
         );
     }

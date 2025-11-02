@@ -5,32 +5,28 @@ declare(strict_types=1);
 namespace Stasis\Tests\Functional\List;
 
 use PHPUnit\Framework\TestCase;
-use Stasis\Tests\Functional\StasisRunner;
+use Stasis\Tests\Functional\StasisProcessFactory;
 
 class ListTest extends TestCase
 {
-    private StasisRunner $runner;
-
-    public function setUp(): void
-    {
-        $this->runner = new StasisRunner();
-    }
-
     public function testList(): void
     {
-        $result = $this->runner->run('');
+        $stasis = StasisProcessFactory::create();
+        $stasis->run();
+        $exitCode = $stasis->getExitCode();
+        $output = $stasis->getOutput();
 
-        self::assertSame(0, $result->exitCode, 'Command returned non-zero exit code.');
+        self::assertSame(0, $exitCode, 'Command returned non-zero exit code.');
 
         self::assertStringContainsString(
             'Available commands',
-            $result->output,
+            $output,
             'Missing command list in output.',
         );
 
         self::assertStringContainsString(
             'Generate static site from specified routes',
-            $result->output,
+            $output,
             'Missing generate command in output.',
         );
     }
