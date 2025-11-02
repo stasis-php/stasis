@@ -21,6 +21,8 @@ class Server
     /** @var resource|null */
     private $stderr = null;
 
+    private int $exitCode = 0;
+
     public function __construct(
         private readonly string $path,
         private readonly string $host,
@@ -64,11 +66,9 @@ class Server
 
     public function stop(): int
     {
-        $exitCode = 0;
-
         if (is_resource($this->process)) {
             proc_terminate($this->process); // send SIGTERM
-            $exitCode = proc_close($this->process);
+            $this->exitCode = proc_close($this->process);
         }
         $this->process = null;
 
@@ -82,7 +82,7 @@ class Server
         }
         $this->stderr = null;
 
-        return $exitCode;
+        return $this->exitCode;
     }
 
     public function isRunning(): bool

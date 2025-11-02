@@ -28,6 +28,7 @@ class ServerTest extends TestCase
     public function tearDown(): void
     {
         $this->server->stop();
+        usleep(50_000); // wait for the server to stop
     }
 
     public function testServer(): void

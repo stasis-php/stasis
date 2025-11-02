@@ -8,6 +8,7 @@ use Stasis\Console\CommandFactoryInterface;
 use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Generator\Distribution\LocalDistributionInterface;
 use Stasis\Kernel;
+use Stasis\Server\Server;
 use Stasis\Server\ServerFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressIndicator;
@@ -25,6 +26,8 @@ class ServerCommand extends Command implements CommandFactoryInterface
     private const string DESCRIPTION = 'Start the development server';
     private const string OPTION_HOST = 'host';
     private const string OPTION_PORT = 'port';
+
+    private ?Server $server = null;
 
     public static function name(): string
     {
@@ -48,6 +51,18 @@ class ServerCommand extends Command implements CommandFactoryInterface
         private readonly ServerFactory $serverFactory,
     ) {
         parent::__construct(self::NAME);
+    }
+
+    /** @return array<int> */
+    public function getSubscribedSignals(): array
+    {
+        return [2, 15]; // SIGINT, SIGTERM
+    }
+
+    public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
+    {
+        $this->server?->stop();
+        return false;
     }
 
     protected function configure(): void
@@ -74,6 +89,7 @@ class ServerCommand extends Command implements CommandFactoryInterface
         $this->printStartMessage($output, $path, $host, $port);
 
         $server = $this->serverFactory->create($path, $host, $port);
+        $this->server = $server;
         $server->start();
 
         $indicator = $this->createIndicator($output);
