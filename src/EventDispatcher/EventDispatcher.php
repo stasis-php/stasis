@@ -22,13 +22,13 @@ class EventDispatcher
 
     public function add(ListenerInterface $listener): void
     {
-        $this->listeners->attach($listener);
+        $this->listeners->offsetSet($listener);
         $this->clearCache();
     }
 
     public function remove(ListenerInterface $listener): void
     {
-        $this->listeners->detach($listener);
+        $this->listeners->offsetUnset($listener);
         $this->clearCache();
     }
 
