@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\Generator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateEvent;
+use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Exception\LogicException;
 use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Generator\SiteGenerator;
@@ -17,11 +20,21 @@ use Stasis\Tests\Doubles\Generator\MockDistribution;
 
 class SiteGeneratorTest extends TestCase
 {
+    private MockObject&ServiceLocator $serviceLocator;
+    private MockDistribution $distribution;
+    private MockObject&EventDispatcher $eventDispatcher;
+    private SiteGenerator $siteGenerator;
+
+    public function setUp(): void
+    {
+        $this->serviceLocator = $this->createMock(ServiceLocator::class);
+        $this->distribution = new MockDistribution();
+        $this->eventDispatcher = $this->createMock(EventDispatcher::class);
+        $this->siteGenerator = new SiteGenerator($this->serviceLocator, $this->distribution, $this->eventDispatcher);
+    }
+
     public function testGenerate(): void
     {
-        $serviceLocator = $this->createMock(ServiceLocator::class);
-        $distribution = new MockDistribution();
-
         $routes = new CompiledRouteCollection();
         $routes->add(new CompiledRoute(
             path: '/index',
@@ -36,25 +49,26 @@ class SiteGeneratorTest extends TestCase
             name: 'asset',
         ));
 
-        $generator = new SiteGenerator($serviceLocator, $distribution);
-        $generator->generate($routes, false);
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(self::isInstanceOf(SiteGenerateEvent::class));
 
-        self::assertSame(1, $distribution->cleared, 'Distribution not cleared.');
+        $this->siteGenerator->generate($routes, false);
 
-        self::assertCount(1, $distribution->writes, 'Unexpected file write operations count.');
-        self::assertSame('index.html', $distribution->writes[0]['path'], 'Unexpected file path.');
-        self::assertSame('hello', $distribution->writes[0]['content'], 'Unexpected file content.');
+        self::assertSame(1, $this->distribution->cleared, 'Distribution not cleared.');
 
-        self::assertCount(1, $distribution->copies, 'Unexpected file copy operations count.');
-        self::assertSame('/path/to/source/style.css', $distribution->copies[0]['source'], 'Unexpected source path.');
-        self::assertSame('assets/style.css', $distribution->copies[0]['dest'], 'Unexpected destination path.');
+        self::assertCount(1, $this->distribution->writes, 'Unexpected file write operations count.');
+        self::assertSame('index.html', $this->distribution->writes[0]['path'], 'Unexpected file path.');
+        self::assertSame('hello', $this->distribution->writes[0]['content'], 'Unexpected file content.');
+
+        self::assertCount(1, $this->distribution->copies, 'Unexpected file copy operations count.');
+        self::assertSame('/path/to/source/style.css', $this->distribution->copies[0]['source'], 'Unexpected source path.');
+        self::assertSame('assets/style.css', $this->distribution->copies[0]['dest'], 'Unexpected destination path.');
     }
 
     public function testGenerateSymlinkUnsupported(): void
     {
-        $serviceLocator = $this->createMock(ServiceLocator::class);
-        $distribution = $this->createMock(DistributionInterface::class);
-
         $routes = new CompiledRouteCollection();
         $routes->add(new CompiledRoute(
             path: '/file',
@@ -63,18 +77,16 @@ class SiteGeneratorTest extends TestCase
             name: 'file',
         ));
 
-        $generator = new SiteGenerator($serviceLocator, $distribution);
+        $distribution = $this->createMock(DistributionInterface::class);
+        $siteGenerator = new SiteGenerator($this->serviceLocator, $distribution, $this->eventDispatcher);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/distribution does not support symlinks/');
-        $generator->generate($routes, true);
+        $siteGenerator->generate($routes, true);
     }
 
     public function testGenerateSymlink(): void
     {
-        $serviceLocator = $this->createMock(ServiceLocator::class);
-        $distribution = new MockDistribution();
-
         $routes = new CompiledRouteCollection();
         $routes->add(new CompiledRoute(
             path: '/file',
@@ -83,13 +95,17 @@ class SiteGeneratorTest extends TestCase
             name: 'logo',
         ));
 
-        $generator = new SiteGenerator($serviceLocator, $distribution);
-        $generator->generate($routes, true);
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(self::isInstanceOf(SiteGenerateEvent::class));
 
-        self::assertSame(1, $distribution->cleared, 'Distribution not cleared.');
-        self::assertCount(0, $distribution->copies, 'Copy should not be used when symlink is enabled.');
-        self::assertCount(1, $distribution->links, 'Unexpected link operations count.');
-        self::assertSame('/src/assets/img/logo.png', $distribution->links[0]['source'], 'Unexpected source path.');
-        self::assertSame('assets/img/logo.png', $distribution->links[0]['dest'], 'Unexpected destination path.');
+        $this->siteGenerator->generate($routes, true);
+
+        self::assertSame(1, $this->distribution->cleared, 'Distribution not cleared.');
+        self::assertCount(0, $this->distribution->copies, 'Copy should not be used when symlink is enabled.');
+        self::assertCount(1, $this->distribution->links, 'Unexpected link operations count.');
+        self::assertSame('/src/assets/img/logo.png', $this->distribution->links[0]['source'], 'Unexpected source path.');
+        self::assertSame('assets/img/logo.png', $this->distribution->links[0]['dest'], 'Unexpected destination path.');
     }
 }
