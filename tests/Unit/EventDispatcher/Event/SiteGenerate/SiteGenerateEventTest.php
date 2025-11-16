@@ -6,36 +6,38 @@ namespace Stasis\Tests\Unit\EventDispatcher\Event\SiteGenerate;
 
 use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateData;
 use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateEvent;
-use PHPUnit\Framework\TestCase;
+use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\Listener\SiteGenerateInterface;
-use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Router;
+use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
 
-class SiteGenerateEventTest extends TestCase
+class SiteGenerateEventTest extends EventTestCase
 {
-    public function testAcceptMatchingListener(): void
+    private Router $router;
+
+    public function setUp(): void
     {
-        $router = $this->createMock(Router::class);
-        $event = new SiteGenerateEvent($router);
-        $data = new SiteGenerateData($router);
-
-        $listener = $this->createMock(SiteGenerateInterface::class);
-        $listener
-            ->expects($this->once())
-            ->method('onSiteGenerate')
-            ->with(self::equalTo($data));
-
-        $isAccepted = $event->accept($listener);
-        self::assertTrue($isAccepted, 'Event should be accepted by a matching listener.');
+        parent::setUp();
+        $this->router = $this->createMock(Router::class);
     }
 
-    public function testAcceptNonMatchingListener(): void
+    protected function getEvent(): EventInterface
     {
-        $router = $this->createMock(Router::class);
-        $event = new SiteGenerateEvent($router);
+        return new SiteGenerateEvent($this->router);
+    }
 
-        $listener = $this->createMock(ListenerInterface::class);
-        $isAccepted = $event->accept($listener);
-        self::assertFalse($isAccepted, 'Event should not be accepted by a non-matching listener.');
+    protected function getEventData(): mixed
+    {
+        return new SiteGenerateData($this->router);
+    }
+
+    protected function getListenerClass(): string
+    {
+        return SiteGenerateInterface::class;
+    }
+
+    protected function getListenerMethod(): string
+    {
+        return 'onSiteGenerate';
     }
 }

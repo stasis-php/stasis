@@ -4,38 +4,40 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\EventDispatcher\Event\RouteConfigure;
 
-use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureData;
 use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureEvent;
+use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\Listener\RouteConfigureInterface;
-use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Source\RouteSourceCollection;
+use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
 
-class RouteConfigureEventTest extends TestCase
+class RouteConfigureEventTest extends EventTestCase
 {
-    public function testAcceptMatchingListener(): void
+    private RouteSourceCollection $routes;
+
+    public function setUp(): void
     {
-        $routes = new RouteSourceCollection();
-        $event = new RouteConfigureEvent($routes);
-        $data = new RouteConfigureData($routes);
-
-        $listener = $this->createMock(RouteConfigureInterface::class);
-        $listener
-            ->expects($this->once())
-            ->method('onRouteConfigure')
-            ->with(self::equalTo($data));
-
-        $isAccepted = $event->accept($listener);
-        self::assertTrue($isAccepted, 'Event should be accepted by a matching listener.');
+        parent::setUp();
+        $this->routes = new RouteSourceCollection();
     }
 
-    public function testAcceptNonMatchingListener(): void
+    protected function getEvent(): EventInterface
     {
-        $routes = new RouteSourceCollection();
-        $event = new RouteConfigureEvent($routes);
+        return new RouteConfigureEvent($this->routes);
+    }
 
-        $listener = $this->createMock(ListenerInterface::class);
-        $isAccepted = $event->accept($listener);
-        self::assertFalse($isAccepted, 'Event should not be accepted by a non-matching listener.');
+    protected function getEventData(): mixed
+    {
+        return new RouteConfigureData($this->routes);
+    }
+
+    protected function getListenerClass(): string
+    {
+        return RouteConfigureInterface::class;
+    }
+
+    protected function getListenerMethod(): string
+    {
+        return 'onRouteConfigure';
     }
 }

@@ -4,49 +4,45 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\EventDispatcher\Event\RouteCompiled;
 
-use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\Event\RouteCompiled\RouteCompiledData;
 use Stasis\EventDispatcher\Event\RouteCompiled\RouteCompiledEvent;
+use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\Listener\RouteCompiledInterface;
-use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Compiler\CompiledRoute;
 use Stasis\Router\Compiler\Resource\ResourceInterface;
+use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
 
-class RouteCompiledEventTest extends TestCase
+class RouteCompiledEventTest extends EventTestCase
 {
-    public function testAcceptMatchingListener(): void
+    private CompiledRoute $route;
+
+    public function setUp(): void
     {
-        $route = new CompiledRoute(
+        parent::setUp();
+        $this->route = new CompiledRoute(
             '/page',
             '/page.html',
             $this->createMock(ResourceInterface::class),
         );
-
-        $event = new RouteCompiledEvent($route);
-        $data = new RouteCompiledData($route);
-
-        $listener = $this->createMock(RouteCompiledInterface::class);
-        $listener
-            ->expects($this->once())
-            ->method('onRouteCompiled')
-            ->with(self::equalTo($data));
-
-        $isAccepted = $event->accept($listener);
-        self::assertTrue($isAccepted, 'Event should be accepted by a matching listener.');
     }
 
-    public function testAcceptNonMatchingListener(): void
+    protected function getEvent(): EventInterface
     {
-        $route = new CompiledRoute(
-            '/page',
-            '/page.html',
-            $this->createMock(ResourceInterface::class),
-        );
+        return new RouteCompiledEvent($this->route);
+    }
 
-        $event = new RouteCompiledEvent($route);
+    protected function getEventData(): mixed
+    {
+        return new RouteCompiledData($this->route);
+    }
 
-        $listener = $this->createMock(ListenerInterface::class);
-        $isAccepted = $event->accept($listener);
-        self::assertFalse($isAccepted, 'Event should not be accepted by a non-matching listener.');
+    protected function getListenerClass(): string
+    {
+        return RouteCompiledInterface::class;
+    }
+
+    protected function getListenerMethod(): string
+    {
+        return 'onRouteCompiled';
     }
 }
