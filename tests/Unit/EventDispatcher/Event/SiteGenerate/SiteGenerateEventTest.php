@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\EventDispatcher\Event\SiteGenerate;
 
+use PHPUnit\Framework\MockObject\Stub;
 use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateData;
 use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateEvent;
 use Stasis\EventDispatcher\EventInterface;
@@ -13,12 +14,12 @@ use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
 
 class SiteGenerateEventTest extends EventTestCase
 {
-    private Router $router;
+    private Stub&Router $router;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->router = $this->createMock(Router::class);
+        $this->router = $this->createStub(Router::class);
     }
 
     protected function getEvent(): EventInterface

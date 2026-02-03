@@ -22,7 +22,7 @@ class RouteCompiledEventTest extends EventTestCase
         $this->route = new CompiledRoute(
             '/page',
             '/page.html',
-            $this->createMock(ResourceInterface::class),
+            $this->createStub(ResourceInterface::class),
         );
     }
 
