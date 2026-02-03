@@ -12,7 +12,7 @@ class ApplicationFactoryTest extends TestCase
 {
     public function testCreateBuildsConfiguredApplication(): void
     {
-        $kernel = $this->createMock(Kernel::class);
+        $kernel = $this->createStub(Kernel::class);
         $application = ApplicationFactory::create($kernel);
 
         self::assertSame('Stasis', $application->getName(), 'Unexpected application name.');
@@ -33,7 +33,7 @@ class ApplicationFactoryTest extends TestCase
         $commandCount = count($application->all());
         self::assertSame(6, $commandCount, 'Unexpected number of commands.');
         // command count implemented to fail in case of new commands being added
-        // this serves as a reminder to update commands below in case of new commands being added
+        // this serves as a reminder to update the commands below in case of new commands being added
         self::assertTrue($application->has('generate'), 'Generate command not found.');
         self::assertTrue($application->has('server'), 'Server command not found.');
     }
