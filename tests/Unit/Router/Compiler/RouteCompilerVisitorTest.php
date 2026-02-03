@@ -6,6 +6,7 @@ namespace Stasis\Tests\Unit\Router\Compiler;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\Event\RouteCompiled\RouteCompiledEvent;
 use Stasis\EventDispatcher\EventDispatcher;
@@ -21,13 +22,13 @@ use Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompilerVisitorTest extends TestCase
 {
-    private MockObject&ServiceLocator $serviceLocator;
+    private Stub&ServiceLocator $serviceLocator;
     private MockObject&EventDispatcher $dispatcher;
     private RouteCompilerVisitor $visitor;
 
     public function setUp(): void
     {
-        $this->serviceLocator = $this->createMock(ServiceLocator::class);
+        $this->serviceLocator = $this->createStub(ServiceLocator::class);
         $this->dispatcher = $this->createMock(EventDispatcher::class);
         $this->visitor = new RouteCompilerVisitor('/base', $this->serviceLocator, $this->dispatcher);
     }
