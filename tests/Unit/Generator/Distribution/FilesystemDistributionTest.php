@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\Generator\Distribution;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -25,6 +26,7 @@ class FilesystemDistributionTest extends TestCase
         $this->distribution = new FilesystemDistribution(self::BASE_PATH, $this->filesystem);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testRelativePath(): void
     {
         $this->expectException(LogicException::class);
@@ -33,6 +35,7 @@ class FilesystemDistributionTest extends TestCase
     }
 
     #[DataProvider('pathDataProvider')]
+    #[AllowMockObjectsWithoutExpectations]
     public function testPath(string $path, string $expected): void
     {
         $distribution = new FilesystemDistribution($path, $this->filesystem);
@@ -62,6 +65,7 @@ class FilesystemDistributionTest extends TestCase
     public function testWriteException(): void
     {
         $this->filesystem
+            ->expects($this->once())
             ->method('dumpFile')
             ->willThrowException(new \Exception('disk full'));
 
@@ -134,10 +138,12 @@ class FilesystemDistributionTest extends TestCase
     public function testClearException(): void
     {
         $this->filesystem
+            ->expects($this->once())
             ->method('exists')
             ->willReturn(true);
 
         $this->filesystem
+            ->expects($this->once())
             ->method('remove')
             ->willThrowException(new \Exception('Test error.'));
 
@@ -174,6 +180,7 @@ class FilesystemDistributionTest extends TestCase
 
     public function testCopyMissingSource(): void
     {
+        $this->filesystem->expects($this->never())->method('copy');
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/Source path .+ does not exist/');
         $this->distribution->copy(self::BASE_PATH . '/missing.txt', '/something.txt');
@@ -182,6 +189,7 @@ class FilesystemDistributionTest extends TestCase
     public function testCopyException(): void
     {
         $this->filesystem
+            ->expects($this->once())
             ->method('copy')
             ->willThrowException(new \Exception('Test error.'));
 
@@ -205,6 +213,7 @@ class FilesystemDistributionTest extends TestCase
 
     public function testLinkMissingSource(): void
     {
+        $this->filesystem->expects($this->never())->method('symlink');
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('/Source path .+ does not exist/');
         $this->distribution->link(self::BASE_PATH . '/missing.txt', '/something.txt');
@@ -213,6 +222,7 @@ class FilesystemDistributionTest extends TestCase
     public function testLinkException(): void
     {
         $this->filesystem
+            ->expects($this->once())
             ->method('symlink')
             ->willThrowException(new \Exception('Test error.'));
 
