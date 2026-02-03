@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Stasis\Tests\Unit\Console;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\Console\CommandFactoryInterface;
 use Stasis\Console\CommandLoader;
@@ -16,12 +16,12 @@ use Symfony\Component\Console\Command\LazyCommand;
 
 class CommandLoaderTest extends TestCase
 {
-    private MockObject&Kernel $kernel;
+    private Stub&Kernel $kernel;
     private CommandLoader $loader;
 
     public function setUp(): void
     {
-        $this->kernel = $this->createMock(Kernel::class);
+        $this->kernel = $this->createStub(Kernel::class);
         $this->loader = new CommandLoader($this->kernel, [
             StubACommand::class,
             StubBCommand::class,
