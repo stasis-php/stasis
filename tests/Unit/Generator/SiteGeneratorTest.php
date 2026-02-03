@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Stasis\Tests\Unit\Generator;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateEvent;
 use Stasis\EventDispatcher\EventDispatcher;
@@ -20,14 +21,14 @@ use Stasis\Tests\Doubles\Generator\MockDistribution;
 
 class SiteGeneratorTest extends TestCase
 {
-    private MockObject&ServiceLocator $serviceLocator;
+    private Stub&ServiceLocator $serviceLocator;
     private MockDistribution $distribution;
     private MockObject&EventDispatcher $eventDispatcher;
     private SiteGenerator $siteGenerator;
 
     public function setUp(): void
     {
-        $this->serviceLocator = $this->createMock(ServiceLocator::class);
+        $this->serviceLocator = $this->createStub(ServiceLocator::class);
         $this->distribution = new MockDistribution();
         $this->eventDispatcher = $this->createMock(EventDispatcher::class);
         $this->siteGenerator = new SiteGenerator($this->serviceLocator, $this->distribution, $this->eventDispatcher);
@@ -77,7 +78,9 @@ class SiteGeneratorTest extends TestCase
             name: 'file',
         ));
 
-        $distribution = $this->createMock(DistributionInterface::class);
+        $this->eventDispatcher->expects($this->once())->method('dispatch');
+
+        $distribution = $this->createStub(DistributionInterface::class);
         $siteGenerator = new SiteGenerator($this->serviceLocator, $distribution, $this->eventDispatcher);
 
         $this->expectException(LogicException::class);

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\Console\Command;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\Console\Command\GenerateCommand;
 use Stasis\Generator\SiteGenerator;
@@ -18,21 +20,21 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class GenerateCommandTest extends TestCase
 {
-    private MockObject&Kernel $kernel;
+    private Stub&Kernel $kernel;
     private MockObject&SiteGenerator $generator;
     private MockObject&RouteCompiler $compiler;
     /** @var iterable<RouteInterface> */
     private iterable $routes;
-    private MockObject&Stopwatch $stopwatch;
+    private Stub&Stopwatch $stopwatch;
     private GenerateCommand $command;
 
     public function setUp(): void
     {
-        $this->kernel = $this->createMock(Kernel::class);
+        $this->kernel = $this->createStub(Kernel::class);
         $this->generator = $this->createMock(SiteGenerator::class);
         $this->compiler = $this->createMock(RouteCompiler::class);
         $this->routes = [];
-        $this->stopwatch = $this->createMock(Stopwatch::class);
+        $this->stopwatch = $this->createStub(Stopwatch::class);
 
         $this->command = new GenerateCommand(
             $this->generator,
@@ -42,24 +44,28 @@ class GenerateCommandTest extends TestCase
         );
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testName(): void
     {
         $name = GenerateCommand::name();
         self::assertSame('generate', $name);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testDescription(): void
     {
         $description = GenerateCommand::description();
         self::assertSame('Generate static site from specified routes', $description);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testCreate(): void
     {
         $command = GenerateCommand::create($this->kernel);
         self::assertInstanceOf(GenerateCommand::class, $command);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testConfigure(): void
     {
         $name = $this->command->getName();

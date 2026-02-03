@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Stasis\Tests\Unit\Generator;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\Controller\ControllerInterface;
 use Stasis\Exception\LogicException;
@@ -21,14 +22,14 @@ class SiteGeneratorVisitorTest extends TestCase
 {
     private MockObject&ServiceLocator $locator;
     private MockDistribution $distribution;
-    private MockObject&Router $router;
+    private Stub&Router $router;
     private SiteGeneratorVisitor $visitor;
 
     public function setUp(): void
     {
         $this->locator = $this->createMock(ServiceLocator::class);
         $this->distribution = new MockDistribution();
-        $this->router = $this->createMock(Router::class);
+        $this->router = $this->createStub(Router::class);
 
         $this->visitor = new SiteGeneratorVisitor(
             $this->locator,
@@ -41,7 +42,8 @@ class SiteGeneratorVisitorTest extends TestCase
 
     public function testConstructorSymlinkNotSupported(): void
     {
-        $distribution = $this->createMock(DistributionInterface::class);
+        $this->locator->expects($this->never())->method('get');
+        $distribution = $this->createStub(DistributionInterface::class);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('does not support symlinks');
@@ -57,6 +59,8 @@ class SiteGeneratorVisitorTest extends TestCase
                 return 'test content';
             }
         });
+
+        $this->locator->expects($this->never())->method('get');
 
         $this->visitor->visitController($resource);
 
@@ -96,6 +100,8 @@ class SiteGeneratorVisitorTest extends TestCase
             return 'test content';
         };
 
+        $this->locator->expects($this->never())->method('get');
+
         $this->visitor->visitController(new ControllerResource($closure));
 
         self::assertCount(1, $this->distribution->writes, 'Unexpected write operations count.');
@@ -117,6 +123,8 @@ class SiteGeneratorVisitorTest extends TestCase
             }
         });
 
+        $this->locator->expects($this->never())->method('get');
+
         $this->visitor->visitController($resource);
 
         self::assertCount(1, $this->distribution->writes, 'Unexpected write operations count.');
@@ -133,6 +141,8 @@ class SiteGeneratorVisitorTest extends TestCase
             }
         });
 
+        $this->locator->expects($this->never())->method('get');
+
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unexpected return type');
 
@@ -144,6 +154,8 @@ class SiteGeneratorVisitorTest extends TestCase
     public function testVisitFileCopy(): void
     {
         $resource = new FileResource('/path/to/source.css');
+
+        $this->locator->expects($this->never())->method('get');
 
         $this->visitor->visitFile($resource);
 
@@ -162,6 +174,9 @@ class SiteGeneratorVisitorTest extends TestCase
             '/page.html',
             true,
         );
+
+        $this->locator->expects($this->never())->method('get');
+
         $visitor->visitFile($resource);
 
         self::assertCount(0, $this->distribution->copies, 'Unexpected copy operations count.');

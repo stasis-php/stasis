@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Stasis\Tests\Unit\Router\Compiler;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Router\Compiler\CompiledRoute;
@@ -17,14 +17,14 @@ use Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompilerTest extends TestCase
 {
-    private MockObject&ServiceLocator $serviceLocator;
-    private MockObject&EventDispatcher $dispatcher;
+    private Stub&ServiceLocator $serviceLocator;
+    private Stub&EventDispatcher $dispatcher;
     private RouteCompiler $compiler;
 
     public function setUp(): void
     {
-        $this->serviceLocator = $this->createMock(ServiceLocator::class);
-        $this->dispatcher = $this->createMock(EventDispatcher::class);
+        $this->serviceLocator = $this->createStub(ServiceLocator::class);
+        $this->dispatcher = $this->createStub(EventDispatcher::class);
         $this->compiler = new RouteCompiler('/base', $this->serviceLocator, $this->dispatcher);
     }
 
