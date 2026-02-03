@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Tests\Extension;
+namespace Stasis\Tests\Unit\Extension;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\EventDispatcher;
@@ -29,10 +30,10 @@ class ExtensionLoaderTest extends TestCase
         $listenerB = new class implements ListenerInterface {};
         $listenerC = new class implements ListenerInterface {};
 
-        $extension1 = $this->createMock(ExtensionInterface::class);
+        $extension1 = $this->createStub(ExtensionInterface::class);
         $extension1->method('listeners')->willReturn([$listenerA, $listenerB]);
 
-        $extension2 = $this->createMock(ExtensionInterface::class);
+        $extension2 = $this->createStub(ExtensionInterface::class);
         $extension2->method('listeners')->willReturn([$listenerC]);
 
         $listeners = [];
@@ -51,6 +52,7 @@ class ExtensionLoaderTest extends TestCase
         self::assertCount(3, $listeners, 'Unexpected count of listeners.');
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testLoadInvalidExtensionType(): void
     {
         $this->expectException(LogicException::class);
@@ -59,6 +61,7 @@ class ExtensionLoaderTest extends TestCase
         $this->loader->load([new \stdClass()]); // @phpstan-ignore-line
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testLoadTInvalidListenerType(): void
     {
         $badListener = new \stdClass();
