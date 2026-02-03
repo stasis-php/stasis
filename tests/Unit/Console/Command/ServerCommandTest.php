@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Stasis\Tests\Unit\Console\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Stasis\Console\Command\ServerCommand;
 use Stasis\Generator\Distribution\DistributionInterface;
@@ -18,16 +19,16 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class ServerCommandTest extends TestCase
 {
-    private MockObject&Kernel $kernel;
-    private MockObject&LocalDistributionInterface $distribution;
-    private MockObject&ServerFactory $serverFactory;
+    private Stub&Kernel $kernel;
+    private Stub&LocalDistributionInterface $distribution;
+    private Stub&ServerFactory $serverFactory;
     private ServerCommand $command;
 
     public function setUp(): void
     {
-        $this->kernel = $this->createMock(Kernel::class);
-        $this->distribution = $this->createMock(LocalDistributionInterface::class);
-        $this->serverFactory = $this->createMock(ServerFactory::class);
+        $this->kernel = $this->createStub(Kernel::class);
+        $this->distribution = $this->createStub(LocalDistributionInterface::class);
+        $this->serverFactory = $this->createStub(ServerFactory::class);
 
         $this->command = new ServerCommand(
             $this->distribution,
@@ -170,8 +171,8 @@ class ServerCommandTest extends TestCase
     public function testUnsupportedDistribution(): void
     {
         // plain distribution (not local) should fail
-        $distribution = $this->createMock(DistributionInterface::class);
-        $factory = $this->createMock(ServerFactory::class);
+        $distribution = $this->createStub(DistributionInterface::class);
+        $factory = $this->createStub(ServerFactory::class);
         $command = new ServerCommand($distribution, $factory);
 
         $tester = new CommandTester($command);
