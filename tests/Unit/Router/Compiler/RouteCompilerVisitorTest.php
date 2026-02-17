@@ -22,13 +22,13 @@ use Stasis\ServiceLocator\ServiceLocator;
 
 class RouteCompilerVisitorTest extends TestCase
 {
-    private Stub&ServiceLocator $serviceLocator;
+    private MockObject&ServiceLocator $serviceLocator;
     private MockObject&EventDispatcher $dispatcher;
     private RouteCompilerVisitor $visitor;
 
     public function setUp(): void
     {
-        $this->serviceLocator = $this->createStub(ServiceLocator::class);
+        $this->serviceLocator = $this->createMock(ServiceLocator::class);
         $this->dispatcher = $this->createMock(EventDispatcher::class);
         $this->visitor = new RouteCompilerVisitor('/base', $this->serviceLocator, $this->dispatcher);
     }
@@ -38,6 +38,10 @@ class RouteCompilerVisitorTest extends TestCase
     {
         $controller = static fn() => 'OK';
         $route = new Route($path, $controller, 'example_name', ['a' => 1]);
+
+        $this->serviceLocator
+            ->expects($this->never())
+            ->method('get');
 
         $expected = new CompiledRoute(
             $expectedPath,
@@ -69,6 +73,10 @@ class RouteCompilerVisitorTest extends TestCase
     {
         $asset = new Asset('/images/logo.png', '/src/assets/logo.png', 'logo');
 
+        $this->serviceLocator
+            ->expects($this->never())
+            ->method('get');
+
         $expected = new CompiledRoute(
             '/base/images/logo.png',
             '/base/images/logo.png',
@@ -95,6 +103,10 @@ class RouteCompilerVisitorTest extends TestCase
             new Route('/post', $controller, 'post'),
             new Asset('/assets/style.css', '/src/style.css', 'style'),
         ]);
+
+        $this->serviceLocator
+            ->expects($this->never())
+            ->method('get');
 
         $expectedRoute = new CompiledRoute(
             '/base/blog/post',
@@ -150,6 +162,10 @@ class RouteCompilerVisitorTest extends TestCase
                 yield $this->route2;
             }
         };
+
+        $this->serviceLocator
+            ->expects($this->never())
+            ->method('get');
 
         $expected1 = new CompiledRoute(
             '/base/group/a',
@@ -208,7 +224,11 @@ class RouteCompilerVisitorTest extends TestCase
         };
 
         $reference = 'provider_reference';
-        $this->serviceLocator->method('get')->with($reference)->willReturn($provider);
+        $this->serviceLocator
+            ->expects($this->once())
+            ->method('get')
+            ->with($reference)
+            ->willReturn($provider);
 
         $expected1 = new CompiledRoute(
             '/base/group/a',
