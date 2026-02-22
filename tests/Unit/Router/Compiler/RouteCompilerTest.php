@@ -6,7 +6,6 @@ namespace Stasis\Tests\Unit\Router\Compiler;
 
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Router\Compiler\CompiledRoute;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
@@ -18,14 +17,12 @@ use Stasis\ServiceLocator\ServiceLocator;
 class RouteCompilerTest extends TestCase
 {
     private Stub&ServiceLocator $serviceLocator;
-    private Stub&EventDispatcher $dispatcher;
     private RouteCompiler $compiler;
 
     public function setUp(): void
     {
         $this->serviceLocator = $this->createStub(ServiceLocator::class);
-        $this->dispatcher = $this->createStub(EventDispatcher::class);
-        $this->compiler = new RouteCompiler('/base', $this->serviceLocator, $this->dispatcher);
+        $this->compiler = new RouteCompiler('/base', $this->serviceLocator);
     }
 
     public function testCompile(): void
@@ -55,7 +52,7 @@ class RouteCompilerTest extends TestCase
 
     public function testCompileEmpty(): void
     {
-        $compiler = new RouteCompiler('/base', $this->serviceLocator, $this->dispatcher);
+        $compiler = new RouteCompiler('/base', $this->serviceLocator);
         $actual = $compiler->compile([])->all();
 
         self::assertSame([], $actual, 'Expected no compiled routes');

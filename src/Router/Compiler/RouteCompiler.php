@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Stasis\Router\Compiler;
 
-use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\ServiceLocator\ServiceLocator;
 
@@ -16,7 +15,6 @@ class RouteCompiler
     public function __construct(
         private readonly string $basePath,
         private readonly ServiceLocator $serviceLocator,
-        private readonly EventDispatcher $eventDispatcher,
     ) {}
 
     /**
@@ -24,7 +22,7 @@ class RouteCompiler
      */
     public function compile(iterable $routes): CompiledRouteCollection
     {
-        $visitor = new RouteCompilerVisitor($this->basePath, $this->serviceLocator, $this->eventDispatcher);
+        $visitor = new RouteCompilerVisitor($this->basePath, $this->serviceLocator);
 
         foreach ($routes as $route) {
             $route->accept($visitor);

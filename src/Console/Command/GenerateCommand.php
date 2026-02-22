@@ -46,7 +46,7 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         $distribution = $kernel->distribution();
         $siteGenerator = new SiteGenerator($serviceLocator, $distribution, $eventDispatcher);
 
-        $compiler = new RouteCompiler('/', $serviceLocator, $eventDispatcher);
+        $compiler = new RouteCompiler('/', $serviceLocator);
         $routes = $kernel->routes();
 
         $stopwatch = $kernel->stopwatch();
