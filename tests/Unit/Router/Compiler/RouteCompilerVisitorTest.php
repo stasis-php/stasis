@@ -46,7 +46,7 @@ class RouteCompilerVisitorTest extends TestCase
         );
 
         $this->visitor->visitRoute($route);
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected], $actual, 'Unexpected route compilation result');
     }
 
@@ -74,7 +74,7 @@ class RouteCompilerVisitorTest extends TestCase
         );
 
         $this->visitor->visitAsset($asset);
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected], $actual, 'Unexpected route compilation result');
     }
 
@@ -106,7 +106,7 @@ class RouteCompilerVisitorTest extends TestCase
 
         $this->visitor->visitGroup($group);
 
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expectedRoute, $expectedAsset], $actual, 'Unexpected route compilation result');
     }
 
@@ -151,7 +151,7 @@ class RouteCompilerVisitorTest extends TestCase
         $group = new Group('/group', $provider);
         $this->visitor->visitGroup($group);
 
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected1, $expected2], $actual, 'Unexpected route compilation result');
     }
 
@@ -199,7 +199,7 @@ class RouteCompilerVisitorTest extends TestCase
         $group = new Group('/group', $reference);
         $this->visitor->visitGroup($group);
 
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected1, $expected2], $actual, 'Unexpected route compilation result');
     }
 }

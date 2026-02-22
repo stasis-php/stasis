@@ -46,14 +46,16 @@ class RouteCompilerTest extends TestCase
             'style',
         );
 
-        $actual = $this->compiler->compile($routes)->all();
+        $collection = $this->compiler->compile($routes);
+        $actual = iterator_to_array($collection->all());
         self::assertEquals([$expectedRoute, $expectedAsset], $actual, 'Unexpected compiled routes returned');
     }
 
     public function testCompileEmpty(): void
     {
         $compiler = new RouteCompiler('/base', $this->serviceLocator);
-        $actual = $compiler->compile([])->all();
+        $collection = $compiler->compile([]);
+        $actual = iterator_to_array($collection->all());
 
         self::assertSame([], $actual, 'Expected no compiled routes');
     }

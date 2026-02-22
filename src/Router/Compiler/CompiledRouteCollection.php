@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Stasis\Router\Compiler;
 
 use Stasis\Exception\LogicException;
-use Traversable;
 
 /**
  * @internal
@@ -25,11 +24,13 @@ class CompiledRouteCollection implements \IteratorAggregate
     }
 
     /**
-     * @return array<CompiledRoute>
+     * @return \Generator<CompiledRoute>
      */
-    public function all(): array
+    public function all(): \Generator
     {
-        return array_values($this->routeByPath);
+        foreach ($this->routeByPath as $route) {
+            yield $route;
+        }
     }
 
     public function add(CompiledRoute $route): self
@@ -39,9 +40,12 @@ class CompiledRouteCollection implements \IteratorAggregate
         return $this;
     }
 
-    public function getIterator(): Traversable
+    /**
+     * @return \Generator<CompiledRoute>
+     */
+    public function getIterator(): \Traversable
     {
-        return new \ArrayIterator($this->all());
+        return $this->all();
     }
 
     private function addToPathMap(CompiledRoute $route): void
