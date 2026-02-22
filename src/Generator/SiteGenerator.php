@@ -29,7 +29,7 @@ class SiteGenerator
         $currentRouteContainer = new RouteContainer();
         $router = new Router($routes, $currentRouteContainer);
 
-        $event = new RouterReadyEvent($router);
+        $event = new RouterReadyEvent($router, $routes->all());
         $this->eventDispatcher->dispatch($event);
 
         $this->distribution->clear();

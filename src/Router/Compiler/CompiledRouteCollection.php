@@ -24,7 +24,7 @@ class CompiledRouteCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Generator<CompiledRoute>
+     * @return \Generator<int, CompiledRoute>
      */
     public function all(): \Generator
     {
@@ -41,7 +41,7 @@ class CompiledRouteCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Generator<CompiledRoute>
+     * @return \Generator<int, CompiledRoute>
      */
     public function getIterator(): \Traversable
     {

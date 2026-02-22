@@ -13,21 +13,23 @@ use Stasis\Tests\Unit\EventDispatcher\EventTestCase;
 class RouterReadyEventTest extends EventTestCase
 {
     private Stub&Router $router;
+    private \Generator $routes;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->router = $this->createStub(Router::class);
+        $this->routes = (static fn() => yield from [])();
     }
 
     protected function getEvent(): EventInterface
     {
-        return new RouterReadyEvent($this->router);
+        return new RouterReadyEvent($this->router, $this->routes);
     }
 
     protected function getEventData(): mixed
     {
-        return new RouterReadyData($this->router);
+        return new RouterReadyData($this->router, $this->routes);
     }
 
     protected function getListenerClass(): string

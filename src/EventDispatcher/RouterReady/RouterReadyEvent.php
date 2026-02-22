@@ -6,6 +6,7 @@ namespace Stasis\EventDispatcher\RouterReady;
 
 use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\ListenerInterface;
+use Stasis\Router\Compiler\CompiledRoute;
 use Stasis\Router\Router;
 
 /**
@@ -14,7 +15,9 @@ use Stasis\Router\Router;
 class RouterReadyEvent implements EventInterface
 {
     public function __construct(
-        private readonly Router $routes,
+        private readonly Router $router,
+        /** @var iterable<CompiledRoute> */
+        private readonly iterable $routes,
     ) {}
 
     public function accept(ListenerInterface $listener): bool
@@ -23,7 +26,7 @@ class RouterReadyEvent implements EventInterface
             return false;
         }
 
-        $data = new RouterReadyData($this->routes);
+        $data = new RouterReadyData($this->router, $this->routes);
         $listener->onRouterReady($data);
         return true;
     }
