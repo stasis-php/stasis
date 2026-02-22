@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Stasis\Generator;
 
 use Stasis\EventDispatcher\EventDispatcher;
-use Stasis\EventDispatcher\RouterInitialized\RouterInitializedEvent;
+use Stasis\EventDispatcher\RouterReady\RouterReadyEvent;
 use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Router\Compiler\CompiledRoute;
 use Stasis\Router\Compiler\CompiledRouteCollection;
@@ -29,7 +29,7 @@ class SiteGenerator
         $currentRouteContainer = new RouteContainer();
         $router = new Router($routes, $currentRouteContainer);
 
-        $event = new RouterInitializedEvent($router);
+        $event = new RouterReadyEvent($router);
         $this->eventDispatcher->dispatch($event);
 
         $this->distribution->clear();

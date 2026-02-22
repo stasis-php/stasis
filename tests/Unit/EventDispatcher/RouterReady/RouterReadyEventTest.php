@@ -1,16 +1,16 @@
 <?php
 
-namespace Stasis\Tests\Unit\EventDispatcher\RouterInitialized;
+namespace Stasis\Tests\Unit\EventDispatcher\RouterReady;
 
 use PHPUnit\Framework\MockObject\Stub;
 use Stasis\EventDispatcher\EventInterface;
-use Stasis\EventDispatcher\RouterInitialized\ListenRouterInitializedInterface;
-use Stasis\EventDispatcher\RouterInitialized\RouterInitializedData;
-use Stasis\EventDispatcher\RouterInitialized\RouterInitializedEvent;
+use Stasis\EventDispatcher\RouterReady\RouterReadyListenerInterface;
+use Stasis\EventDispatcher\RouterReady\RouterReadyData;
+use Stasis\EventDispatcher\RouterReady\RouterReadyEvent;
 use Stasis\Router\Router;
 use Stasis\Tests\Unit\EventDispatcher\EventTestCase;
 
-class RouterInitializedEventTest extends EventTestCase
+class RouterReadyEventTest extends EventTestCase
 {
     private Stub&Router $router;
 
@@ -22,21 +22,21 @@ class RouterInitializedEventTest extends EventTestCase
 
     protected function getEvent(): EventInterface
     {
-        return new RouterInitializedEvent($this->router);
+        return new RouterReadyEvent($this->router);
     }
 
     protected function getEventData(): mixed
     {
-        return new RouterInitializedData($this->router);
+        return new RouterReadyData($this->router);
     }
 
     protected function getListenerClass(): string
     {
-        return ListenRouterInitializedInterface::class;
+        return RouterReadyListenerInterface::class;
     }
 
     protected function getListenerMethod(): string
     {
-        return 'onRouterInitialized';
+        return 'onRouterReady'; /* @see RouterReadyListenerInterface::onRouterReady */
     }
 }

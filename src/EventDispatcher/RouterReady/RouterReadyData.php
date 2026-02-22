@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Stasis\EventDispatcher\RouterInitialized;
+namespace Stasis\EventDispatcher\RouterReady;
 
 use Stasis\Router\Router;
 
-class RouterInitializedData
+class RouterReadyData
 {
     public function __construct(
         public readonly Router $router,

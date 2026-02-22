@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Stasis\EventDispatcher\RouterInitialized;
+namespace Stasis\EventDispatcher\RouterReady;
 
 use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\ListenerInterface;
@@ -11,7 +11,7 @@ use Stasis\Router\Router;
 /**
  * @internal
  */
-class RouterInitializedEvent implements EventInterface
+class RouterReadyEvent implements EventInterface
 {
     public function __construct(
         private readonly Router $routes,
@@ -19,12 +19,12 @@ class RouterInitializedEvent implements EventInterface
 
     public function accept(ListenerInterface $listener): bool
     {
-        if (!$listener instanceof ListenRouterInitializedInterface) {
+        if (!$listener instanceof RouterReadyListenerInterface) {
             return false;
         }
 
-        $data = new RouterInitializedData($this->routes);
-        $listener->onRouterInitialized($data);
+        $data = new RouterReadyData($this->routes);
+        $listener->onRouterReady($data);
         return true;
     }
 }
