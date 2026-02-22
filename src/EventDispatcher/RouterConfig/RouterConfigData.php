@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Stasis\EventDispatcher\Event\RouteConfigure;
+namespace Stasis\EventDispatcher\RouterConfig;
 
 use Stasis\Exception\RuntimeException;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\Router\Source\RouteSource;
 use Stasis\Router\Source\RouteSourceCollection;
 
-class RouteConfigureData
+class RouterConfigData
 {
     /**
      * @internal
@@ -19,9 +19,11 @@ class RouteConfigureData
     ) {}
 
     /**
-     * Configure additional routes here. Accepts the same format as in ConfigInterface::routes().
-     * Consider calling this method only once.
-     * @see \Stasis\Config\ConfigInterface::routes()
+     * Register additional routes to the application. Accepts an iterable of {@see RouteInterface} instances,
+     * following the same format as {@see ConfigInterface::routes}.
+     *
+     * Note: This method should be called only once per listener.
+     *
      * @param iterable<RouteInterface> $routes
      */
     public function routes(iterable $routes): void

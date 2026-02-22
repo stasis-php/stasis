@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Tests\Unit\EventDispatcher\Event\RouteConfigure;
+namespace Stasis\Tests\Unit\EventDispatcher\RouterConfig;
 
-use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureData;
-use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureEvent;
 use Stasis\EventDispatcher\EventInterface;
-use Stasis\EventDispatcher\Listener\RouteConfigureInterface;
+use Stasis\EventDispatcher\RouterConfig\RouterConfigData;
+use Stasis\EventDispatcher\RouterConfig\RouterConfigEvent;
+use Stasis\EventDispatcher\RouterConfig\RouterConfigListenerInterface;
 use Stasis\Router\Source\RouteSourceCollection;
 use Stasis\Tests\Unit\EventDispatcher\EventTestCase;
 
-class RouteConfigureEventTest extends EventTestCase
+class RouterConfigEventTest extends EventTestCase
 {
     private RouteSourceCollection $routes;
 
@@ -23,21 +23,21 @@ class RouteConfigureEventTest extends EventTestCase
 
     protected function getEvent(): EventInterface
     {
-        return new RouteConfigureEvent($this->routes);
+        return new RouterConfigEvent($this->routes);
     }
 
     protected function getEventData(): mixed
     {
-        return new RouteConfigureData($this->routes);
+        return new RouterConfigData($this->routes);
     }
 
     protected function getListenerClass(): string
     {
-        return RouteConfigureInterface::class;
+        return RouterConfigListenerInterface::class;
     }
 
     protected function getListenerMethod(): string
     {
-        return 'onRouteConfigure';
+        return 'onRouterConfig'; /* @see RouterConfigListenerInterface::onRouterConfig */
     }
 }
