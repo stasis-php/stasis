@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Stasis\Generator;
 
-use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateEvent;
 use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\EventDispatcher\RouterInitialized\RouterInitializedEvent;
 use Stasis\Generator\Distribution\DistributionInterface;
@@ -29,9 +28,6 @@ class SiteGenerator
     {
         $currentRouteContainer = new RouteContainer();
         $router = new Router($routes, $currentRouteContainer);
-
-        $event = new SiteGenerateEvent($router);
-        $this->eventDispatcher->dispatch($event);
 
         $event = new RouterInitializedEvent($router);
         $this->eventDispatcher->dispatch($event);

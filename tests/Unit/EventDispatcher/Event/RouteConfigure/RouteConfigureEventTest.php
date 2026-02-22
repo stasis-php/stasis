@@ -9,7 +9,7 @@ use Stasis\EventDispatcher\Event\RouteConfigure\RouteConfigureEvent;
 use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\Listener\RouteConfigureInterface;
 use Stasis\Router\Source\RouteSourceCollection;
-use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
+use Stasis\Tests\Unit\EventDispatcher\EventTestCase;
 
 class RouteConfigureEventTest extends EventTestCase
 {

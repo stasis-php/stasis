@@ -10,7 +10,7 @@ use Stasis\EventDispatcher\EventInterface;
 use Stasis\EventDispatcher\Listener\RouteCompiledInterface;
 use Stasis\Router\Compiler\CompiledRoute;
 use Stasis\Router\Compiler\Resource\ResourceInterface;
-use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
+use Stasis\Tests\Unit\EventDispatcher\EventTestCase;
 
 class RouteCompiledEventTest extends EventTestCase
 {

@@ -8,7 +8,7 @@ use Stasis\EventDispatcher\RouterInitialized\ListenRouterInitializedInterface;
 use Stasis\EventDispatcher\RouterInitialized\RouterInitializedData;
 use Stasis\EventDispatcher\RouterInitialized\RouterInitializedEvent;
 use Stasis\Router\Router;
-use Stasis\Tests\Unit\EventDispatcher\Event\EventTestCase;
+use Stasis\Tests\Unit\EventDispatcher\EventTestCase;
 
 class RouterInitializedEventTest extends EventTestCase
 {

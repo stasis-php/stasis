@@ -7,8 +7,8 @@ namespace Stasis\Tests\Unit\Generator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Stasis\EventDispatcher\Event\SiteGenerate\SiteGenerateEvent;
 use Stasis\EventDispatcher\EventDispatcher;
+use Stasis\EventDispatcher\RouterInitialized\RouterInitializedEvent;
 use Stasis\Exception\LogicException;
 use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Generator\SiteGenerator;
@@ -53,7 +53,7 @@ class SiteGeneratorTest extends TestCase
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with(self::isInstanceOf(SiteGenerateEvent::class));
+            ->with(self::isInstanceOf(RouterInitializedEvent::class));
 
         $this->siteGenerator->generate($routes, false);
 
@@ -101,7 +101,7 @@ class SiteGeneratorTest extends TestCase
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with(self::isInstanceOf(SiteGenerateEvent::class));
+            ->with(self::isInstanceOf(RouterInitializedEvent::class));
 
         $this->siteGenerator->generate($routes, true);
 
