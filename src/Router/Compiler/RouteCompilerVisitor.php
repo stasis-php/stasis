@@ -26,6 +26,7 @@ class RouteCompilerVisitor implements RouteVisitorInterface
         public readonly CompiledRouteCollection $routes = new CompiledRouteCollection(),
     ) {}
 
+    #[\Override]
     public function visitRoute(Route $route): void
     {
         $canonicalPath = $this->getCanonicalPath($route->path);
@@ -38,6 +39,7 @@ class RouteCompilerVisitor implements RouteVisitorInterface
         $this->routes->add($compiledRoute);
     }
 
+    #[\Override]
     public function visitGroup(Group $group): void
     {
         $path = $this->getCanonicalPath($group->path);
@@ -49,6 +51,7 @@ class RouteCompilerVisitor implements RouteVisitorInterface
         }
     }
 
+    #[\Override]
     public function visitAsset(Asset $asset): void
     {
         $canonicalPath = $this->getCanonicalPath($asset->path);

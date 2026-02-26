@@ -26,16 +26,19 @@ class GenerateCommand extends Command implements CommandFactoryInterface
     private const string DESCRIPTION = 'Generate static site from specified routes';
     private const string OPTION_SYMLINK = 'symlink';
 
+    #[\Override]
     public static function name(): string
     {
         return self::NAME;
     }
 
+    #[\Override]
     public static function description(): string
     {
         return self::DESCRIPTION;
     }
 
+    #[\Override]
     public static function create(Kernel $kernel): self
     {
         $container = $kernel->container();
@@ -66,6 +69,7 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         parent::__construct(self::NAME);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -75,6 +79,7 @@ class GenerateCommand extends Command implements CommandFactoryInterface
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $symlink = $input->getOption(self::OPTION_SYMLINK);

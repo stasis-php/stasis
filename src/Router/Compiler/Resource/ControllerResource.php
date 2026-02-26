@@ -14,6 +14,7 @@ readonly class ControllerResource implements ResourceInterface
         public array $parameters = [],
     ) {}
 
+    #[\Override]
     public function accept(ResourceVisitorInterface $visitor): void
     {
         $visitor->visitController($this);

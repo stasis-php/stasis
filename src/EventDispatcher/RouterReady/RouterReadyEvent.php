@@ -20,6 +20,7 @@ class RouterReadyEvent implements EventInterface
         private readonly iterable $routes,
     ) {}
 
+    #[\Override]
     public function accept(ListenerInterface $listener): bool
     {
         if (!$listener instanceof RouterReadyListenerInterface) {

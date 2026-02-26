@@ -11,6 +11,7 @@ use Stasis\Exception\LogicException;
 
 class NoContainer implements ContainerInterface
 {
+    #[\Override]
     public function get(string $id): never
     {
         throw new class ($id) extends LogicException implements NotFoundExceptionInterface {
@@ -27,6 +28,7 @@ class NoContainer implements ContainerInterface
         };
     }
 
+    #[\Override]
     public function has(string $id): bool
     {
         return false;

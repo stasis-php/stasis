@@ -29,16 +29,19 @@ class ServerCommand extends Command implements CommandFactoryInterface
 
     private ?Server $server = null;
 
+    #[\Override]
     public static function name(): string
     {
         return self::NAME;
     }
 
+    #[\Override]
     public static function description(): string
     {
         return self::DESCRIPTION;
     }
 
+    #[\Override]
     public static function create(Kernel $kernel): self
     {
         $distribution = $kernel->distribution();
@@ -54,17 +57,20 @@ class ServerCommand extends Command implements CommandFactoryInterface
     }
 
     /** @return array<int> */
+    #[\Override]
     public function getSubscribedSignals(): array
     {
         return [2, 15]; // SIGINT, SIGTERM
     }
 
+    #[\Override]
     public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
     {
         $this->server?->stop();
         return false;
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -75,6 +81,7 @@ class ServerCommand extends Command implements CommandFactoryInterface
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->distribution instanceof LocalDistributionInterface) {

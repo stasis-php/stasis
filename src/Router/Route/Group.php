@@ -17,6 +17,7 @@ readonly class Group implements RouteInterface
         public iterable|RouteProviderInterface|string $routes = [],
     ) {}
 
+    #[\Override]
     public function accept(RouteVisitorInterface $visitor): void
     {
         $visitor->visitGroup($this);

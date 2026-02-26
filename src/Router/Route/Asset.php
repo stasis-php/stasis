@@ -19,6 +19,7 @@ readonly class Asset implements RouteInterface
         public ?string $name = null,
     ) {}
 
+    #[\Override]
     public function accept(RouteVisitorInterface $visitor): void
     {
         $visitor->visitAsset($this);

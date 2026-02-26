@@ -17,6 +17,7 @@ class RouterConfigEvent implements EventInterface
         private readonly RouteSourceCollection $sources,
     ) {}
 
+    #[\Override]
     public function accept(ListenerInterface $listener): bool
     {
         if (!$listener instanceof RouterConfigListenerInterface) {

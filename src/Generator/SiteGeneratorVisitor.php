@@ -32,6 +32,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         }
     }
 
+    #[\Override]
     public function visitController(ControllerResource $resource): void
     {
         $controller = $this->getController($resource->reference);
@@ -40,6 +41,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
         $this->distribution->write($path, $content);
     }
 
+    #[\Override]
     public function visitFile(FileResource $resource): void
     {
         if ($this->symlinkFiles) {
@@ -64,6 +66,7 @@ class SiteGeneratorVisitor implements ResourceVisitorInterface
             return new class ($reference) implements ControllerInterface {
                 public function __construct(private \Closure $closure) {}
 
+                #[\Override]
                 public function render(Router $router, array $parameters)
                 {
                     return ($this->closure)($router, $parameters);
