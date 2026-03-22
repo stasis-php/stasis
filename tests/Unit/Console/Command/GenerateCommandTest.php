@@ -31,11 +31,11 @@ class GenerateCommandTest extends TestCase
     #[\Override]
     public function setUp(): void
     {
-        $this->kernel = $this->createStub(Kernel::class);
+        $this->kernel = self::createStub(Kernel::class);
         $this->generator = $this->createMock(SiteGenerator::class);
         $this->compiler = $this->createMock(RouteCompiler::class);
         $this->routes = [];
-        $this->stopwatch = $this->createStub(Stopwatch::class);
+        $this->stopwatch = self::createStub(Stopwatch::class);
 
         $this->command = new GenerateCommand(
             $this->generator,

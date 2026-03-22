@@ -29,7 +29,7 @@ class SiteGeneratorTest extends TestCase
     #[\Override]
     public function setUp(): void
     {
-        $this->serviceLocator = $this->createStub(ServiceLocator::class);
+        $this->serviceLocator = self::createStub(ServiceLocator::class);
         $this->distribution = new MockDistribution();
         $this->eventDispatcher = $this->createMock(EventDispatcher::class);
         $this->siteGenerator = new SiteGenerator($this->serviceLocator, $this->distribution, $this->eventDispatcher);
@@ -81,7 +81,7 @@ class SiteGeneratorTest extends TestCase
 
         $this->eventDispatcher->expects($this->once())->method('dispatch');
 
-        $distribution = $this->createStub(DistributionInterface::class);
+        $distribution = self::createStub(DistributionInterface::class);
         $siteGenerator = new SiteGenerator($this->serviceLocator, $distribution, $this->eventDispatcher);
 
         $this->expectException(LogicException::class);

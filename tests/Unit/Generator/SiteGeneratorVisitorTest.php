@@ -30,7 +30,7 @@ class SiteGeneratorVisitorTest extends TestCase
     {
         $this->locator = $this->createMock(ServiceLocator::class);
         $this->distribution = new MockDistribution();
-        $this->router = $this->createStub(Router::class);
+        $this->router = self::createStub(Router::class);
 
         $this->visitor = new SiteGeneratorVisitor(
             $this->locator,
@@ -44,7 +44,7 @@ class SiteGeneratorVisitorTest extends TestCase
     public function testConstructorSymlinkNotSupported(): void
     {
         $this->locator->expects($this->never())->method('get');
-        $distribution = $this->createStub(DistributionInterface::class);
+        $distribution = self::createStub(DistributionInterface::class);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('does not support symlinks');

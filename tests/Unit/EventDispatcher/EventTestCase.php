@@ -39,7 +39,7 @@ abstract class EventTestCase extends TestCase
     public function testAcceptNonMatchingListener(): void
     {
         $event = $this->getEvent();
-        $listener = $this->createStub(ListenerInterface::class);
+        $listener = self::createStub(ListenerInterface::class);
         $isAccepted = $event->accept($listener);
         self::assertFalse($isAccepted, 'Event should not be accepted by a non-matching listener.');
     }

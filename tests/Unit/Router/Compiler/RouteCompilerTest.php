@@ -22,7 +22,7 @@ class RouteCompilerTest extends TestCase
     #[\Override]
     public function setUp(): void
     {
-        $this->serviceLocator = $this->createStub(ServiceLocator::class);
+        $this->serviceLocator = self::createStub(ServiceLocator::class);
         $this->compiler = new RouteCompiler('/base', $this->serviceLocator);
     }
 

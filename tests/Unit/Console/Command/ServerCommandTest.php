@@ -27,9 +27,9 @@ class ServerCommandTest extends TestCase
     #[\Override]
     public function setUp(): void
     {
-        $this->kernel = $this->createStub(Kernel::class);
-        $this->distribution = $this->createStub(LocalDistributionInterface::class);
-        $this->serverFactory = $this->createStub(ServerFactory::class);
+        $this->kernel = self::createStub(Kernel::class);
+        $this->distribution = self::createStub(LocalDistributionInterface::class);
+        $this->serverFactory = self::createStub(ServerFactory::class);
 
         $this->command = new ServerCommand(
             $this->distribution,
@@ -172,8 +172,8 @@ class ServerCommandTest extends TestCase
     public function testUnsupportedDistribution(): void
     {
         // plain distribution (not local) should fail
-        $distribution = $this->createStub(DistributionInterface::class);
-        $factory = $this->createStub(ServerFactory::class);
+        $distribution = self::createStub(DistributionInterface::class);
+        $factory = self::createStub(ServerFactory::class);
         $command = new ServerCommand($distribution, $factory);
 
         $tester = new CommandTester($command);

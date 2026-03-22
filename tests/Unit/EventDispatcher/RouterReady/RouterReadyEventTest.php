@@ -19,7 +19,7 @@ class RouterReadyEventTest extends EventTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->router = $this->createStub(Router::class);
+        $this->router = self::createStub(Router::class);
         $this->routes = (static fn() => yield from [])();
     }
 
