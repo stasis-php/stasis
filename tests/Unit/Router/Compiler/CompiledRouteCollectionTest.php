@@ -19,7 +19,7 @@ class CompiledRouteCollectionTest extends TestCase
         $route2 = new CompiledRoute('/b', '/b/index.html', new FileResource('/tmp/b'), 'b_name');
         $collection->add($route1)->add($route2);
 
-        $all = $collection->all();
+        $all = iterator_to_array($collection->all());
         self::assertSame([$route1, $route2], $all, 'Unexpected routes returned by "all"');
 
         $iterated = iterator_to_array($collection);

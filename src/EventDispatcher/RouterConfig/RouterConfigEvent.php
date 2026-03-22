@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Stasis\EventDispatcher\Event\RouteConfigure;
+namespace Stasis\EventDispatcher\RouterConfig;
 
 use Stasis\EventDispatcher\EventInterface;
-use Stasis\EventDispatcher\Listener\RouteConfigureInterface;
 use Stasis\EventDispatcher\ListenerInterface;
 use Stasis\Router\Source\RouteSourceCollection;
 
 /**
  * @internal
  */
-class RouteConfigureEvent implements EventInterface
+class RouterConfigEvent implements EventInterface
 {
     public function __construct(
         private readonly RouteSourceCollection $sources,
@@ -20,12 +19,12 @@ class RouteConfigureEvent implements EventInterface
 
     public function accept(ListenerInterface $listener): bool
     {
-        if (!$listener instanceof RouteConfigureInterface) {
+        if (!$listener instanceof RouterConfigListenerInterface) {
             return false;
         }
 
-        $data = new RouteConfigureData($this->sources);
-        $listener->onRouteConfigure($data);
+        $data = new RouterConfigData($this->sources);
+        $listener->onRouterConfig($data);
         return true;
     }
 }

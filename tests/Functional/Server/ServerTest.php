@@ -46,7 +46,7 @@ class ServerTest extends TestCase
         $statusHeader = $http_response_header[0] ?? null; // is automatically populated by PHP
         if ($statusHeader !== null) {
             preg_match('{HTTP/\S*\s(\d{3})}', $statusHeader, $match);
-            $statusCode = (int) $match[1];
+            $statusCode = isset($match[1]) ? (int) $match[1] : null;
         } else {
             $statusCode = null;
         }

@@ -6,10 +6,7 @@ namespace Stasis\Tests\Unit\Router\Compiler;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Stasis\EventDispatcher\Event\RouteCompiled\RouteCompiledEvent;
-use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Router\Compiler\CompiledRoute;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
@@ -23,14 +20,12 @@ use Stasis\ServiceLocator\ServiceLocator;
 class RouteCompilerVisitorTest extends TestCase
 {
     private MockObject&ServiceLocator $serviceLocator;
-    private MockObject&EventDispatcher $dispatcher;
     private RouteCompilerVisitor $visitor;
 
     public function setUp(): void
     {
         $this->serviceLocator = $this->createMock(ServiceLocator::class);
-        $this->dispatcher = $this->createMock(EventDispatcher::class);
-        $this->visitor = new RouteCompilerVisitor('/base', $this->serviceLocator, $this->dispatcher);
+        $this->visitor = new RouteCompilerVisitor('/base', $this->serviceLocator);
     }
 
     #[DataProvider('visitRouteProvider')]
@@ -50,14 +45,8 @@ class RouteCompilerVisitorTest extends TestCase
             'example_name',
         );
 
-        $event = new RouteCompiledEvent($expected);
-        $this->dispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with(self::equalTo($event));
-
         $this->visitor->visitRoute($route);
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected], $actual, 'Unexpected route compilation result');
     }
 
@@ -84,14 +73,8 @@ class RouteCompilerVisitorTest extends TestCase
             'logo',
         );
 
-        $event = new RouteCompiledEvent($expected);
-        $this->dispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with(self::equalTo($event));
-
         $this->visitor->visitAsset($asset);
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected], $actual, 'Unexpected route compilation result');
     }
 
@@ -121,24 +104,9 @@ class RouteCompilerVisitorTest extends TestCase
             'style',
         );
 
-        $invokedCount = $this->exactly(2);
-        $this->dispatcher
-            ->expects($invokedCount)
-            ->method('dispatch')
-            ->willReturnCallback(function ($actualEvent) use ($invokedCount, $expectedRoute, $expectedAsset) {
-                $invocation = $invokedCount->numberOfInvocations();
-                $expectedEvent = match ($invocation) {
-                    1 => new RouteCompiledEvent($expectedRoute),
-                    2 => new RouteCompiledEvent($expectedAsset),
-                    default => self::fail('Unexpected "dispatch" invocation count: ' . $invocation),
-                };
-
-                self::assertEquals($expectedEvent, $actualEvent, 'Unexpected event dispatched');
-            });
-
         $this->visitor->visitGroup($group);
 
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expectedRoute, $expectedAsset], $actual, 'Unexpected route compilation result');
     }
 
@@ -180,25 +148,10 @@ class RouteCompilerVisitorTest extends TestCase
             'b',
         );
 
-        $invokedCount = $this->exactly(2);
-        $this->dispatcher
-            ->expects($invokedCount)
-            ->method('dispatch')
-            ->willReturnCallback(function ($actualEvent) use ($invokedCount, $expected1, $expected2) {
-                $invocation = $invokedCount->numberOfInvocations();
-                $expectedEvent = match ($invocation) {
-                    1 => new RouteCompiledEvent($expected1),
-                    2 => new RouteCompiledEvent($expected2),
-                    default => self::fail('Unexpected "dispatch" invocation count: ' . $invocation),
-                };
-
-                self::assertEquals($expectedEvent, $actualEvent, 'Unexpected event dispatched');
-            });
-
         $group = new Group('/group', $provider);
         $this->visitor->visitGroup($group);
 
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected1, $expected2], $actual, 'Unexpected route compilation result');
     }
 
@@ -243,25 +196,10 @@ class RouteCompilerVisitorTest extends TestCase
             'b',
         );
 
-        $invokedCount = $this->exactly(2);
-        $this->dispatcher
-            ->expects($invokedCount)
-            ->method('dispatch')
-            ->willReturnCallback(function ($actualEvent) use ($invokedCount, $expected1, $expected2) {
-                $invocation = $invokedCount->numberOfInvocations();
-                $expectedEvent = match ($invocation) {
-                    1 => new RouteCompiledEvent($expected1),
-                    2 => new RouteCompiledEvent($expected2),
-                    default => self::fail('Unexpected "dispatch" invocation count: ' . $invocation),
-                };
-
-                self::assertEquals($expectedEvent, $actualEvent, 'Unexpected event dispatched');
-            });
-
         $group = new Group('/group', $reference);
         $this->visitor->visitGroup($group);
 
-        $actual = $this->visitor->routes->all();
+        $actual = iterator_to_array($this->visitor->routes->all());
         self::assertEquals([$expected1, $expected2], $actual, 'Unexpected route compilation result');
     }
 }

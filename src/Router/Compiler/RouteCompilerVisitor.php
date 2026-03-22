@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Stasis\Router\Compiler;
 
-use Stasis\EventDispatcher\Event\RouteCompiled\RouteCompiledEvent;
-use Stasis\EventDispatcher\EventDispatcher;
 use Stasis\Exception\LogicException;
 use Stasis\Router\Compiler\Resource\ControllerResource;
 use Stasis\Router\Compiler\Resource\FileResource;
@@ -25,7 +23,6 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     public function __construct(
         private readonly string $basePath,
         private readonly ServiceLocator $serviceLocator,
-        private readonly EventDispatcher $eventDispatcher,
         public readonly CompiledRouteCollection $routes = new CompiledRouteCollection(),
     ) {}
 
@@ -39,14 +36,13 @@ class RouteCompilerVisitor implements RouteVisitorInterface
 
         $compiledRoute = new CompiledRoute($canonicalPath, $distPath, $type, $name);
         $this->routes->add($compiledRoute);
-        $this->dispatchRouteCompiled($compiledRoute);
     }
 
     public function visitGroup(Group $group): void
     {
         $path = $this->getCanonicalPath($group->path);
         $routes = $this->getRoutes($group->routes);
-        $visitor = new self($path, $this->serviceLocator, $this->eventDispatcher, $this->routes);
+        $visitor = new self($path, $this->serviceLocator, $this->routes);
 
         foreach ($routes as $route) {
             $route->accept($visitor);
@@ -61,7 +57,6 @@ class RouteCompilerVisitor implements RouteVisitorInterface
 
         $compiledRoute = new CompiledRoute($canonicalPath, $canonicalPath, $resource, $name);
         $this->routes->add($compiledRoute);
-        $this->dispatchRouteCompiled($compiledRoute);
     }
 
     /**
@@ -95,11 +90,5 @@ class RouteCompilerVisitor implements RouteVisitorInterface
     private function getCanonicalPath(string $path): string
     {
         return PathNormalizer::normalize($this->basePath . '/' . $path);
-    }
-
-    private function dispatchRouteCompiled(CompiledRoute $route): void
-    {
-        $event = new RouteCompiledEvent($route);
-        $this->eventDispatcher->dispatch($event);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Stasis\Tests\Unit\EventDispatcher\Event;
+namespace Stasis\Tests\Unit\EventDispatcher;
 
 use PHPUnit\Framework\TestCase;
 use Stasis\EventDispatcher\EventInterface;
