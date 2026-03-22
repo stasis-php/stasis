@@ -15,6 +15,7 @@ class RouterReadyEventTest extends EventTestCase
     private Stub&Router $router;
     private \Generator $routes;
 
+    #[\Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -22,21 +23,25 @@ class RouterReadyEventTest extends EventTestCase
         $this->routes = (static fn() => yield from [])();
     }
 
+    #[\Override]
     protected function getEvent(): EventInterface
     {
         return new RouterReadyEvent($this->router, $this->routes);
     }
 
+    #[\Override]
     protected function getEventData(): mixed
     {
         return new RouterReadyData($this->router, $this->routes);
     }
 
+    #[\Override]
     protected function getListenerClass(): string
     {
         return RouterReadyListenerInterface::class;
     }
 
+    #[\Override]
     protected function getListenerMethod(): string
     {
         return 'onRouterReady'; /* @see RouterReadyListenerInterface::onRouterReady */

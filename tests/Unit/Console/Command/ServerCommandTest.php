@@ -24,6 +24,7 @@ class ServerCommandTest extends TestCase
     private Stub&ServerFactory $serverFactory;
     private ServerCommand $command;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->kernel = $this->createStub(Kernel::class);

@@ -20,6 +20,7 @@ class FilesystemDistributionTest extends TestCase
     private MockObject&Filesystem $filesystem;
     private FilesystemDistribution $distribution;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->filesystem = $this->createMock(Filesystem::class);

@@ -28,6 +28,7 @@ class GenerateCommandTest extends TestCase
     private Stub&Stopwatch $stopwatch;
     private GenerateCommand $command;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->kernel = $this->createStub(Kernel::class);

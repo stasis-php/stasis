@@ -19,6 +19,7 @@ class RouteCompilerTest extends TestCase
     private Stub&ServiceLocator $serviceLocator;
     private RouteCompiler $compiler;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->serviceLocator = $this->createStub(ServiceLocator::class);

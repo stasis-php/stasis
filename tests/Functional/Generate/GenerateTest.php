@@ -14,6 +14,7 @@ class GenerateTest extends TestCase
     private Filesystem $filesystem;
     private Process $generate;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->filesystem = new Filesystem();

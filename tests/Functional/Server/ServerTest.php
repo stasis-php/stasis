@@ -12,6 +12,7 @@ class ServerTest extends TestCase
 {
     private Process $server;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->server = StasisProcessFactory::create([
@@ -25,6 +26,7 @@ class ServerTest extends TestCase
         usleep(200_000); // wait for the server to start
     }
 
+    #[\Override]
     public function tearDown(): void
     {
         $this->server->stop();

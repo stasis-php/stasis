@@ -26,6 +26,7 @@ class SiteGeneratorTest extends TestCase
     private MockObject&EventDispatcher $eventDispatcher;
     private SiteGenerator $siteGenerator;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->serviceLocator = $this->createStub(ServiceLocator::class);

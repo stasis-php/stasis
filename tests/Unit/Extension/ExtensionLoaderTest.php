@@ -18,6 +18,7 @@ class ExtensionLoaderTest extends TestCase
     private MockObject&EventDispatcher $dispatcher;
     private ExtensionLoader $loader;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->dispatcher = $this->createMock(EventDispatcher::class);

@@ -15,6 +15,7 @@ class ServiceLocatorTest extends TestCase
     private MockObject&ContainerInterface $container;
     private ServiceLocator $serviceLocator;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->container = $this->createMock(ContainerInterface::class);

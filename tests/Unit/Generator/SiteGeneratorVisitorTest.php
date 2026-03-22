@@ -25,6 +25,7 @@ class SiteGeneratorVisitorTest extends TestCase
     private Stub&Router $router;
     private SiteGeneratorVisitor $visitor;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->locator = $this->createMock(ServiceLocator::class);
@@ -54,6 +55,7 @@ class SiteGeneratorVisitorTest extends TestCase
     public function testVisitControllerInstance(): void
     {
         $resource = new ControllerResource(new class implements ControllerInterface {
+            #[\Override]
             public function render(Router $router, array $parameters): string
             {
                 return 'test content';
@@ -74,6 +76,7 @@ class SiteGeneratorVisitorTest extends TestCase
         $reference = 'controller_reference';
 
         $controller = new class implements ControllerInterface {
+            #[\Override]
             public function render(Router $router, array $parameters): string
             {
                 return 'test content';
@@ -113,6 +116,7 @@ class SiteGeneratorVisitorTest extends TestCase
     {
         $resource = new ControllerResource(new class implements ControllerInterface {
             /** @return resource */
+            #[\Override]
             public function render(Router $router, array $parameters)
             {
                 /** @var resource $stream */
