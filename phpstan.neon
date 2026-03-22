@@ -6,6 +6,11 @@ parameters:
     - tests
 
   reportUnmatchedIgnoredErrors: true
+  checkDynamicProperties: true
+  reportNonIntStringArrayKey: true
+  checkMissingOverrideMethodAttribute: true
+  checkStrictPrintfPlaceholderTypes: true
+
   ignoreErrors:
     - identifier: missingType.iterableValue
       path: tests/*Test.php
