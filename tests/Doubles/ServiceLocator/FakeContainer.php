@@ -17,6 +17,7 @@ class FakeContainer implements ContainerInterface
         private array $services = [],
     ) {}
 
+    #[\Override]
     public function get(string $id): mixed
     {
         if (isset($this->services[$id])) {
@@ -31,6 +32,7 @@ class FakeContainer implements ContainerInterface
         };
     }
 
+    #[\Override]
     public function has(string $id): bool
     {
         return isset($this->services[$id]);

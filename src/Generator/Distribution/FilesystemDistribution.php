@@ -23,11 +23,13 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         $this->filesystem = $filesystem;
     }
 
+    #[\Override]
     public function path(): string
     {
         return $this->basePath;
     }
 
+    #[\Override]
     public function clear(): void
     {
         try {
@@ -48,6 +50,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         }
     }
 
+    #[\Override]
     public function write(string $path, $content): void
     {
         $fullPath = $this->getFullPath($path);
@@ -61,6 +64,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         }
     }
 
+    #[\Override]
     public function copy(string $sourcePath, string $destinationPath): void
     {
         if (!file_exists($sourcePath)) {
@@ -85,6 +89,7 @@ class FilesystemDistribution implements LocalDistributionInterface, SymlinkDistr
         }
     }
 
+    #[\Override]
     public function link(string $sourcePath, string $destinationPath): void
     {
         if (!file_exists($sourcePath)) {

@@ -13,6 +13,7 @@ use Stasis\Tests\Doubles\ServiceLocator\FakeContainer;
 use Stasis\Tests\Functional\Generate\source\CurrentTimeController;
 
 return new class implements ConfigInterface {
+    #[\Override]
     public function routes(): iterable
     {
         return [
@@ -28,6 +29,7 @@ return new class implements ConfigInterface {
         ];
     }
 
+    #[\Override]
     public function container(): ContainerInterface
     {
         return new FakeContainer([
@@ -35,11 +37,13 @@ return new class implements ConfigInterface {
         ]);
     }
 
+    #[\Override]
     public function distribution(): DistributionInterface
     {
         return new FilesystemDistribution(__DIR__ . '/../dist');
     }
 
+    #[\Override]
     public function extensions(): iterable
     {
         return [];

@@ -15,6 +15,7 @@ abstract class AbstractMockEvent implements EventInterface
     /** @return class-string<AbstractMockListener> */
     abstract public function listenerClass(): string;
 
+    #[\Override]
     public function accept(ListenerInterface $listener): bool
     {
         $this->acceptedWith[] = $listener::class;

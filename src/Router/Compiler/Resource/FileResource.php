@@ -10,6 +10,7 @@ readonly class FileResource implements ResourceInterface
         public string $source,
     ) {}
 
+    #[\Override]
     public function accept(ResourceVisitorInterface $visitor): void
     {
         $visitor->visitFile($this);

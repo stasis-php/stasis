@@ -18,6 +18,7 @@ class ExtensionLoaderTest extends TestCase
     private MockObject&EventDispatcher $dispatcher;
     private ExtensionLoader $loader;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->dispatcher = $this->createMock(EventDispatcher::class);
@@ -30,10 +31,10 @@ class ExtensionLoaderTest extends TestCase
         $listenerB = new class implements ListenerInterface {};
         $listenerC = new class implements ListenerInterface {};
 
-        $extension1 = $this->createStub(ExtensionInterface::class);
+        $extension1 = self::createStub(ExtensionInterface::class);
         $extension1->method('listeners')->willReturn([$listenerA, $listenerB]);
 
-        $extension2 = $this->createStub(ExtensionInterface::class);
+        $extension2 = self::createStub(ExtensionInterface::class);
         $extension2->method('listeners')->willReturn([$listenerC]);
 
         $listeners = [];

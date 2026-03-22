@@ -9,6 +9,7 @@ use Stasis\Router\Router;
 
 class CurrentTimeController implements ControllerInterface
 {
+    #[\Override]
     public function render(Router $router, array $parameters): string
     {
         $output = [];

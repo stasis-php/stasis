@@ -25,11 +25,12 @@ class SiteGeneratorVisitorTest extends TestCase
     private Stub&Router $router;
     private SiteGeneratorVisitor $visitor;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->locator = $this->createMock(ServiceLocator::class);
         $this->distribution = new MockDistribution();
-        $this->router = $this->createStub(Router::class);
+        $this->router = self::createStub(Router::class);
 
         $this->visitor = new SiteGeneratorVisitor(
             $this->locator,
@@ -43,7 +44,7 @@ class SiteGeneratorVisitorTest extends TestCase
     public function testConstructorSymlinkNotSupported(): void
     {
         $this->locator->expects($this->never())->method('get');
-        $distribution = $this->createStub(DistributionInterface::class);
+        $distribution = self::createStub(DistributionInterface::class);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('does not support symlinks');
@@ -54,6 +55,7 @@ class SiteGeneratorVisitorTest extends TestCase
     public function testVisitControllerInstance(): void
     {
         $resource = new ControllerResource(new class implements ControllerInterface {
+            #[\Override]
             public function render(Router $router, array $parameters): string
             {
                 return 'test content';
@@ -74,6 +76,7 @@ class SiteGeneratorVisitorTest extends TestCase
         $reference = 'controller_reference';
 
         $controller = new class implements ControllerInterface {
+            #[\Override]
             public function render(Router $router, array $parameters): string
             {
                 return 'test content';
@@ -113,6 +116,7 @@ class SiteGeneratorVisitorTest extends TestCase
     {
         $resource = new ControllerResource(new class implements ControllerInterface {
             /** @return resource */
+            #[\Override]
             public function render(Router $router, array $parameters)
             {
                 /** @var resource $stream */

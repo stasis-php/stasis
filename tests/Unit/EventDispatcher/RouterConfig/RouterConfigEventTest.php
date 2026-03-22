@@ -15,27 +15,32 @@ class RouterConfigEventTest extends EventTestCase
 {
     private RouteSourceCollection $routes;
 
+    #[\Override]
     public function setUp(): void
     {
         parent::setUp();
         $this->routes = new RouteSourceCollection();
     }
 
+    #[\Override]
     protected function getEvent(): EventInterface
     {
         return new RouterConfigEvent($this->routes);
     }
 
+    #[\Override]
     protected function getEventData(): mixed
     {
         return new RouterConfigData($this->routes);
     }
 
+    #[\Override]
     protected function getListenerClass(): string
     {
         return RouterConfigListenerInterface::class;
     }
 
+    #[\Override]
     protected function getListenerMethod(): string
     {
         return 'onRouterConfig'; /* @see RouterConfigListenerInterface::onRouterConfig */

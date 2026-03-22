@@ -22,6 +22,7 @@ class RouteCompilerVisitorTest extends TestCase
     private MockObject&ServiceLocator $serviceLocator;
     private RouteCompilerVisitor $visitor;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->serviceLocator = $this->createMock(ServiceLocator::class);
@@ -124,6 +125,7 @@ class RouteCompilerVisitorTest extends TestCase
                 private Route $route2,
             ) {}
 
+            #[\Override]
             public function routes(): iterable
             {
                 yield $this->route1;
@@ -169,6 +171,7 @@ class RouteCompilerVisitorTest extends TestCase
                 private Route $route2,
             ) {}
 
+            #[\Override]
             public function routes(): iterable
             {
                 yield $this->route1;

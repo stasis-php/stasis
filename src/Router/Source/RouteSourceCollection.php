@@ -29,6 +29,7 @@ class RouteSourceCollection implements \IteratorAggregate
     /**
      * @return \Generator<int, RouteInterface>
      */
+    #[\Override]
     public function getIterator(): \Generator
     {
         foreach ($this->sources as $source) {

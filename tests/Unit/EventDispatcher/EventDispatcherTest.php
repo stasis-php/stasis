@@ -14,6 +14,7 @@ class EventDispatcherTest extends TestCase
 {
     private EventDispatcher $dispatcher;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->dispatcher = new EventDispatcher();

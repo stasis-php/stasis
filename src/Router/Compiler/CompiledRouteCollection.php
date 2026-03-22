@@ -43,6 +43,7 @@ class CompiledRouteCollection implements \IteratorAggregate
     /**
      * @return \Generator<int, CompiledRoute>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
         return $this->all();

@@ -21,8 +21,12 @@ class StasisProcessFactory
 
     private static function getStasisPath(): string
     {
-        /** @var string $kernelPath */
         $kernelPath = new \ReflectionClass(Kernel::class)->getFileName();
+
+        if ($kernelPath === false) {
+            throw new \RuntimeException('Failed to get kernel path.');
+        }
+
         return dirname($kernelPath, 2) . '/bin/stasis';
     }
 }

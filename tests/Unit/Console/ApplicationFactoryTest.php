@@ -12,7 +12,7 @@ class ApplicationFactoryTest extends TestCase
 {
     public function testCreateBuildsConfiguredApplication(): void
     {
-        $kernel = $this->createStub(Kernel::class);
+        $kernel = self::createStub(Kernel::class);
         $application = ApplicationFactory::create($kernel);
 
         self::assertSame('Stasis', $application->getName(), 'Unexpected application name.');

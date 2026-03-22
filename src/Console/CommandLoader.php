@@ -29,6 +29,7 @@ class CommandLoader implements CommandLoaderInterface
         }
     }
 
+    #[\Override]
     public function get(string $name): Command
     {
         $factory = $this->map[$name] ?? null;
@@ -39,11 +40,13 @@ class CommandLoader implements CommandLoaderInterface
         return $this->createLazyCommand($factory);
     }
 
+    #[\Override]
     public function has(string $name): bool
     {
         return isset($this->map[$name]);
     }
 
+    #[\Override]
     public function getNames(): array
     {
         return array_keys($this->map);

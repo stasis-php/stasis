@@ -19,6 +19,7 @@ class RouterTest extends TestCase
     private RouteContainer $routeContainer;
     private Router $router;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->routeCollection = new CompiledRouteCollection();

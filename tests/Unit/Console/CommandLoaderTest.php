@@ -19,9 +19,10 @@ class CommandLoaderTest extends TestCase
     private Stub&Kernel $kernel;
     private CommandLoader $loader;
 
+    #[\Override]
     public function setUp(): void
     {
-        $this->kernel = $this->createStub(Kernel::class);
+        $this->kernel = self::createStub(Kernel::class);
         $this->loader = new CommandLoader($this->kernel, [
             StubACommand::class,
             StubBCommand::class,

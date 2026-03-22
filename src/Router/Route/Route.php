@@ -24,6 +24,7 @@ readonly class Route implements RouteInterface
         public array $parameters = [],
     ) {}
 
+    #[\Override]
     public function accept(RouteVisitorInterface $visitor): void
     {
         $visitor->visitRoute($this);
