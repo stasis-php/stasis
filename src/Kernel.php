@@ -14,6 +14,7 @@ use Stasis\Generator\Distribution\DistributionInterface;
 use Stasis\Router\Route\RouteInterface;
 use Stasis\Router\Source\RouteSource;
 use Stasis\Router\Source\RouteSourceCollection;
+use Stasis\ServiceLocator\ServiceLocator;
 use Stasis\Stopwatch\Stopwatch;
 
 /**
@@ -78,7 +79,9 @@ class Kernel
     {
         if (!$this->isExtensionsLoaded) {
             $extensions = $this->getConfig()->extensions();
-            $this->extensionLoader->load($extensions);
+            $container = $this->container();
+            $serviceLocator = new ServiceLocator($container);
+            $this->extensionLoader->load($extensions, $serviceLocator);
             $this->isExtensionsLoaded = true;
         }
 
