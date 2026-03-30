@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Stasis\Exception\LogicException;
 use Stasis\ServiceLocator\ServiceLocator;
+use Stasis\Tests\Doubles\ServiceLocator\NotFoundException;
 
 class ServiceLocatorTest extends TestCase
 {
@@ -35,6 +36,23 @@ class ServiceLocatorTest extends TestCase
 
         $actual = $this->serviceLocator->get($reference, \stdClass::class);
         self::assertSame($service, $actual);
+    }
+
+    public function testGetThrowsNotFound(): void
+    {
+        $reference = 'service_id';
+        $service = new \stdClass();
+
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->with($reference)
+            ->willThrowException(new NotFoundException(sprintf('Service "%s" not found.', $reference)));
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Error on get service "service_id" from container.');
+
+        $this->serviceLocator->get($reference, \stdClass::class);
     }
 
     public function testGetThrowsOnUnexpectedType(): void

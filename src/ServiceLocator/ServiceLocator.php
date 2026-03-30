@@ -26,7 +26,7 @@ class ServiceLocator
         try {
             $service = $this->container->get($id);
         } catch (\Throwable $exception) {
-            $message = sprintf('Error on get service "%s" from container.', $class);
+            $message = sprintf('Error on get service "%s" from container.', $id);
             throw new LogicException(message: $message, previous: $exception);
         }
 

@@ -28,8 +28,9 @@ interface ConfigInterface
     public function distribution(): DistributionInterface;
 
     /**
-     * Defines the list of extensions to be used by the application.
-     * @return iterable<ExtensionInterface>
+     * Defines the list of extensions to be used by the application. The extensions can be either instances of
+     * {@see ExtensionInterface} or container references of the services that implement the interface.
+     * @return iterable<ExtensionInterface|string>
      */
     public function extensions(): iterable;
 }
